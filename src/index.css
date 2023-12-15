@@ -1,3 +1,16 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+
+#root{
+  height : 100vh;
+  background-image: url(./assets/backk.svg);
+  background-repeat: no-repeat;
+  background-size: cover;
+  font-family: 'Rubik', sans-serif;
+  padding-top: 1.87rem; 
+  display: flex;
+  gap: 1.87rem;
+  flex-direction: column;
+}
