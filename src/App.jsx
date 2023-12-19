@@ -3,10 +3,10 @@ import Header from "./components/Header";
 import Table from "./components/Table";
 import { useState } from "react";
 import SelectBox from "./components/SelectBox";
-import { IoMdAdd } from "react-icons/io";
+import ActionCounter from "./components/ActionCounter";
 
 export default function App() {
-  const [success, setSuccess] = useState(false);
+  const [success, setSuccess] = useState(null);
   const [translateEl, setTranslateEl] = useState("");
   const parentRef = useRef(null);
 
@@ -40,21 +40,7 @@ export default function App() {
         <div className="container m-auto">
           <div className="main-inner">
             <div className="action-form text-white flex flex-col gap-1">
-              <div className="action-counter">
-                <p>Action No:</p>
-                <div className="flex items-center gap-2">
-                  <div className="actions flex gap-[0.31rem]">
-                    <div className="action rounded flex justify-center items-center p-4 w-12 h-12 border border-wGreen">
-                      1
-                    </div>
-                  </div>
-                  <div className="add-action">
-                    <button className="rounded-[2rem] text-[20px] flex justify-center items-center bg-wSecMain p-2">
-                      <IoMdAdd className="text-wGreen" />
-                    </button>
-                  </div>
-                </div>
-              </div>
+              <ActionCounter />
               <form className="w-full flex justify-between  bg-wSecMain border border-wGreen rounded-md py-5 px-10">
                 <div className="action-left basis-[50%] flex flex-col gap-5">
                   <SelectBox
@@ -103,9 +89,13 @@ export default function App() {
                         ref={parentRef}
                       >
                         <div
-                          className={`transition-all yes-no px-[1.12rem] py-[0.6rem] w-[50%] rounded-[3.5rem] ${
-                            !success ? "bg-wGreen" : "bg-[#D52B1E]"
-                          }  flex items-center justify-center`}
+                          className={`transition-all yes-no px-[1.12rem] py-[0.6rem] w-[50%] rounded-[3.5rem]  
+                          ${
+                            success === null
+                              ? "bg-[#7A817A] h-11"
+                              : `${!success ? "bg-wGreen" : "bg-[#D52B1E]"}`
+                          }
+                           flex items-center justify-center`}
                           onClick={handleSuccess}
                           style={
                             success
@@ -113,7 +103,7 @@ export default function App() {
                               : { transform: "translateX(0)" }
                           }
                         >
-                          {success ? "No" : "Yes"}
+                          {success === null ? '' : `${ success ? "No" : "Yes"}`}
                         </div>
                       </div>
                     </div>
