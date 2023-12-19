@@ -3,10 +3,11 @@ import Header from "./components/Header";
 import Table from "./components/Table";
 import { useState } from "react";
 import SelectBox from "./components/SelectBox";
+import { IoMdAdd } from "react-icons/io";
 
 export default function App() {
   const [success, setSuccess] = useState(false);
-  const [translateEl, setTranslateEl] = useState('');
+  const [translateEl, setTranslateEl] = useState("");
   const parentRef = useRef(null);
 
   const [openSelect, setOpenSelect] = useState({
@@ -23,13 +24,13 @@ export default function App() {
     });
   };
 
-  useEffect(()=>{
-    setTranslateEl(`${parentRef.current?.clientWidth/2}px`)
-  },[parentRef.current?.clientWidth])
+  useEffect(() => {
+    setTranslateEl(`${parentRef.current?.clientWidth / 2}px`);
+  }, [parentRef.current?.clientWidth]);
 
   const handleSuccess = () => {
     setSuccess((prev) => !prev);
-    setTranslateEl(`${parentRef.current.clientWidth/2 - 10}px`);
+    setTranslateEl(`${parentRef.current.clientWidth / 2 - 10}px`);
   };
 
   return (
@@ -38,8 +39,23 @@ export default function App() {
       <main className="main">
         <div className="container m-auto">
           <div className="main-inner">
-            <div className="action-form text-white bg-wSecMain border border-wGreen rounded-md py-5 px-10">
-              <form className="w-full flex justify-between">
+            <div className="action-form text-white flex flex-col gap-1">
+              <div className="action-counter">
+                <p>Action No:</p>
+                <div className="flex items-center gap-2">
+                  <div className="actions flex gap-[0.31rem]">
+                    <div className="action rounded flex justify-center items-center p-4 w-12 h-12 border border-wGreen">
+                      1
+                    </div>
+                  </div>
+                  <div className="add-action">
+                    <button className="rounded-[2rem] text-[20px] flex justify-center items-center bg-wSecMain p-2">
+                      <IoMdAdd className="text-wGreen" />
+                    </button>
+                  </div>
+                </div>
+              </div>
+              <form className="w-full flex justify-between  bg-wSecMain border border-wGreen rounded-md py-5 px-10">
                 <div className="action-left basis-[50%] flex flex-col gap-5">
                   <SelectBox
                     toggleSelect={toggleSelect}
@@ -84,15 +100,20 @@ export default function App() {
                       <p className="text-center">Successfull : </p>
                       <div
                         className="success rounded-[3.5rem] overflow-x-hidden py-[0.4rem] px-[0.6rem] bg-[#1E264B]"
-                        // id="parent"
                         ref={parentRef}
                       >
                         <div
-                          className={`transition-all yes-no px-[1.12rem] py-[0.6rem] w-[50%] rounded-[3.5rem] ${!success ? 'bg-wGreen' : 'bg-[#D52B1E]'}  flex items-center justify-center`}
+                          className={`transition-all yes-no px-[1.12rem] py-[0.6rem] w-[50%] rounded-[3.5rem] ${
+                            !success ? "bg-wGreen" : "bg-[#D52B1E]"
+                          }  flex items-center justify-center`}
                           onClick={handleSuccess}
-                          style={success ? { transform: `translateX(${translateEl})` } : { transform: 'translateX(0)' }}
+                          style={
+                            success
+                              ? { transform: `translateX(${translateEl})` }
+                              : { transform: "translateX(0)" }
+                          }
                         >
-                          {success ? 'No' : 'Yes'}
+                          {success ? "No" : "Yes"}
                         </div>
                       </div>
                     </div>
