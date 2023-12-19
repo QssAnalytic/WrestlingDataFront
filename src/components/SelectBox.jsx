@@ -7,13 +7,13 @@ export default function SelectBox({toggleSelect, openSelect, id, ok}) {
   return (
     <>
       <div className={`select-action flex items-center rounded w-[100%] gap-[1.78rem] ${ok ? 'w-[39%]' : 'w-[100%]'}`}>
-        <label htmlFor="action">{id}: </label>
+        <label htmlFor="action">{id.charAt(0).toUpperCase() + id.slice(1)}: </label>
         <div
           className="select-box flex justify-between cursor-pointer w-[100%] bg-wMain px-5 py-4 relative"
           id={id}
           onClick={toggleSelect}
         >
-          <p>Select {id}</p>
+          <p>Select {id.charAt(0).toUpperCase() + id.slice(1)}</p>
           <button className="down-select" id="action" onClick={toggleSelect}>
             <IoCaretDownOutline />
           </button>
