@@ -4,8 +4,7 @@ import editIcon from '../assets/edit.svg'
 
 export default function Row() {
   return (
-    <>
-      <tr className="text-center">
+      <tr className="text-center mb-8">
         <td>3</td>
         <td className="p-2">A. Abakarov</td>
         <td>Isa Demir</td>
@@ -27,6 +26,5 @@ export default function Row() {
           </button>
         </td>
       </tr>
-    </>
   );
 }
