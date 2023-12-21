@@ -1,6 +1,14 @@
 import React from "react";
 
-export default function SelectList({openSelect, id}) {
+export default function SelectList({ openSelect, id, setActionDatas }) {
+  const handleOption = (value) => {
+    setActionDatas((actionData) => ({
+      ...actionData,
+      [id]: value,
+    }));
+    console.log('list item', e.currentTarget.innerText)
+  };
+
   return (
     <>
       <div
@@ -9,9 +17,14 @@ export default function SelectList({openSelect, id}) {
         }`}
       >
         <ul>
-          <li className="select-item bg-[#2E4E8F] py-4 px-5">Takedown</li>
-          <li className="select-item bg-[#2E4E8F] py-4 px-5">Takedown</li>
-          <li className="select-item bg-[#2E4E8F] py-4 px-5">Takedown</li>
+          <li
+            className="select-item bg-[#2E4E8F] py-4 px-5"
+            onClick={(e)=>handleOption(e.currentTarget.innerHTML)}
+          >
+            Takedown
+          </li>
+          <li className="select-item bg-[#2E4E8F] py-4 px-5" onClick={handleOption}>Takedown</li>
+          <li className="select-item bg-[#2E4E8F] py-4 px-5" onClick={handleOption}>Takedown</li>
         </ul>
       </div>
     </>

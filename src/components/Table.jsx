@@ -11,7 +11,8 @@ export default function Table() {
             className="w-full"
             style={{
               border: "1px solid transparent",
-              borderCollapse: "collapse",
+              borderCollapse: "separate",
+              borderSpacing : '8px'
             }}
           >
             <thead className="rounded-sm bg-wSecMain text-wText font-[400]">
@@ -30,6 +31,7 @@ export default function Table() {
               </tr>
             </thead>
             <tbody className="rounded-sm bg-[#121C34] text-wText font-[400]">
+              <Row />
               <Row />
             </tbody>
           </table>
