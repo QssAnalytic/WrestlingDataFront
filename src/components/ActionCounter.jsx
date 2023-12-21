@@ -2,7 +2,12 @@ import React from "react";
 import { IoMdAdd } from "react-icons/io";
 import uniqid from "uniqid";
 
-export default function ActionCounter({ setActionBase, actionsBase }) {
+export default function ActionCounter({
+  setActionBase,
+  actionsBase,
+  setActiveAction,
+  activeAction,
+}) {
   const handleNewAction = () => {
     setActionBase((prevActions) => [
       ...prevActions,
@@ -12,9 +17,12 @@ export default function ActionCounter({ setActionBase, actionsBase }) {
     ]);
   };
 
-  const handleActiveAction = (e)=>{
-    console.log('active action id', e.currentTarget.id)
-  }
+  const handleActiveAction = (e) => {
+    const activeId = e.currentTarget.id
+    setActiveAction(
+      ...actionsBase.filter((action) => action.actionId === activeId)
+    );
+  };
 
   return (
     <div className="action-counter">
@@ -22,8 +30,18 @@ export default function ActionCounter({ setActionBase, actionsBase }) {
       <div className="flex items-center gap-2">
         {actionsBase.map((action, index) => {
           return (
-            <div className="actions flex gap-[0.31rem] cursor-pointer" id={action.actionId} onClick={handleActiveAction}>
-              <div className="action rounded flex justify-center items-center p-4 w-12 h-12 border border-wGreen">
+            <div
+              className="actions flex gap-[0.31rem] cursor-pointer"
+              id={action.actionId}
+              onClick={handleActiveAction}
+            >
+              <div
+                className={`action rounded flex justify-center items-center p-4 w-12 h-12 border border-[#474A5B] ${
+                  action.actionId === activeAction?.actionId
+                    ? "border-wGreen"
+                    : ''
+                } `}
+              >
                 {index + 1}
               </div>
             </div>

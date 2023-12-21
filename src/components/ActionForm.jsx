@@ -12,6 +12,7 @@ export default function ActionForm() {
 
   const [actionDatas, setActionDatas] = useState({});
   const [actionBase, setActionBase] = useState([]);
+  const [activeAction, setActiveAction] = useState();
   const [openSelect, setOpenSelect] = useState({
     action: false,
     techniques: false,
@@ -38,11 +39,20 @@ export default function ActionForm() {
 
   return (
     <>
-      <ActionCounter setActionBase={setActionBase} actionsBase={actionBase} />
+      <ActionCounter
+        setActionBase={setActionBase}
+        actionsBase={actionBase}
+        setActiveAction={setActiveAction}
+        activeAction={activeAction}
+      />
 
-      {actionBase.map((actionForm,index) => {
+      {actionBase.map((actionForm, index) => {
         return (
-          <form id={actionForm.actionId} className="w-full flex justify-between" onSubmit={handleSubmit}>
+          <form
+            id={actionForm.actionId}
+            className="w-full flex justify-between"
+            onSubmit={handleSubmit}
+          >
             <div className="action-left basis-[50%] flex flex-col gap-5">
               <SelectBox
                 toggleSelect={toggleSelect}
