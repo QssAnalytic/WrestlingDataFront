@@ -2,7 +2,6 @@ import React from "react";
 import { useState, useEffect, useRef } from "react";
 
 export default function Chekbox({ checkboxName, setActionDatas, actionDatas }) {
-  const [success, setSuccess] = useState(null);
   const [translateEl, setTranslateEl] = useState("");
   const parentRef = useRef(null);
 
@@ -11,7 +10,6 @@ export default function Chekbox({ checkboxName, setActionDatas, actionDatas }) {
   }, [parentRef.current?.clientWidth]);
 
   const handleSuccess = () => {
-    // setSuccess((prev) => !prev);
     setActionDatas((prevDatas) => ({
       ...prevDatas,
       [checkboxName]: !actionDatas[checkboxName],

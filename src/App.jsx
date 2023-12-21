@@ -12,7 +12,6 @@ export default function App() {
         <div className="container m-auto">
           <div className="main-inner mb-7">
             <div className="action-form text-white flex flex-col gap-1">
-              <ActionCounter />
               <div className="flex flex-col gap-8 bg-wSecMain border border-wGreen rounded-md py-5 px-10">
                 <ActionForm />
                 <Table />
