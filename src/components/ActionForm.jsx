@@ -1,12 +1,9 @@
 import React from "react";
 import SelectBox from "../components/SelectBox";
-import { useState, useEffect, useRef } from "react";
+import { useState } from "react";
+import Chekbox from "./Chekbox";
 
 export default function ActionForm() {
-  const [success, setSuccess] = useState(null);
-  const [translateEl, setTranslateEl] = useState("");
-  const parentRef = useRef(null);
-
   const [formData, setFormData] = useState({
     matchId: 43214232,
     matchActions: [],
@@ -27,26 +24,16 @@ export default function ActionForm() {
     });
   };
 
-  useEffect(() => {
-    setTranslateEl(`${parentRef.current?.clientWidth / 2}px`);
-  }, [parentRef.current?.clientWidth]);
-
-  const handleSuccess = () => {
-    setSuccess((prev) => !prev);
-    setTranslateEl(`${parentRef.current.clientWidth / 2 - 10}px`);
-  };
-
   const handleSubmit = (e) => {
     e.preventDefault();
     setFormData((prevData) => ({
       ...prevData,
-      matchActions : [...formData.matchActions, actionDatas]
+      matchActions: [...formData.matchActions, actionDatas],
     }));
 
-    console.log(actionDatas)
-    console.log('formDta', formData)
+    console.log(actionDatas);
+    console.log("formDta", formData);
   };
-
 
   return (
     <>
@@ -102,39 +89,8 @@ export default function ActionForm() {
         </div>
         <div className="action-right flex flex-col basis-[40%] gap-7 rounded">
           <div className="right-top pt-3 pb-11 px-14 bg-wMain flex flex-col xl:flex-row  w-full justify-around flex-wrap">
-            <div className="success-container flex flex-col basis-[45%] gap-3">
-              <p className="text-center">Successfull : </p>
-              <div
-                className="success rounded-[3.5rem] overflow-x-hidden py-[0.4rem] px-[0.6rem] bg-[#1E264B]"
-                ref={parentRef}
-              >
-                <div
-                  className={`transition-all yes-no px-[1.12rem] py-[0.6rem] w-[50%] rounded-[3.5rem]  
-                          ${
-                            success === null
-                              ? "bg-[#7A817A] h-11"
-                              : `${!success ? "bg-wGreen" : "bg-[#D52B1E]"}`
-                          }
-                           flex items-center justify-center`}
-                  onClick={handleSuccess}
-                  style={
-                    success
-                      ? { transform: `translateX(${translateEl})` }
-                      : { transform: "translateX(0)" }
-                  }
-                >
-                  {success === null ? "" : `${success ? "No" : "Yes"}`}
-                </div>
-              </div>
-            </div>
-            <div className="success-container flex flex-col basis-[45%] gap-3">
-              <p className="text-center">Defense Reason : </p>
-              <div className="success rounded-[3.5rem] py-[0.4rem] px-[0.6rem] bg-[#1E264B]">
-                <div className="yes-no px-[1.12rem] py-[0.6rem] w-[50%] rounded-[3.5rem] bg-wGreen flex items-center justify-center">
-                  Yes
-                </div>
-              </div>
-            </div>
+            <Chekbox checkboxName={"successfull"} setActionDatas={setActionDatas} actionDatas={actionDatas}/>
+            <Chekbox checkboxName={"defense_reason"} setActionDatas={setActionDatas} actionDatas={actionDatas}/>
           </div>
           <div className="right-bottom self-end">
             <button
