@@ -1,7 +1,6 @@
 import React from "react";
 import Header from "./components/Header";
 import Table from "./components/Table";
-import ActionCounter from "./components/ActionCounter";
 import ActionForm from "./components/ActionForm";
 
 export default function App() {

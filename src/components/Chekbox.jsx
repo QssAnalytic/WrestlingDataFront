@@ -1,7 +1,7 @@
 import React from "react";
 import { useState, useEffect, useRef } from "react";
 
-export default function Chekbox({ checkboxName, setActionDatas, actionDatas }) {
+export default function Chekbox({ checkboxName, setActiveAction, activeAction }) {
   const [translateEl, setTranslateEl] = useState("");
   const parentRef = useRef(null);
 
@@ -10,7 +10,7 @@ export default function Chekbox({ checkboxName, setActionDatas, actionDatas }) {
   }, [parentRef.current?.clientWidth]);
 
   const handleSuccess = () => {
-    setActionDatas((activeAction) => ({
+    setActiveAction((activeAction) => ({
       ...activeAction,
       [checkboxName]: !activeAction?.[checkboxName],
     }));
@@ -28,10 +28,10 @@ export default function Chekbox({ checkboxName, setActionDatas, actionDatas }) {
           <div
             className={`transition-all yes-no px-[1.12rem] py-[0.6rem] w-[50%] rounded-[3.5rem]  
                           ${
-                            actionDatas?.[checkboxName] === undefined
+                            activeAction?.[checkboxName] === undefined
                               ? "bg-[#7A817A] h-11"
                               : `${
-                                  actionDatas[checkboxName]
+                                  activeAction[checkboxName]
                                     ? "bg-wGreen"
                                     : "bg-[#D52B1E]"
                                 }`
@@ -39,15 +39,15 @@ export default function Chekbox({ checkboxName, setActionDatas, actionDatas }) {
                            flex items-center justify-center`}
             onClick={handleSuccess}
             style={
-              actionDatas?.[checkboxName] === undefined ||
-              actionDatas?.[checkboxName]
+              activeAction?.[checkboxName] === undefined ||
+              activeAction?.[checkboxName]
                 ? { transform: "translateX(0)" }
                 : { transform: `translateX(${translateEl})` }
             }
           >
-            {actionDatas?.[checkboxName] === undefined
+            {activeAction?.[checkboxName] === undefined
               ? ""
-              : `${!actionDatas?.[checkboxName] ? "No" : "Yes"}`}
+              : `${!activeAction?.[checkboxName] ? "No" : "Yes"}`}
           </div>
         </div>
       </div>

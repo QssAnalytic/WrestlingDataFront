@@ -3,14 +3,14 @@ import React from "react";
 export default function SelectList({
   openSelect,
   id,
-  actionData,
-  setActionDatas,
+  setActiveAction,
 }) {
   const handleOption = (value) => {
-    setActionDatas((prev)=>({
-      ...prev,
+    setActiveAction((currAction) => ({
+      ...currAction,
       [id]: value,
     }));
+    console.log('selected item', value)
   };
 
   return (

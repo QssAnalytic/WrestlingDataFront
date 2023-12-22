@@ -10,6 +10,7 @@ export default function ActionForm() {
     matchId: 43214232,
   });
 
+  const [activeId, setActiveId] = useState('');
   const [activeAction, setActiveAction] = useState({});
   const [actionBase, setActionBase] = useState([]);
   const [openSelect, setOpenSelect] = useState({
@@ -30,10 +31,10 @@ export default function ActionForm() {
     console.log("formId", e.currentTarget.id);
     setFormData((prevData) => ({
       ...prevData,
-      ...activeAction
+      ...activeAction,
     }));
 
-    setActionBase((prev)=>[, formData])
+    setActionBase((prevActions) => [...prevActions, activeAction]);
   };
   console.log("actions base", actionBase);
   console.log("formdata", formData);
@@ -42,12 +43,12 @@ export default function ActionForm() {
   return (
     <>
       <ActionCounter
-        setActionBase={setActionBase}
         actionsBase={actionBase}
         setActiveAction={setActiveAction}
         activeAction={activeAction}
+        setActiveId={setActiveId}
+        activeId={activeId}
       />
-
       <form
         id={`${activeAction?.actionId}`}
         className="w-full flex justify-between"
@@ -59,16 +60,16 @@ export default function ActionForm() {
             openSelect={openSelect}
             id={"action"}
             name={"action"}
-            actionData={activeAction}
-            setActionDatas={setActiveAction}
+            activeAction={activeAction}
+            setActiveAction={setActiveAction}
           />
           <SelectBox
             toggleSelect={toggleSelect}
             openSelect={openSelect}
             id={"techniques"}
             name={"techniques"}
-            actionData={activeAction}
-            setActionDatas={setActiveAction}
+            activeAction={activeAction}
+            setActiveAction={setActiveAction}
           />
           <div className="left-bottom flex justify-between">
             <SelectBox
@@ -76,8 +77,8 @@ export default function ActionForm() {
               openSelect={openSelect}
               id={"score"}
               name={"score"}
-              actionData={activeAction}
-              setActionDatas={setActiveAction}
+              activeAction={activeAction}
+              setActiveAction={setActiveAction}
               ok
             />
             <Time />
@@ -87,13 +88,13 @@ export default function ActionForm() {
           <div className="right-top pt-3 pb-11 px-14 bg-wMain flex flex-col xl:flex-row  w-full justify-around flex-wrap">
             <Chekbox
               checkboxName={"Succesful"}
-              setActionDatas={setActiveAction}
-              actionDatas={activeAction}
+              setActiveAction={setActiveAction}
+              activeAction={activeAction}
             />
             <Chekbox
               checkboxName={"defense_reason"}
-              setActionDatas={setActiveAction}
-              actionDatas={activeAction}
+              setActiveAction={setActiveAction}
+              activeAction={activeAction}
             />
           </div>
           <div className="right-bottom self-end">

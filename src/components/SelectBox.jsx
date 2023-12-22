@@ -7,12 +7,10 @@ export default function SelectBox({
   openSelect,
   id,
   name,
-  actionData,
-  setActionDatas,
+  activeAction,
+  setActiveAction,
   ok,
 }) {
-
-  console.log('action nmae', actionData?.[name])
 
   return (
     <>
@@ -27,7 +25,7 @@ export default function SelectBox({
           id={id}
           onClick={toggleSelect}
         >
-          <p>{actionData?.[name]}</p>
+          <p>{activeAction?.[name]}</p>
 
           <button
             type="button"
@@ -37,7 +35,11 @@ export default function SelectBox({
           >
             <IoCaretDownOutline />
           </button>
-          <SelectList openSelect={openSelect} id={id} actionData={actionData} setActionDatas={setActionDatas}/>
+          <SelectList
+            openSelect={openSelect}
+            id={id}
+            setActiveAction={setActiveAction}
+          />
         </div>
       </div>
     </>
