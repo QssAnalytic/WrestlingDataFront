@@ -1,52 +1,46 @@
 import React from "react";
 import { IoMdAdd } from "react-icons/io";
-import uniqid from "uniqid";
+import { v4 as aId } from "uuid";
 
 export default function ActionCounter({
-  setActionBase,
   actionsBase,
   setActiveAction,
   activeAction,
 }) {
-  const handleNewAction = () => {
-    setActionBase((prevActions) => [
-      ...prevActions,
-      {
-        actionId: uniqid(),
-      },
-    ]);
-  };
+
+  // const [actionNumber, setActionNumber] = useState(0);
 
   const handleActiveAction = (e) => {
-    const activeId = e.currentTarget.id
-    setActiveAction(
-      ...actionsBase.filter((action) => action.actionId === activeId)
-    );
+    e.preventDefault();
+    setActiveAction({
+      actionId: aId(),
+    });
+    // setActionNumber((actionNum)=> actionNum + 1)
   };
 
   return (
     <div className="action-counter">
       <p>Action No:</p>
       <div className="flex items-center gap-2">
-        {actionsBase.map((action, index) => {
-          return (
+        {/* {actionsBase.map((action, index) => { */}
+          {/* return ( */}
             <div
               className="actions flex gap-[0.31rem] cursor-pointer"
-              id={action.actionId}
+              // id={action.actionId}
               onClick={handleActiveAction}
             >
               <div
                 className={`action rounded flex justify-center items-center p-4 w-12 h-12 border border-[#474A5B] ${
                   action.actionId === activeAction?.actionId
                     ? "border-wGreen"
-                    : ''
+                    : ""
                 } `}
               >
                 {index + 1}
               </div>
             </div>
-          );
-        })}
+          {/* ); */}
+        {/* })} */}
         <div className="add-action">
           <button
             className="rounded-[2rem] text-[20px] flex justify-center items-center bg-wSecMain p-2"
