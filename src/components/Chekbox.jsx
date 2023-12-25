@@ -1,7 +1,11 @@
 import React from "react";
 import { useState, useEffect, useRef } from "react";
 
-export default function Chekbox({ checkboxName, setActiveAction, activeAction }) {
+export default function Chekbox({
+  checkboxName,
+  setActiveAction,
+  activeAction,
+}) {
   const [translateEl, setTranslateEl] = useState("");
   const parentRef = useRef(null);
 
@@ -19,11 +23,14 @@ export default function Chekbox({ checkboxName, setActiveAction, activeAction })
 
   return (
     <>
-      <div className="success-container cursor-pointer flex flex-col basis-[45%] gap-3">
+      <div
+        className="success-container cursor-pointer flex flex-col basis-[45%] gap-3"
+      >
         <p className="text-center">{checkboxName} : </p>
         <div
           className="success rounded-[3.5rem] overflow-x-hidden py-[0.4rem] px-[0.6rem] bg-[#1E264B]"
           ref={parentRef}
+          onClick={handleSuccess}
         >
           <div
             className={`transition-all yes-no px-[1.12rem] py-[0.6rem] w-[50%] rounded-[3.5rem]  
@@ -37,7 +44,6 @@ export default function Chekbox({ checkboxName, setActiveAction, activeAction })
                                 }`
                           }
                            flex items-center justify-center`}
-            onClick={handleSuccess}
             style={
               activeAction?.[checkboxName] === undefined ||
               activeAction?.[checkboxName]
