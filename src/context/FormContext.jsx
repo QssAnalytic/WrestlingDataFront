@@ -3,8 +3,13 @@ import { v4 as aId } from "uuid";
 
 export const FormContext = createContext();
 const FormContextProvider = (props) => {
-  const [singleAction, setSingleAction] = useState({});
-  const [actionsBase, setActionsBase] = useState([]);
+  const [singleAction, setSingleAction] = useState({
+    actionId : aId(),
+    Succesful : undefined,
+    defense_reason : undefined,
+    action : ''
+  });
+  const [actionsBase, setActionsBase] = useState([singleAction]);
 
   const createNewAction = () => {
     const actionId = aId();
