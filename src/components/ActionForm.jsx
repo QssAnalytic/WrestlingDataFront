@@ -54,7 +54,9 @@ export default function ActionForm() {
         return action?.actionId === singleAction?.actionId ? (
           <form
             id={`${action?.actionId}`}
-            className={`w-full flex justify-between ${action.isSubmitted ? 'pointer-events-none' : null}`}
+            className={`w-full flex justify-between ${
+              action.isSubmitted ? "pointer-events-none" : null
+            }`}
             onSubmit={handleSubmit}
             aria-disabled={true}
           >
@@ -85,7 +87,12 @@ export default function ActionForm() {
                   setActiveAction={setSingleAction}
                   ok
                 />
-                <Time />
+                <Time
+                id={'time'}
+                name={'time'}
+                activeAction={singleAction}
+                setActiveAction={setSingleAction}
+                 />
               </div>
             </div>
             <div className="action-right flex flex-col basis-[40%] gap-7 rounded">
@@ -107,7 +114,7 @@ export default function ActionForm() {
                   id={singleAction?.actionId}
                   onClick={handleSubmit}
                   className={`${
-                    action.isSubmitted ? 'hidden' : 'block'
+                    action.isSubmitted ? "hidden" : "block"
                   } btn-action w-[19rem] h-[3.125rem] bg-wBlue p-4 rounded text-[#C9D4EA]`}
                 >
                   Submit

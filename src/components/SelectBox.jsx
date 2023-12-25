@@ -11,7 +11,6 @@ export default function SelectBox({
   setActiveAction,
   ok,
 }) {
-
   return (
     <>
       <div
@@ -26,7 +25,6 @@ export default function SelectBox({
           onClick={toggleSelect}
         >
           <p>{activeAction?.[name]}</p>
-
           <button
             type="button"
             className="down-select"
