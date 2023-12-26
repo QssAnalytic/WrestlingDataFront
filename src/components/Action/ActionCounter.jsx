@@ -1,33 +1,22 @@
 import React, { useContext } from "react";
 import { IoMdAdd } from "react-icons/io";
-import { v4 as aId } from "uuid";
-import { useState } from "react";
-import { FormContext } from "../context/FormContext";
+import { FormContext } from "../../context/FormContext";
 
 export default function ActionCounter({
   actionsBase,
   setActiveAction,
   activeAction,
-  setActiveId,
-  activeId
 }) {
 
   const {createNewAction} = useContext(FormContext);
-  // const [actionNumber, setActionNumber] = useState(0);
-  // const actionDummies = Array.from(
-  //   { length: actionNumber },
-  //   (_, index) => index
-  // );
-
+  
   const handleActiveAction = (e) => {
     console.log("action id selected", e.currentTarget.id);
-    setActiveId(e.currentTarget.id);
     setActiveAction(...actionsBase.filter((action)=> action.actionId === e.currentTarget.id))
   };
 
   const handleNewAction = () => {
     createNewAction();
-    // setActionNumber((actionNum) => actionNum + 1);
   };
 
 

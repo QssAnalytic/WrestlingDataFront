@@ -37,7 +37,7 @@ export default function SelectBox({
             openSelect={openSelect}
             id={id}
             setActiveAction={setActiveAction}
-            data={ok ? [0,1,2,4] : ['Takedown','Takedown','Freestyle']}
+            data={ok ? [0,1,2,4] : ['Takedown','Waist Roll','Reverse Headlock','Switch','Freestyle']}
           />
         </div>
       </div>
