@@ -1,13 +1,39 @@
-import React from "react";
+import React, { useState } from "react";
 import logo from "../assets/header-logo.svg";
 import level from "../assets/level.svg";
 import weight from "../assets/weight.svg";
-import wrestler from "../assets/wrestler.png";
-import nationality from "../assets/nationality.svg";
 import change from "../assets/change.svg";
 import { IoIosArrowForward } from "react-icons/io";
+import Wrestler from "./Wrestler";
 
 export default function Header() {
+  const [activeWrestler, setActiveWrestler] = useState({
+    first: false,
+    second: true,
+  });
+
+  const handleWrestler = () => {
+    setActiveWrestler({
+      [Object.keys(activeWrestler)[0]]:
+        !activeWrestler[Object.keys(activeWrestler)[0]],
+      [Object.keys(activeWrestler)[1]]:
+        !activeWrestler[Object.keys(activeWrestler)[1]],
+    });
+  };
+
+  const changeWrestler = () => {
+    setActiveWrestler({
+      [Object.keys(activeWrestler)[0]]:
+        !activeWrestler[Object.keys(activeWrestler)[0]],
+      [Object.keys(activeWrestler)[1]]:
+        !activeWrestler[Object.keys(activeWrestler)[1]],
+    });
+  };
+
+  console.log("check active wrestlers", activeWrestler);
+
+  console.log("wrestlers", activeWrestler);
+
   return (
     <header className="header w-full">
       <div className="container m-auto">
@@ -54,31 +80,23 @@ export default function Header() {
             </div>
             <div className="wrestlers flex justify-between items-center gap-[5.62rem]">
               {/* Wrestler first */}
-              <div className="wrestler flex flex-col  items-center justify-center">
-                <div className="wrestler-img w-fit border-[2px] rounded-md border-wGreen">
-                  <img src={wrestler} alt="wrestler" />
-                </div>
-                <div className="wrestler-name-nationality flex gap-2 ">
-                  <p className="name text-wGreen">Muhammad Aliyev</p>
-                  <img src={nationality} alt="nationality" className="" />
-                </div>
-              </div>
+              <Wrestler
+                id={"first"}
+                activeWrestler={activeWrestler}
+                handleWrestler={handleWrestler}
+              />
               {/* Button for changing player */}
               <div className="btn-container">
-                <button className="btn-chnage">
+                <button className="btn-chnage" onClick={changeWrestler}>
                   <img src={change} alt="change" />
                 </button>
               </div>
               {/* Wrestler second */}
-              <div className="wrestler opacity-[50%] flex flex-col items-center justify-center">
-                <div className="wrestler-img w-fit border-[3px] rounded-md border-[#000] border-opacity-[30%]">
-                  <img src={wrestler} alt="wrestler" />
-                </div>
-                <div className="wrestler-name-nationality flex gap-2">
-                  <p className="name text-wShadow">Muhammad Aliyev</p>
-                  <img src={nationality} alt="nationality" />
-                </div>
-              </div>
+              <Wrestler
+                id={"second"}
+                activeWrestler={activeWrestler}
+                handleWrestler={handleWrestler}
+              />
             </div>
           </div>
           <div className="header-right">

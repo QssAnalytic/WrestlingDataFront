@@ -1,10 +1,9 @@
 import React, { useContext } from "react";
-import SelectBox from "../components/SelectBox";
+import SelectBox from "../SelectBox";
 import { useState } from "react";
-import Chekbox from "./Chekbox";
-import Time from "./Time";
-import ActionCounter from "./ActionCounter";
-import { FormContext } from "../context/FormContext";
+import Chekbox from "../Chekbox";
+import Time from "../Time";
+import { FormContext } from "../../context/FormContext";
 
 export default function ActionForm() {
   const { addAction, actionsBase, singleAction, setSingleAction } =
@@ -13,7 +12,6 @@ export default function ActionForm() {
   const [formData, setFormData] = useState({
     matchId: 43214232,
   });
-  const [activeId, setActiveId] = useState("");
   const [openSelect, setOpenSelect] = useState({
     action: false,
     techniques: false,
@@ -43,19 +41,12 @@ export default function ActionForm() {
 
   return (
     <>
-      <ActionCounter
-        actionsBase={actionsBase}
-        setActiveAction={setSingleAction}
-        activeAction={singleAction}
-        setActiveId={setActiveId}
-        activeId={activeId}
-      />
       {actionsBase?.map((action) => {
         return action?.actionId === singleAction?.actionId ? (
           <form
             id={`${action?.actionId}`}
             className={`w-full flex justify-between ${
-              action.isSubmitted ? "pointer-events-none" : null
+              action.isSubmitted ? "pointer-events-none opacity-[40%]" : null
             }`}
             onSubmit={handleSubmit}
             aria-disabled={true}
@@ -88,11 +79,11 @@ export default function ActionForm() {
                   ok
                 />
                 <Time
-                id={'time'}
-                name={'time'}
-                activeAction={singleAction}
-                setActiveAction={setSingleAction}
-                 />
+                  id={"time"}
+                  name={"time"}
+                  activeAction={singleAction}
+                  setActiveAction={setSingleAction}
+                />
               </div>
             </div>
             <div className="action-right flex flex-col basis-[40%] gap-7 rounded">

@@ -1,7 +1,11 @@
 import React from "react";
 import Row from "./Row";
+import { useContext } from "react";
+import { FormContext } from "../context/FormContext";
 
 export default function Table() {
+  const { actionsBase } = useContext(FormContext);
+
   return (
     <>
       <div className="match-info">
@@ -12,7 +16,7 @@ export default function Table() {
             style={{
               border: "1px solid transparent",
               borderCollapse: "separate",
-              borderSpacing : '8px'
+              borderSpacing: "8px",
             }}
           >
             <thead className="rounded-sm bg-wSecMain text-wText font-[400]">
@@ -31,8 +35,17 @@ export default function Table() {
               </tr>
             </thead>
             <tbody className="rounded-sm bg-[#121C34] text-wText font-[400]">
-              <Row />
-              <Row />
+              {actionsBase.map((action, index) => {
+                return (<Row 
+                  index={index + 1}
+                  time={action.time}
+                  action={action.action}
+                  techniques={action.techniques}
+                  score={action.score}
+                  succesful={action.Succesful}
+                  defenseReason={action['defense_reason']}
+                />);
+              })}
             </tbody>
           </table>
         </div>
