@@ -38,6 +38,7 @@ export default function Table() {
               {actionsBase.map((action, index) => {
                 return (<Row 
                   index={index + 1}
+                  id={action.actionId}
                   time={action.time}
                   action={action.action}
                   techniques={action.techniques}

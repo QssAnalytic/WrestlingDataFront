@@ -89,11 +89,13 @@ export default function ActionForm() {
             <div className="action-right flex flex-col basis-[40%] gap-7 rounded">
               <div className="right-top pt-3 pb-11 px-14 bg-wMain flex flex-col xl:flex-row  w-full justify-around flex-wrap">
                 <Chekbox
+                  name={"Succesful"}
                   checkboxName={"Succesful"}
                   setActiveAction={setSingleAction}
                   activeAction={singleAction}
                 />
                 <Chekbox
+                  name={"Defense Reason"}
                   checkboxName={"defense_reason"}
                   setActiveAction={setSingleAction}
                   activeAction={singleAction}

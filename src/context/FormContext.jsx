@@ -4,10 +4,11 @@ import { v4 as aId } from "uuid";
 export const FormContext = createContext();
 const FormContextProvider = (props) => {
   const [singleAction, setSingleAction] = useState({
-    actionId : aId(),
-    Succesful : undefined,
-    defense_reason : undefined,
-    action : ''
+    actionId: aId(),
+    Succesful: undefined,
+    defense_reason: undefined,
+    action: "",
+    time: 0,
   });
   const [actionsBase, setActionsBase] = useState([singleAction]);
 
@@ -20,11 +21,16 @@ const FormContextProvider = (props) => {
   const addAction = (id) => {
     setActionsBase((prevActions) => [
       ...prevActions.map((action) =>
-        action.actionId === id ? {...singleAction, isSubmitted : true} : action
-      )
+        action.actionId === id ? { ...singleAction, isSubmitted: true } : action
+      ),
     ]);
   };
-  
+
+  const editAction = (id) => {
+    const updatedAction = actionsBase.find((action) => action.actionId === id);
+    updatedAction.isSubmitted = false;
+    setSingleAction(updatedAction);
+  };
 
   return (
     <FormContext.Provider
@@ -34,6 +40,7 @@ const FormContextProvider = (props) => {
         singleAction,
         createNewAction,
         setSingleAction,
+        editAction,
       }}
     >
       {props.children}
