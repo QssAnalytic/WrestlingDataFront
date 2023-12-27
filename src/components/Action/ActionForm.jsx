@@ -1,13 +1,30 @@
-import React, { useContext } from "react";
+import React, { useContext, useEffect } from "react";
 import SelectBox from "../SelectBox";
 import { useState } from "react";
 import Chekbox from "../Chekbox";
 import Time from "../Time";
 import { FormContext } from "../../context/FormContext";
+import { useForm } from "react-hook-form";
+import { Controller } from "react-hook-form";
 
 export default function ActionForm() {
   const { addAction, actionsBase, singleAction, setSingleAction } =
     useContext(FormContext);
+
+  const { control, handleSubmit, setValue, formState, reset } = useForm({
+    defaultValues: {
+      ...singleAction,
+    },
+  });
+
+  useEffect(() => {
+    reset({
+      action: singleAction.action || null,
+      techniques: singleAction.techniques || "",
+      score: singleAction.score || null,
+      time: 0,
+    });
+  }, [singleAction]);
 
   const [formData, setFormData] = useState({
     matchId: 43214232,
@@ -25,16 +42,19 @@ export default function ActionForm() {
     });
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmitFn = async (data, e) => {
     e.preventDefault();
-    console.log("formId", e.currentTarget.id);
+    const { actionId } = singleAction;
     setFormData((prevData) => ({
       ...prevData,
       ...singleAction,
     }));
-    addAction(e.currentTarget.id);
+    addAction(actionId);
+
+    console.log("dataa", data);
   };
 
+  console.log("formstate", formState.errors);
   console.log("context", actionsBase);
   console.log("active action context", singleAction);
   console.log("formdata", formData);
@@ -48,36 +68,67 @@ export default function ActionForm() {
             className={`w-full flex justify-between ${
               action.isSubmitted ? "pointer-events-none opacity-[40%]" : null
             }`}
-            onSubmit={handleSubmit}
+            onSubmit={handleSubmit(handleSubmitFn)}
             aria-disabled={true}
           >
             <div className="action-left basis-[50%] flex flex-col gap-5">
-              <SelectBox
-                toggleSelect={toggleSelect}
-                openSelect={openSelect}
-                id={"action"}
-                name={"action"}
-                activeAction={singleAction}
-                setActiveAction={setSingleAction}
+              <Controller
+                name="action"
+                control={control}
+                defaultValue={singleAction.action}
+                rules={{ required: "This field is required" }}
+                render={({ field }) => (
+                  <SelectBox
+                    toggleSelect={toggleSelect}
+                    openSelect={openSelect}
+                    id={"action"}
+                    name={"action"}
+                    activeAction={singleAction}
+                    setActiveAction={setSingleAction}
+                    setValue={setValue}
+                    errors={formState}
+                  />
+                )}
               />
-              <SelectBox
-                toggleSelect={toggleSelect}
-                openSelect={openSelect}
-                id={"techniques"}
-                name={"techniques"}
-                activeAction={singleAction}
-                setActiveAction={setSingleAction}
+              <Controller
+                name="techniques"
+                control={control}
+                defaultValue={singleAction.techniques}
+                rules={{ required: "This field is required" }}
+                render={({ field }) => (
+                  <SelectBox
+                    toggleSelect={toggleSelect}
+                    openSelect={openSelect}
+                    id={"techniques"}
+                    name={"techniques"}
+                    activeAction={singleAction}
+                    setActiveAction={setSingleAction}
+                    setValue={setValue}
+                    errors={formState}
+                  />
+                )}
               />
               <div className="left-bottom flex justify-between">
-                <SelectBox
-                  toggleSelect={toggleSelect}
-                  openSelect={openSelect}
-                  id={"score"}
-                  name={"score"}
-                  activeAction={singleAction}
-                  setActiveAction={setSingleAction}
-                  ok
+                <Controller
+                  name="score"
+                  control={control}
+                  defaultValue={singleAction.score}
+                  rules={{ required: "This field is required" }}
+                  render={({ field }) => (
+                    <SelectBox
+                      toggleSelect={toggleSelect}
+                      openSelect={openSelect}
+                      id={"score"}
+                      name={"score"}
+                      activeAction={singleAction}
+                      setActiveAction={setSingleAction}
+                      setValue={setValue}
+                      errors={formState}
+                      ok
+                    />
+                  )}
                 />
+
                 <Time
                   id={"time"}
                   name={"time"}
@@ -103,9 +154,8 @@ export default function ActionForm() {
               </div>
               <div className="right-bottom self-end">
                 <button
-                  type="button"
+                  type="submit"
                   id={singleAction?.actionId}
-                  onClick={handleSubmit}
                   className={`${
                     action.isSubmitted ? "hidden" : "block"
                   } btn-action w-[19rem] h-[3.125rem] bg-wBlue p-4 rounded text-[#C9D4EA]`}

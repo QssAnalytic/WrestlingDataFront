@@ -9,6 +9,8 @@ export default function SelectBox({
   name,
   activeAction,
   setActiveAction,
+  setValue,
+  errors,
   ok,
 }) {
   return (
@@ -20,7 +22,11 @@ export default function SelectBox({
       >
         <label htmlFor={id}>{id.charAt(0).toUpperCase() + id.slice(1)}: </label>
         <div
-          className="select-box flex justify-between cursor-pointer w-[100%] bg-wMain px-5 py-4 relative"
+          className={`select-box flex justify-between cursor-pointer border transition-all ${
+            errors?.errors[name]
+              ? "border border-red-600 transition-all "
+              : "border-wMain"
+          } w-[100%] bg-wMain px-5 py-4 relative`}
           id={id}
           onClick={toggleSelect}
         >
@@ -37,7 +43,18 @@ export default function SelectBox({
             openSelect={openSelect}
             id={id}
             setActiveAction={setActiveAction}
-            data={ok ? [0,1,2,4] : ['Takedown','Waist Roll','Reverse Headlock','Switch','Freestyle']}
+            setValue={setValue}
+            data={
+              ok
+                ? [0, 1, 2, 4]
+                : [
+                    "Takedown",
+                    "Waist Roll",
+                    "Reverse Headlock",
+                    "Switch",
+                    "Freestyle",
+                  ]
+            }
           />
         </div>
       </div>

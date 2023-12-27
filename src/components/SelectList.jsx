@@ -1,12 +1,19 @@
 import React from "react";
 
-export default function SelectList({ openSelect, id, setActiveAction, data }) {
+export default function SelectList({
+  openSelect,
+  id,
+  setActiveAction,
+  setValue,
+  data,
+}) {
   const handleOption = (value) => {
+    setValue(id, value);
     setActiveAction((currAction) => ({
       ...currAction,
       [id]: value,
     }));
-    console.log("selected item", value);
+    // console.log("selected item", value);
   };
 
   return (
@@ -17,7 +24,7 @@ export default function SelectList({ openSelect, id, setActiveAction, data }) {
         }`}
       >
         <ul>
-          {data.map((item,index) => {
+          {data.map((item, index) => {
             return (
               <li
                 className="select-item bg-[#2E4E8F] py-4 px-5"
