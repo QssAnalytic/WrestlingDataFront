@@ -2,6 +2,7 @@ import React from "react";
 import { useState, useEffect, useRef } from "react";
 
 export default function Chekbox({
+  name,
   checkboxName,
   setActiveAction,
   activeAction,
@@ -13,20 +14,22 @@ export default function Chekbox({
     setTranslateEl(`${parentRef.current?.clientWidth / 2}px`);
   }, [parentRef.current?.clientWidth]);
 
+  
+  console.log("active checkbox", activeAction["Succesful"]);
+
   const handleSuccess = () => {
     setActiveAction((activeAction) => ({
       ...activeAction,
       [checkboxName]: !activeAction?.[checkboxName],
     }));
+
     setTranslateEl(`${parentRef.current.clientWidth / 2 - 10}px`);
   };
 
   return (
     <>
-      <div
-        className="success-container cursor-pointer flex flex-col basis-[45%] gap-3"
-      >
-        <p className="text-center">{checkboxName} : </p>
+      <div className="success-container cursor-pointer flex flex-col basis-[45%] gap-3">
+        <p className="text-center">{name} : </p>
         <div
           className="success rounded-[3.5rem] overflow-x-hidden py-[0.4rem] px-[0.6rem] bg-[#1E264B]"
           ref={parentRef}

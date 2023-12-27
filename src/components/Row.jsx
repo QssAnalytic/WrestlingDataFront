@@ -1,8 +1,16 @@
-import React from "react";
+import React, { useContext } from "react";
 import deleteIcon from "../assets/delete.svg";
 import editIcon from "../assets/edit.svg";
+import { FormContext } from "../context/FormContext";
 
 export default function Row(props) {
+  const { editAction } = useContext(FormContext);
+
+  const handleActionEdit = (target) => {
+    editAction(target.id);
+    console.log('id', target.id)
+  };
+
   return (
     <tr className="text-center mb-8">
       <td>{props.index}</td>
@@ -18,7 +26,11 @@ export default function Row(props) {
       <td>{props.defenseReason ? "Yes" : "No"}</td>
       <td>E.Mammadov</td>
       <td>
-        <button className="w-[1.5rem] h-[1.5rem] flex items-center rounded-3xl p-[5px] bg-[#2C354A]">
+        <button
+          id={props.id}
+          className="w-[1.5rem] h-[1.5rem] flex items-center rounded-3xl p-[5px] bg-[#2C354A]"
+          onClick={(e)=>handleActionEdit(e.currentTarget)}
+        >
           <img src={editIcon} alt="edit" />
         </button>
       </td>
