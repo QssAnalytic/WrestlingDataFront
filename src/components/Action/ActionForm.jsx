@@ -13,13 +13,18 @@ export default function ActionForm() {
 
   const { control, handleSubmit, setValue, formState, reset } = useForm({
     defaultValues: {
-      actionId: "",
-      action: "",
-      techniques: "",
-      score: "",
-      time: 0,
+      ...singleAction,
     },
   });
+
+  useEffect(() => {
+    reset({
+      action: singleAction.action || null,
+      techniques: singleAction.techniques || "",
+      score: singleAction.score || null,
+      time: 0,
+    });
+  }, [singleAction]);
 
   const [formData, setFormData] = useState({
     matchId: 43214232,
@@ -46,14 +51,10 @@ export default function ActionForm() {
     }));
     addAction(actionId);
 
-    reset({
-      action: "",
-      techniques: "",
-      score: "",
-      time: 0,
-    });
+    console.log("dataa", data);
   };
 
+  console.log("formstate", formState.errors);
   console.log("context", actionsBase);
   console.log("active action context", singleAction);
   console.log("formdata", formData);
@@ -113,7 +114,7 @@ export default function ActionForm() {
                   control={control}
                   defaultValue={singleAction.score}
                   rules={{ required: "This field is required" }}
-                  render={({ filed }) => (
+                  render={({ field }) => (
                     <SelectBox
                       toggleSelect={toggleSelect}
                       openSelect={openSelect}
@@ -155,7 +156,6 @@ export default function ActionForm() {
                 <button
                   type="submit"
                   id={singleAction?.actionId}
-                  // onClick={handleSubmit(handleSubmitFn)}
                   className={`${
                     action.isSubmitted ? "hidden" : "block"
                   } btn-action w-[19rem] h-[3.125rem] bg-wBlue p-4 rounded text-[#C9D4EA]`}

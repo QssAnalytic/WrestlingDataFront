@@ -7,7 +7,9 @@ const FormContextProvider = (props) => {
     actionId: aId(),
     Succesful: undefined,
     defense_reason: undefined,
-    action: "",
+    action: null,
+    score : null,
+    techniques : null,
     time: 0,
   });
   const [actionsBase, setActionsBase] = useState([singleAction]);
