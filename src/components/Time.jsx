@@ -1,9 +1,6 @@
-import React, { useContext, useEffect, useState } from "react";
-import { FormContext } from "../context/FormContext";
+import React, { useEffect, useState } from "react";
 
 export default function Time({ id, name, activeAction, setActiveAction }) {
-  // const { singleAction } = useContext(FormContext);
-
   const [minute, setMinute] = useState(null);
   const [second, setSecond] = useState(null);
 
@@ -27,7 +24,9 @@ export default function Time({ id, name, activeAction, setActiveAction }) {
             <input
               type="text"
               name="minute"
-              value={minute === null ? Math.floor(activeAction.time / 60) : minute}
+              value={
+                minute === null ? Math.floor(activeAction.time / 60) : minute
+              }
               onChange={(e) => {
                 setMinute(e.target.value);
               }}
@@ -39,7 +38,9 @@ export default function Time({ id, name, activeAction, setActiveAction }) {
             <input
               type="text"
               name="second"
-              value={second === null ?  Math.floor(activeAction.time % 60) : second}
+              value={
+                second === null ? Math.floor(activeAction.time % 60) : second
+              }
               onChange={(e) => {
                 setSecond(e.target.value);
               }}

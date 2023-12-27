@@ -1,13 +1,16 @@
 import React from "react";
 
-export default function SelectList({ openSelect, id, setActiveAction, data }) {
+export default function SelectList({ openSelect, id, setActiveAction, setValue, rules,  data }) {
+
   const handleOption = (value) => {
+    setValue(id, value)
     setActiveAction((currAction) => ({
       ...currAction,
       [id]: value,
     }));
-    console.log("selected item", value);
+    // console.log("selected item", value);
   };
+
 
   return (
     <>
@@ -27,6 +30,7 @@ export default function SelectList({ openSelect, id, setActiveAction, data }) {
               </li>
             );
           })}
+        
         </ul>
       </div>
     </>
