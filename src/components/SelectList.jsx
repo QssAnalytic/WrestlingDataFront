@@ -5,15 +5,16 @@ export default function SelectList({
   id,
   setActiveAction,
   setValue,
+  clearErrors,
   data,
 }) {
   const handleOption = (value) => {
     setValue(id, value);
+    clearErrors(id);
     setActiveAction((currAction) => ({
       ...currAction,
       [id]: value,
     }));
-    // console.log("selected item", value);
   };
 
   return (

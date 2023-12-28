@@ -11,6 +11,7 @@ export default function SelectBox({
   setActiveAction,
   setValue,
   errors,
+  clearErrors,
   ok,
 }) {
   return (
@@ -23,7 +24,7 @@ export default function SelectBox({
         <label htmlFor={id}>{id.charAt(0).toUpperCase() + id.slice(1)}: </label>
         <div
           className={`select-box flex justify-between cursor-pointer border transition-all ${
-            errors?.errors[name]
+          errors?.errors[id] 
               ? "border border-red-600 transition-all "
               : "border-wMain"
           } w-[100%] bg-wMain px-5 py-4 relative`}
@@ -44,6 +45,7 @@ export default function SelectBox({
             id={id}
             setActiveAction={setActiveAction}
             setValue={setValue}
+            clearErrors={clearErrors}
             data={
               ok
                 ? [0, 1, 2, 4]

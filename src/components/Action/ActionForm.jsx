@@ -6,25 +6,29 @@ import Time from "../Time";
 import { FormContext } from "../../context/FormContext";
 import { useForm } from "react-hook-form";
 import { Controller } from "react-hook-form";
+import { DevTool } from "@hookform/devtools";
 
 export default function ActionForm() {
   const { addAction, actionsBase, singleAction, setSingleAction } =
     useContext(FormContext);
 
-  const { control, handleSubmit, setValue, formState, reset } = useForm({
-    defaultValues: {
-      ...singleAction,
-    },
-  });
+  const { control, handleSubmit, setValue, formState, reset, clearErrors } =
+    useForm({
+      defaultValues: {
+        ...singleAction,
+      },
+    });
+
+  const [err, setErr] = useState([]);
 
   useEffect(() => {
     reset({
       action: singleAction.action || null,
-      techniques: singleAction.techniques || "",
+      techniques: singleAction.techniques || null,
       score: singleAction.score || null,
       time: 0,
     });
-  }, [singleAction]);
+  }, [singleAction, reset]);
 
   const [formData, setFormData] = useState({
     matchId: 43214232,
@@ -45,6 +49,7 @@ export default function ActionForm() {
   const handleSubmitFn = async (data, e) => {
     e.preventDefault();
     const { actionId } = singleAction;
+
     setFormData((prevData) => ({
       ...prevData,
       ...singleAction,
@@ -54,6 +59,9 @@ export default function ActionForm() {
     console.log("dataa", data);
   };
 
+
+  console.log("errors", err);
+  console.log("formstate is valid", formState.isValid);
   console.log("formstate", formState.errors);
   console.log("context", actionsBase);
   console.log("active action context", singleAction);
@@ -87,6 +95,7 @@ export default function ActionForm() {
                     setActiveAction={setSingleAction}
                     setValue={setValue}
                     errors={formState}
+                    clearErrors={clearErrors}
                   />
                 )}
               />
@@ -105,6 +114,7 @@ export default function ActionForm() {
                     setActiveAction={setSingleAction}
                     setValue={setValue}
                     errors={formState}
+                    clearErrors={clearErrors}
                   />
                 )}
               />
@@ -124,6 +134,7 @@ export default function ActionForm() {
                       setActiveAction={setSingleAction}
                       setValue={setValue}
                       errors={formState}
+                      clearErrors={clearErrors}
                       ok
                     />
                   )}
@@ -167,6 +178,7 @@ export default function ActionForm() {
           </form>
         ) : null;
       })}
+      <DevTool control={control}/>
     </>
   );
 }
