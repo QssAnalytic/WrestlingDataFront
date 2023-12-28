@@ -1,9 +1,9 @@
 import React from "react";
 import Row from "./Row";
 import { useContext } from "react";
-import { FormContext } from "../context/FormContext";
+import { FormContext } from "../../context/FormContext";
 
-export default function Table() {
+export default function ActionTable() {
   const { actionsBase } = useContext(FormContext);
 
   return (

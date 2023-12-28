@@ -1,10 +1,11 @@
 import React from "react";
 import Header from "./components/Header";
-import Table from "./components/Table";
+import ActionTable from "./components/Table/ActionTable";
 import ActionForm from "./components/Action/ActionForm";
 import { useContext } from "react";
 import { FormContext } from "./context/FormContext";
 import ActionCounter from "./components/Action/ActionCounter";
+import ViewMatches from "./pages/ViewMatches";
 
 export default function App() {
   const { actionsBase, singleAction, setSingleAction } =
@@ -24,12 +25,14 @@ export default function App() {
               />
               <div className="flex flex-col gap-8 bg-wSecMain border border-wGreen rounded-md py-5 px-10">
                 <ActionForm />
-                <Table />
+                <ActionTable />
               </div>
             </div>
           </div>
         </div>
       </main>
+
+      {/* <ViewMatches /> */}
     </>
   );
 }

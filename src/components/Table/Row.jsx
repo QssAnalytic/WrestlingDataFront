@@ -1,7 +1,7 @@
 import React, { useContext } from "react";
-import deleteIcon from "../assets/delete.svg";
-import editIcon from "../assets/edit.svg";
-import { FormContext } from "../context/FormContext";
+import deleteIcon from "../../assets/delete.svg";
+import editIcon from "../../assets/edit.svg";
+import { FormContext } from "../../context/FormContext";
 
 export default function Row(props) {
   const { editAction } = useContext(FormContext);
