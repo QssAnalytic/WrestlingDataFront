@@ -26,6 +26,8 @@ export default function ActionForm() {
       action: singleAction.action || null,
       techniques: singleAction.techniques || null,
       score: singleAction.score || null,
+      fighter : singleAction.fighter || null,
+      opponent : singleAction.opponent || null,
       time: 0,
     });
   }, [singleAction, reset]);

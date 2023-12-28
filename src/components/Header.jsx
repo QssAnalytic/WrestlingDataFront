@@ -1,38 +1,11 @@
-import React, { useState } from "react";
+import React from "react";
 import logo from "../assets/header-logo.svg";
 import level from "../assets/level.svg";
 import weight from "../assets/weight.svg";
-import change from "../assets/change.svg";
 import { IoIosArrowForward } from "react-icons/io";
-import Wrestler from "./Wrestler";
+import OpponentsInput from "./FormInputs/OpponentsInput";
 
 export default function Header() {
-  const [activeWrestler, setActiveWrestler] = useState({
-    first: false,
-    second: true,
-  });
-
-  const handleWrestler = () => {
-    setActiveWrestler({
-      [Object.keys(activeWrestler)[0]]:
-        !activeWrestler[Object.keys(activeWrestler)[0]],
-      [Object.keys(activeWrestler)[1]]:
-        !activeWrestler[Object.keys(activeWrestler)[1]],
-    });
-  };
-
-  const changeWrestler = () => {
-    setActiveWrestler({
-      [Object.keys(activeWrestler)[0]]:
-        !activeWrestler[Object.keys(activeWrestler)[0]],
-      [Object.keys(activeWrestler)[1]]:
-        !activeWrestler[Object.keys(activeWrestler)[1]],
-    });
-  };
-
-  console.log("check active wrestlers", activeWrestler);
-
-  console.log("wrestlers", activeWrestler);
 
   return (
     <header className="header w-full">
@@ -78,26 +51,8 @@ export default function Header() {
                 </p>
               </div>
             </div>
-            <div className="wrestlers flex justify-between items-center gap-[5.62rem]">
-              {/* Wrestler first */}
-              <Wrestler
-                id={"first"}
-                activeWrestler={activeWrestler}
-                handleWrestler={handleWrestler}
-              />
-              {/* Button for changing player */}
-              <div className="btn-container">
-                <button className="btn-chnage" onClick={changeWrestler}>
-                  <img src={change} alt="change" />
-                </button>
-              </div>
-              {/* Wrestler second */}
-              <Wrestler
-                id={"second"}
-                activeWrestler={activeWrestler}
-                handleWrestler={handleWrestler}
-              />
-            </div>
+           {/*  Wrestlers Input */}
+           <OpponentsInput/>
           </div>
           <div className="header-right">
             <div className="righ-btn rounded-sm bg-[#ffffff] bg-opacity-[0.08] py-[0.62rem] px-[1.88rem]">

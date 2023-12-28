@@ -39,6 +39,8 @@ export default function ActionTable() {
                 return (<Row 
                   index={index + 1}
                   id={action.actionId}
+                  fighter={action.fighter}
+                  opponent={action.opponent}
                   time={action.time}
                   action={action.action}
                   techniques={action.techniques}

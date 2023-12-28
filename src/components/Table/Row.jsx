@@ -14,8 +14,8 @@ export default function Row(props) {
   return (
     <tr className="text-center mb-8">
       <td>{props.index}</td>
-      <td className="p-2">A. Abakarov</td>
-      <td>Isa Demir</td>
+      <td className="p-2">{props.fighter}</td>
+      <td>{props.opponent}</td>
       <td>
         {Math.floor(props.time / 60)} : {props.time % 60}
       </td>

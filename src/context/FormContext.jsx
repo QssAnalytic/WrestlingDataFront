@@ -6,6 +6,8 @@ const FormContextProvider = (props) => {
   const [singleAction, setSingleAction] = useState({
     actionId: aId(),
     Succesful: undefined,
+    fighter : undefined,
+    opponent : undefined,
     defense_reason: undefined,
     action: null,
     score : null,
