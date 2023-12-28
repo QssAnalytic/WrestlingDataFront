@@ -13,7 +13,7 @@ export default function App() {
 
   return (
     <>
-      {/* <Header />
+      <Header />
       <main className="main">
         <div className="container m-auto">
           <div className="main-inner mb-7">
@@ -30,9 +30,9 @@ export default function App() {
             </div>
           </div>
         </div>
-      </main> */}
+      </main>
 
-      <ViewMatches />
+      {/* <ViewMatches /> */}
     </>
   );
 }
