@@ -1,11 +1,13 @@
-import React from "react";
+import React, { useContext } from "react";
 import logo from "../assets/header-logo.svg";
 import level from "../assets/level.svg";
 import weight from "../assets/weight.svg";
 import { IoIosArrowForward } from "react-icons/io";
 import OpponentsInput from "./FormInputs/OpponentsInput";
+import { FormContext } from "../context/FormContext";
 
 export default function Header() {
+  const { actionsBase, singleAction } = useContext(FormContext);
 
   return (
     <header className="header w-full">
@@ -51,8 +53,10 @@ export default function Header() {
                 </p>
               </div>
             </div>
-           {/*  Wrestlers Input */}
-           <OpponentsInput/>
+            {/*  Wrestlers Input */}
+            {actionsBase?.map((action) => {
+              return action.actionId === singleAction.actionId ? (<OpponentsInput activeAction={action} />) : null;
+            })}
           </div>
           <div className="header-right">
             <div className="righ-btn rounded-sm bg-[#ffffff] bg-opacity-[0.08] py-[0.62rem] px-[1.88rem]">
