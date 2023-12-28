@@ -17,13 +17,12 @@ export default function OpponentsInput() {
         opponent : Object.keys(wrestler).find((wrest)=> wrestler[wrest] === false),
     })
 
-console.log('active wrestler', Object.keys(wrestler).find((wrest)=> wrestler[wrest] === true))
   },[wrestler])
 
 
   return (
     <>
-      <div className="wrestlers flex justify-between items-center gap-[5.62rem]">
+      <div className={`wrestlers flex justify-between items-center gap-[5.62rem] ${singleAction.isSubmitted ? 'opacity-[50%] pointer-events-none' : null}`}>
         {/* Wrestler first */}
         <Wrestler
           id={"T.Aliyev"}
