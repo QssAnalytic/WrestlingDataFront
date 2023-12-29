@@ -173,6 +173,7 @@ export default function ActionForm() {
                       setActiveAction={setSingleAction}
                       activeAction={singleAction}
                       errors={formState}
+                      formState={formState}
                     />
                   )}
                 />
@@ -189,6 +190,7 @@ export default function ActionForm() {
                       setActiveAction={setSingleAction}
                       activeAction={singleAction}
                       errors={formState}
+                      formState={formState}
                     />
                   )}
                 />

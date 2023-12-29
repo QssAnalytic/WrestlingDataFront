@@ -7,6 +7,7 @@ export default function Chekbox({
   setActiveAction,
   activeAction,
   errors,
+  formState
 }) {
   const [translateEl, setTranslateEl] = useState("");
   const parentRef = useRef(null);
@@ -25,6 +26,9 @@ export default function Chekbox({
 
     setTranslateEl(`${parentRef.current.clientWidth / 2 - 10}px`);
   };
+
+
+  console.log('formstateee', formState)
 
   return (
     <>
