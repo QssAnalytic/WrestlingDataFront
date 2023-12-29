@@ -6,6 +6,7 @@ export default function Chekbox({
   checkboxName,
   setActiveAction,
   activeAction,
+  errors
 }) {
   const [translateEl, setTranslateEl] = useState("");
   const parentRef = useRef(null);
@@ -31,7 +32,7 @@ export default function Chekbox({
       <div className="success-container cursor-pointer flex flex-col basis-[45%] gap-3">
         <p className="text-center">{name} : </p>
         <div
-          className="success rounded-[3.5rem] overflow-x-hidden py-[0.4rem] px-[0.6rem] bg-[#1E264B]"
+          className={`success rounded-[3.5rem] overflow-x-hidden py-[0.4rem] px-[0.6rem] bg-[#1E264B] ${errors?.errors[checkboxName] ? `border border-red-600 transition-all` : `border-wMain` }`}
           ref={parentRef}
           onClick={handleSuccess}
         >

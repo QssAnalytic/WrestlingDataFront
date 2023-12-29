@@ -24,10 +24,11 @@ export default function ActionForm() {
   useEffect(() => {
     reset({
       action: singleAction.action || null,
+      Succesful: singleAction.Succesful || null,
       techniques: singleAction.techniques || null,
       score: singleAction.score || null,
-      fighter : singleAction.fighter || null,
-      opponent : singleAction.opponent || null,
+      fighter: singleAction.fighter || null,
+      opponent: singleAction.opponent || null,
       time: 0,
     });
   }, [singleAction, reset]);
@@ -60,7 +61,6 @@ export default function ActionForm() {
 
     console.log("dataa", data);
   };
-
 
   console.log("errors", err);
   console.log("formstate is valid", formState.isValid);
@@ -152,17 +152,36 @@ export default function ActionForm() {
             </div>
             <div className="action-right flex flex-col basis-[40%] gap-7 rounded">
               <div className="right-top pt-3 pb-11 px-14 bg-wMain flex flex-col xl:flex-row  w-full justify-around flex-wrap">
-                <Chekbox
+                <Controller
                   name={"Succesful"}
-                  checkboxName={"Succesful"}
-                  setActiveAction={setSingleAction}
-                  activeAction={singleAction}
+                  defaultValue={singleAction.Succesful}
+                  control={control}
+                  rules={{ required: "This field is required" }}
+                  render={({ field }) => (
+                    <Chekbox
+                      name={"Succesful"}
+                      checkboxName={"Succesful"}
+                      setActiveAction={setSingleAction}
+                      activeAction={singleAction}
+                      errors={formState}
+                    />
+                  )}
                 />
-                <Chekbox
-                  name={"Defense Reason"}
-                  checkboxName={"defense_reason"}
-                  setActiveAction={setSingleAction}
-                  activeAction={singleAction}
+
+                <Controller
+                  control={control}
+                  name={"defense_reason"}
+                  defaultValue={singleAction["defense_reason"]}
+                  rules={{ required: "This field is required" }}
+                  render={({ field }) => (
+                    <Chekbox
+                      name={"Defense Reason"}
+                      checkboxName={"defense_reason"}
+                      setActiveAction={setSingleAction}
+                      activeAction={singleAction}
+                      errors={formState}
+                    />
+                  )}
                 />
               </div>
               <div className="right-bottom self-end">
@@ -180,7 +199,7 @@ export default function ActionForm() {
           </form>
         ) : null;
       })}
-      <DevTool control={control}/>
+      <DevTool control={control} />
     </>
   );
 }
