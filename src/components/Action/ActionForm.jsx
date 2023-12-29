@@ -25,11 +25,12 @@ export default function ActionForm() {
     reset({
       action: singleAction.action || null,
       Succesful: singleAction.Succesful || null,
+      defense_reason : singleAction?.['defense_reason'] || null,
       techniques: singleAction.techniques || null,
       score: singleAction.score || null,
       fighter: singleAction.fighter || null,
       opponent: singleAction.opponent || null,
-      time: 0,
+      time: singleAction.time || null,
     });
   }, [singleAction, reset]);
 
@@ -96,7 +97,7 @@ export default function ActionForm() {
                     activeAction={singleAction}
                     setActiveAction={setSingleAction}
                     setValue={setValue}
-                    errors={formState}
+                    errors={formState.errors?.action}
                     clearErrors={clearErrors}
                   />
                 )}
@@ -115,7 +116,7 @@ export default function ActionForm() {
                     activeAction={singleAction}
                     setActiveAction={setSingleAction}
                     setValue={setValue}
-                    errors={formState}
+                    errors={formState.errors?.techniques}
                     clearErrors={clearErrors}
                   />
                 )}
@@ -135,18 +136,26 @@ export default function ActionForm() {
                       activeAction={singleAction}
                       setActiveAction={setSingleAction}
                       setValue={setValue}
-                      errors={formState}
+                      errors={formState.errors?.score}
                       clearErrors={clearErrors}
                       ok
                     />
                   )}
                 />
-
-                <Time
-                  id={"time"}
-                  name={"time"}
-                  activeAction={singleAction}
-                  setActiveAction={setSingleAction}
+                <Controller
+                  control={control}
+                  name="time"
+                  rules={{ required: "It is required field" }}
+                  defaultValue={singleAction.time}
+                  render={({ field }) => (
+                    <Time
+                      id={"time"}
+                      name={"time"}
+                      activeAction={singleAction}
+                      setActiveAction={setSingleAction}
+                      errors={formState}
+                    />
+                  )}
                 />
               </div>
             </div>
@@ -171,7 +180,7 @@ export default function ActionForm() {
                 <Controller
                   control={control}
                   name={"defense_reason"}
-                  defaultValue={singleAction["defense_reason"]}
+                  defaultValue={singleAction?.["defense_reason"]}
                   rules={{ required: "This field is required" }}
                   render={({ field }) => (
                     <Chekbox

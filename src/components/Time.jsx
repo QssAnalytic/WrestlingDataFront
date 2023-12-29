@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 
-export default function Time({ id, name, activeAction, setActiveAction }) {
+export default function Time({ id, name, activeAction, setActiveAction, errors }) {
   const [minute, setMinute] = useState(null);
   const [second, setSecond] = useState(null);
 
@@ -30,7 +30,7 @@ export default function Time({ id, name, activeAction, setActiveAction }) {
               onChange={(e) => {
                 setMinute(e.target.value);
               }}
-              className="w-[2.75rem] h-[1.875rem] rounded outline-none bg-[#D9D9D9] bg-opacity-10 text-white text-center"
+              className={`w-[2.75rem] h-[1.875rem] rounded outline-none bg-[#D9D9D9] bg-opacity-10 text-white text-center ${errors.errors?.[name] ? `border border-red-600 transition-all` : `border-wMain`}`}
             />
           </div>
           <p>:</p>
@@ -44,7 +44,7 @@ export default function Time({ id, name, activeAction, setActiveAction }) {
               onChange={(e) => {
                 setSecond(e.target.value);
               }}
-              className={`w-[2.75rem] h-[1.875rem] rounded outline-none bg-[#D9D9D9] bg-opacity-10 text-white text-center`}
+              className={`w-[2.75rem] h-[1.875rem] rounded outline-none bg-[#D9D9D9] bg-opacity-10 text-white border text-center ${errors.errors?.[name] ? `border border-red-600 transition-all` : `border-wMain`}`}
             />
           </div>
         </div>
