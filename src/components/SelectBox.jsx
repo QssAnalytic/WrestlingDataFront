@@ -24,7 +24,7 @@ export default function SelectBox({
         <label htmlFor={id}>{id.charAt(0).toUpperCase() + id.slice(1)}: </label>
         <div
           className={`select-box flex justify-between cursor-pointer border transition-all ${
-          errors?.errors[id] 
+          errors 
               ? "border border-red-600 transition-all "
               : "border-wMain"
           } w-[100%] bg-wMain px-5 py-4 relative`}
