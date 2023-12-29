@@ -5,19 +5,11 @@ import { FormContext } from "./FormContext";
 export const WrestlerContext = createContext();
 
 const WrestlerContextProvider = (props) => {
-//   const { setSingleAction, singleAction } = useContext(FormContext);
   const [wrestler, setWrestler] = useState({
     "T.Aliyev": true,
     "E.Mammadov": false,
   });
 
-//   useEffect(()=>{
-//     setSingleAction({
-//         ...singleAction,
-//         fighter : Object.keys(singleAction).find((wrestler)=> singleAction[wrestler] === true),
-//         opponent : Object.keys(singleAction).find((wrestler)=> singleAction[wrestler] === false),
-//     })
-//   },[wrestler])
 
   const handleWrestler = (wrestlerId) => {
     setWrestler((prevWrestlers) => ({
@@ -26,8 +18,6 @@ const WrestlerContextProvider = (props) => {
       )]: false,
       [wrestlerId]: true,
     }));
-
-
     // console.log("activeWrestlers", wrestler);
   };
 
