@@ -12,7 +12,7 @@ export default function ActionForm() {
   const { addAction, actionsBase, singleAction, setSingleAction } =
     useContext(FormContext);
 
-  const { control, handleSubmit, setValue, formState, reset, clearErrors } =
+  const { control, handleSubmit, setValue, formState, reset, clearErrors, watch } =
     useForm({
       defaultValues: {
         ...singleAction,
@@ -174,6 +174,9 @@ export default function ActionForm() {
                       activeAction={singleAction}
                       errors={formState}
                       formState={formState}
+                      field={field}
+                      setValue={setValue}
+                      watch={watch}
                     />
                   )}
                 />
@@ -191,6 +194,9 @@ export default function ActionForm() {
                       activeAction={singleAction}
                       errors={formState}
                       formState={formState}
+                      field={field}
+                      setValue={setValue}
+                      watch={watch}
                     />
                   )}
                 />

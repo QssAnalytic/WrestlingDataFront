@@ -7,28 +7,33 @@ export default function Chekbox({
   setActiveAction,
   activeAction,
   errors,
-  formState
+  formState,
+  field,
+  setValue,
+  watch,
 }) {
   const [translateEl, setTranslateEl] = useState("");
   const parentRef = useRef(null);
 
   useEffect(() => {
     setTranslateEl(`${parentRef.current?.clientWidth / 2}px`);
-  }, [parentRef.current?.clientWidth]);
+  }, [parentRef.current?.clientWidth, watch(checkboxName)]);
 
   console.log("active checkbox", activeAction["Succesful"]);
 
   const handleSuccess = () => {
+    // setValue(checkboxName, !field.value);
+
     setActiveAction((activeAction) => ({
       ...activeAction,
-      [checkboxName]: !activeAction?.[checkboxName],
+      [checkboxName]: !watch(checkboxName),
     }));
 
     setTranslateEl(`${parentRef.current.clientWidth / 2 - 10}px`);
   };
 
-
-  console.log('formstateee', formState)
+  console.log("formstateee", formState);
+  console.log(checkboxName, watch(checkboxName));
 
   return (
     <>

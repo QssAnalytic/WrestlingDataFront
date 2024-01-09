@@ -1,17 +1,20 @@
 import { createContext, useState } from "react";
+import { useForm } from "react-hook-form";
 import { v4 as aId } from "uuid";
 
 export const FormContext = createContext();
 const FormContextProvider = (props) => {
+  const { watch } = useForm();
+
   const [singleAction, setSingleAction] = useState({
     actionId: aId(),
-    Succesful: undefined,
-    fighter : undefined,
-    opponent : undefined,
-    defense_reason: undefined,
+    Succesful: watch('Succesful'),
+    fighter: undefined,
+    opponent: undefined,
+    defense_reason: watch('defense_reason'),
     action: null,
-    score : null,
-    techniques : null,
+    score: null,
+    techniques: null,
     time: 0,
   });
   const [actionsBase, setActionsBase] = useState([singleAction]);
