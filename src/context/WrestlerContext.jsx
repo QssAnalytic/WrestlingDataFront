@@ -6,8 +6,8 @@ export const WrestlerContext = createContext();
 
 const WrestlerContextProvider = (props) => {
   const [wrestler, setWrestler] = useState({
-    "T.Aliyev": true,
-    "E.Mammadov": false,
+    // "T.Aliyev": true,
+    // "E.Mammadov": false,
   });
 
 

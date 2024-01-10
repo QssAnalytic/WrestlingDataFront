@@ -8,16 +8,17 @@ const FormContextProvider = (props) => {
 
   const [singleAction, setSingleAction] = useState({
     actionId: aId(),
-    Succesful: watch('Succesful'),
+    Succesful: watch("Succesful"),
     fighter: undefined,
     opponent: undefined,
-    defense_reason: watch('defense_reason'),
+    defense_reason: watch("defense_reason"),
     action: null,
     score: null,
     techniques: null,
     time: 0,
   });
   const [actionsBase, setActionsBase] = useState([singleAction]);
+
 
   const createNewAction = () => {
     const actionId = aId();

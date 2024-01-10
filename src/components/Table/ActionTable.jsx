@@ -3,7 +3,7 @@ import Row from "./Row";
 import { useContext } from "react";
 import { FormContext } from "../../context/FormContext";
 
-export default function ActionTable() {
+export default function ActionTable({fightStatistic}) {
   const { actionsBase } = useContext(FormContext);
 
   return (

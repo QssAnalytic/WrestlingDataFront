@@ -6,7 +6,7 @@ import change from "../../assets/change.svg";
 import { FormContext } from "../../context/FormContext";
 import { WrestlerContext } from "../../context/WrestlerContext";
 
-export default function OpponentsInput({activeAction}) {
+export default function OpponentsInput({activeAction, fighter, opponent}) {
   const { singleAction, setSingleAction } = useContext(FormContext);
   const {wrestler, handleWrestler, changeWrestler} = useContext(WrestlerContext);
 
@@ -25,7 +25,7 @@ export default function OpponentsInput({activeAction}) {
       <div className={`wrestlers flex justify-between items-center gap-[5.62rem] ${activeAction.isSubmitted ? 'opacity-[50%] pointer-events-none' : null}`}>
         {/* Wrestler first */}
         <Wrestler
-          id={"T.Aliyev"}
+          id={fighter?.name}
           activeWrestler={wrestler}
           handleWrestler={handleWrestler}
           wrestlerImg={wrestlerImg}
@@ -38,7 +38,7 @@ export default function OpponentsInput({activeAction}) {
         </div>
         {/* Wrestler second */}
         <Wrestler
-          id={"E.Mammadov"}
+          id={opponent?.name}
           activeWrestler={wrestler}
           handleWrestler={handleWrestler}
           wrestlerImg={otherWrestler}

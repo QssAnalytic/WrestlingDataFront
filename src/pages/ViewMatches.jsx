@@ -1,11 +1,25 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import logo from "../assets/header-logo.svg";
 import { PiVideoBold } from "react-icons/pi";
 import MatchesTable from "../components/Table/MatchesTable";
+import { getData } from "../services/api/requests";
+
 export default function ViewMatches() {
+  const [fightInfos, setFightInfos] = useState([]);
+
+  const getFightInfos = async () => {
+    setFightInfos((await getData("/fight-infos/")).slice(0,10));
+  };
+
+  useEffect(() => {
+    getFightInfos();
+  }, []);
+
+  console.log("viewMatches", fightInfos);
+
   return (
     <>
-      <div className="view-header text-white">
+      <div className="view-header text-white h-auto">
         <div className="container m-auto">
           <div className="view-header-inner">
             <div className="view-logo flex gap-3 justify-center">
@@ -20,7 +34,7 @@ export default function ViewMatches() {
                 Video view <PiVideoBold />
               </button>
             </div>
-            <MatchesTable />
+            <MatchesTable fightInfos={fightInfos} />
           </div>
         </div>
       </div>
