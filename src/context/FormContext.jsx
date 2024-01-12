@@ -1,43 +1,68 @@
 import { createContext, useState } from "react";
 import { useForm } from "react-hook-form";
 import { v4 as aId } from "uuid";
+import { getData } from "../services/api/requests";
 
 export const FormContext = createContext();
 const FormContextProvider = (props) => {
-  const { watch } = useForm();
-
-  const [singleAction, setSingleAction] = useState({
-    actionId: aId(),
-    Succesful: watch("Succesful"),
-    fighter: undefined,
-    opponent: undefined,
-    defense_reason: watch("defense_reason"),
-    action: null,
+  const defaultV = {
+    action_number: aId(),
+    successful: null,
+    fighter_id: undefined,
+    opponent_id: undefined,
+    defense_reason: null,
+    action_name_id: null,
     score: null,
-    techniques: null,
-    time: 0,
-  });
+    technique_id: null,
+    action_time_second: 0,
+    video_second_begin: "2024-01-10T08:53:43.354000",
+    video_second_end: "2024-01-10T08:53:43.354000",
+    video_link: "https://example.com/",
+    action_time: "string2",
+  };
+
+  const [singleAction, setSingleAction] = useState({});
   const [actionsBase, setActionsBase] = useState([singleAction]);
 
-
   const createNewAction = () => {
-    const actionId = aId();
-    setSingleAction({ actionId: actionId });
-    setActionsBase((prevActions) => [...prevActions, { actionId: actionId }]);
+    const action_number = aId();
+    setSingleAction({ action_number: action_number, ...defaultV });
+    setActionsBase((prevActions) => [
+      ...prevActions,
+      { action_number: action_number },
+    ]);
   };
 
   const addAction = (id) => {
     setActionsBase((prevActions) => [
       ...prevActions.map((action) =>
-        action.actionId === id ? { ...singleAction, isSubmitted: true } : action
+        action.action_number === id
+          ? {
+              ...singleAction,
+              isSubmitted: true,
+            }
+          : action
       ),
     ]);
   };
 
   const editAction = (id) => {
-    const updatedAction = actionsBase.find((action) => action.actionId === id);
+    const updatedAction = actionsBase.find(
+      (action) => action.action_number === id
+    );
     updatedAction.isSubmitted = false;
     setSingleAction(updatedAction);
+  };
+
+  const loadData = async (id) => {
+    try {
+      const fightActions = (await getData(`/fight-infos/${id}`))
+        .fight_statistic;
+      setActionsBase((prevActions) => [...fightActions]);
+      return actionsBase;
+    } catch (err) {
+      console.log("Oops! something went wrong");
+    }
   };
 
   return (
@@ -48,7 +73,9 @@ const FormContextProvider = (props) => {
         singleAction,
         createNewAction,
         setSingleAction,
+        setActionsBase,
         editAction,
+        loadData,
       }}
     >
       {props.children}

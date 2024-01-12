@@ -1,15 +1,33 @@
-import React, { useContext } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import logo from "../assets/header-logo.svg";
 import level from "../assets/level.svg";
 import weight from "../assets/weight.svg";
 import { IoIosArrowForward } from "react-icons/io";
 import OpponentsInput from "./FormInputs/OpponentsInput";
 import { FormContext } from "../context/FormContext";
-import { getData } from "../services/api/requests";
-import { Link } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 
 export default function Header({ fightInfo }) {
-  const { actionsBase, singleAction } = useContext(FormContext);
+  const { actionsBase, singleAction, loadData, setActionsBase } =
+    useContext(FormContext);
+
+  const { fightId } = useParams();
+
+  const fetchData = async () => {
+    try {
+      const datas = await actionsBase;
+      setActionsBase(datas);
+      console.log("header fetchdata", datas);
+    } catch (err) {
+      console.log("salam men geldim err");
+    }
+  };
+
+  useEffect(() => {
+    loadData(fightId);
+    fetchData();
+    console.log("header id", fightId);
+  }, [fightId]);
 
   return (
     <header className="header w-full">
@@ -21,7 +39,9 @@ export default function Header({ fightInfo }) {
               <img src={logo} alt="header-logo" />
             </div>
             <div className="type-wrestling">
-              <p className="text-wGreen text-[1.5rem]">{fightInfo?.wrestling_type}</p>
+              <p className="text-wGreen text-[1.5rem]">
+                {fightInfo?.wrestling_type}
+              </p>
             </div>
             <div className="location-date text-wTextSec flex gap-[0.69rem] text-[1.125rem]">
               <p className="location">{fightInfo?.location}</p>
@@ -29,7 +49,8 @@ export default function Header({ fightInfo }) {
             </div>
             <div className="match-id border w-fit p-2 border-[#474A5B] rounded-sm">
               <p className="text-wTextSec">
-                Match ID: <span className="id text-wGreen">{fightInfo?.id}</span>{" "}
+                Match ID:{" "}
+                <span className="id text-wGreen">{fightInfo?.id}</span>{" "}
               </p>
             </div>
           </div>
@@ -56,15 +77,16 @@ export default function Header({ fightInfo }) {
               </div>
             </div>
             {/*  Wrestlers Input */}
-            {actionsBase?.map((action) => {
-              return action.actionId === singleAction.actionId ? (
-                <OpponentsInput activeAction={action} fighter={fightInfo?.fighter} opponent={fightInfo?.oponent}/>
-              ) : null;
-            })}
+            {console.log("fightinfo in header", fightInfo)}
+            <OpponentsInput
+              activeAction={singleAction}
+              fighter={fightInfo?.fighter}
+              opponent={fightInfo?.oponent}
+            />
           </div>
           <div className="header-right">
             <div className="righ-btn rounded-sm bg-[#ffffff] bg-opacity-[0.08] py-[0.62rem] px-[1.88rem]">
-              <Link to={'/view-matches'}>
+              <Link to={"/view-matches"}>
                 <button className="view-matches flex justify-between items-center gap-[1.88rem] text-wShadow">
                   View matches <IoIosArrowForward className="text-[20px]" />
                 </button>

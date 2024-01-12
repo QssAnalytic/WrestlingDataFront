@@ -1,34 +1,68 @@
 import React, { useContext, useState, useEffect } from "react";
 import Wrestler from "../Wrestler";
-import wrestlerImg from "../../assets/wrestler.png";
-import otherWrestler from "../../assets/otherwrestler.png";
 import change from "../../assets/change.svg";
 import { FormContext } from "../../context/FormContext";
-import { WrestlerContext } from "../../context/WrestlerContext";
 
-export default function OpponentsInput({activeAction, fighter, opponent}) {
+export default function OpponentsInput({ activeAction, fighter, opponent }) {
   const { singleAction, setSingleAction } = useContext(FormContext);
-  const {wrestler, handleWrestler, changeWrestler} = useContext(WrestlerContext);
 
-  useEffect(()=>{
+  const [wrestler, setWrestler] = useState({});
+
+  useEffect(() => {
+    if (fighter?.id && opponent?.id) {
+      setWrestler({
+        [fighter.id]: true,
+        [opponent.id]: false,
+      });
+    }
+
+  }, [fighter, opponent]);
+
+  useEffect(() => {
     setSingleAction({
-        ...singleAction,
-        fighter : Object.keys(wrestler).find((wrest)=> wrestler[wrest] === true),
-        opponent : Object.keys(wrestler).find((wrest)=> wrestler[wrest] === false),
-    })
+      ...singleAction,
+      fighter_id: Number(
+        Object.keys(wrestler).find((id) => (wrestler[id] === true ? id : null))
+      ),
+    });
+  }, [wrestler]);
 
-  },[wrestler])
+  console.log("input", wrestler );
 
+
+  const handleWrestler = (wrestlerId) => {
+    setWrestler((prevWrestlers) => ({
+      [Object.keys(prevWrestlers).find(
+        (wrestler) => wrestler !== wrestlerId
+      )]: false,
+      [wrestlerId]: true,
+    }));
+    console.log("activeWrestlers", wrestler);
+  };
+
+  const changeWrestler = () => {
+    setWrestler((prevWrestlers) => ({
+      [Object.keys(prevWrestlers)[0]]:
+        !prevWrestlers[Object.keys(prevWrestlers)[0]],
+      [Object.keys(prevWrestlers)[1]]:
+        !prevWrestlers[Object.keys(prevWrestlers)[1]],
+    }));
+  };
 
   return (
     <>
-      <div className={`wrestlers flex justify-between items-center gap-[5.62rem] ${activeAction.isSubmitted ? 'opacity-[50%] pointer-events-none' : null}`}>
+      <div
+        className={`wrestlers flex justify-between items-center gap-[5.62rem] ${
+          activeAction.isSubmitted ? "opacity-[50%] pointer-events-none" : null
+        }`}
+      >
         {/* Wrestler first */}
         <Wrestler
-          id={fighter?.name}
+          opponent={fighter}
           activeWrestler={wrestler}
           handleWrestler={handleWrestler}
-          wrestlerImg={wrestlerImg}
+          nationality={fighter?.natinality_name}
+          wrestlerColor={"bg-blue-700"}
         />
         {/* Button for changing player */}
         <div className="btn-container">
@@ -38,10 +72,11 @@ export default function OpponentsInput({activeAction, fighter, opponent}) {
         </div>
         {/* Wrestler second */}
         <Wrestler
-          id={opponent?.name}
+          opponent={opponent}
           activeWrestler={wrestler}
           handleWrestler={handleWrestler}
-          wrestlerImg={otherWrestler}
+          nationality={opponent?.natinality_name}
+          wrestlerColor={"bg-red-700"}
         />
       </div>
     </>

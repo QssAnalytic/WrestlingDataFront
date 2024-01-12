@@ -8,7 +8,8 @@ export default function Row(props) {
 
   const handleActionEdit = (target) => {
     editAction(target.id);
-    console.log('id', target.id)
+    // console.log('id', target.id)
+    console.log('action name', props.action)
   };
 
   return (

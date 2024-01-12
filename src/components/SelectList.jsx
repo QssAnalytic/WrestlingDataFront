@@ -1,4 +1,5 @@
 import React from "react";
+import { useParams } from "react-router-dom";
 
 export default function SelectList({
   openSelect,
@@ -8,12 +9,20 @@ export default function SelectList({
   clearErrors,
   data,
 }) {
+
+  const {fightId} = useParams();
+
   const handleOption = (value) => {
     setValue(id, value);
     clearErrors(id);
     setActiveAction((currAction) => ({
       ...currAction,
       [id]: value,
+      video_second_begin: "2024-01-10T08:53:43.354000",
+      video_second_end: "2024-01-10T08:53:43.354000",
+      video_link: "https://example.com/",
+      action_time: "string2",
+      fight_id : Number(fightId),
     }));
   };
 
@@ -25,13 +34,14 @@ export default function SelectList({
         }`}
       >
         <ul>
-          {data.map((item, index) => {
+          {data?.map((item, index) => {
             return (
               <li
                 className="select-item bg-[#2E4E8F] py-4 px-5"
-                onClick={(e) => handleOption(e.currentTarget.innerHTML)}
+                id={item?.id}
+                onClick={(e) => handleOption(Number(e.currentTarget.id))}
               >
-                {item}
+                {item.name}
               </li>
             );
           })}

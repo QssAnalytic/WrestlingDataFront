@@ -12,7 +12,7 @@ export default function ActionCounter({
   
   const handleActiveAction = (e) => {
     console.log("action id selected", e.currentTarget.id);
-    setActiveAction(...actionsBase.filter((action)=> action.actionId === e.currentTarget.id))
+    setActiveAction(...actionsBase.filter((action)=> action.action_number === e.currentTarget.id))
   };
 
   const handleNewAction = () => {
@@ -28,12 +28,12 @@ export default function ActionCounter({
           return (
             <div
               className="actions flex gap-[0.31rem] cursor-pointer"
-              id={action?.actionId}
+              id={action?.action_number}
               onClick={handleActiveAction}
             >
               <div
                 className={`action rounded flex justify-center items-center p-4 w-12 h-12 border border-[#474A5B] ${
-                  action?.actionId === activeAction?.actionId
+                  action?.action_number === activeAction?.action_number
                     ? "border-wGreen"
                     : ""
                 } `}

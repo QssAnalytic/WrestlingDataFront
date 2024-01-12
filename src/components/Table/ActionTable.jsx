@@ -1,10 +1,22 @@
-import React from "react";
+import React, { useEffect } from "react";
 import Row from "./Row";
 import { useContext } from "react";
 import { FormContext } from "../../context/FormContext";
+import { useParams } from "react-router-dom";
+import { getData } from "../../services/api/requests";
 
-export default function ActionTable({fightStatistic}) {
-  const { actionsBase } = useContext(FormContext);
+export default function ActionTable({ fightStatistic }) {
+  const { actionsBase, loadData } = useContext(FormContext);
+
+  const { fightId } = useParams();
+
+  const fetchData = async () => {
+    return await getData(`/fight-infos/${fightId}`);
+  };
+
+  useEffect(() => {
+    loadData(fightId);
+  }, [fightId]);
 
   return (
     <>
@@ -35,19 +47,21 @@ export default function ActionTable({fightStatistic}) {
               </tr>
             </thead>
             <tbody className="rounded-sm bg-[#121C34] text-wText font-[400]">
-              {actionsBase.map((action, index) => {
-                return (<Row 
-                  index={index + 1}
-                  id={action.actionId}
-                  fighter={action.fighter}
-                  opponent={action.opponent}
-                  time={action.time}
-                  action={action.action}
-                  techniques={action.techniques}
-                  score={action.score}
-                  succesful={action.Succesful}
-                  defenseReason={action['defense_reason']}
-                />);
+              {actionsBase?.map((action, index) => {
+                return (
+                  <Row
+                    index={index + 1}
+                    id={action.action_number}
+                    fighter={action.fighter?.id}
+                    opponent={action.opponent_id}
+                    time={action.action_time_second}
+                    action={action.action_name?.id}
+                    techniques={action.technique_id}
+                    score={action.score}
+                    succesful={action.successful}
+                    defenseReason={action["defense_reason"]}
+                  />
+                );
               })}
             </tbody>
           </table>

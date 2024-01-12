@@ -32,8 +32,8 @@ export default function Chekbox({
     setTranslateEl(`${parentRef.current.clientWidth / 2 - 10}px`);
   };
 
-  console.log("formstateee", formState);
-  console.log(checkboxName, watch(checkboxName));
+  // console.log("formstateee", formState);
+  // console.log(checkboxName, watch(checkboxName));
 
   return (
     <>

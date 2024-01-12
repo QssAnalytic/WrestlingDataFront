@@ -1,9 +1,13 @@
-import React from "react";
+import React, { useContext, useEffect } from "react";
 import { Link } from "react-router-dom";
+import { FormContext } from "../../context/FormContext";
 
 export default function MatchesTable({ fightInfos }) {
+  const { loadData, actionsBase } = useContext(FormContext);
+
   const handleFight = (target) => {
-    console.log(target.id);
+    loadData(target.id);
+    console.log("matches table", actionsBase);
   };
 
   return (
@@ -11,7 +15,6 @@ export default function MatchesTable({ fightInfos }) {
       <div className="all-matches-table">
         <table className="text-[#C7E0EE] font-normal">
           <thead className="p-[10px] text-sm border border-[#fefefe] border-opacity-[31%] bg-[#090D29]">
-            {/* <div > */}
             <tr className="flex">
               <th className="p-3 tracking-wide font-semibold text-center text-sm border border-[#fefefe] border-opacity-[31%]">
                 Match ID:
@@ -56,7 +59,6 @@ export default function MatchesTable({ fightInfos }) {
                 Win by
               </th>
             </tr>
-            {/* </div> */}
           </thead>
           <tbody>
             {fightInfos?.map((fight, index) => {
@@ -79,7 +81,7 @@ export default function MatchesTable({ fightInfos }) {
                       {fight.fighter.level}
                     </td>
                     <td className="p-2  w-full text-sm text-center border border-[#fefefe] border-opacity-[31%]">
-                      Ivan Yarugin
+                      {fight.tournament.name}
                     </td>
                     <td className="p-2  w-full text-sm text-center border border-[#fefefe] border-opacity-[31%]">
                       {fight.location}
