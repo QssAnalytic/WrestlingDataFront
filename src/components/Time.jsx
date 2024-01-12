@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from "react";
 
 export default function Time({
-  id,
   name,
   activeAction,
   setActiveAction,
@@ -31,7 +30,7 @@ export default function Time({
               type="text"
               name="minute"
               placeholder="00"
-              value={!activeAction.time ? minute : Math.floor(activeAction.time / 60)}
+              value={!activeAction.action_time_second ? minute : Math.floor(activeAction.action_time_second / 60)}
               onChange={(e) => {
                 setMinute(e.target.value);
               }}
@@ -44,12 +43,12 @@ export default function Time({
           </div>
           <p>:</p>
           <div className="second">
-            {console.log('time', activeAction.time)}
+            {console.log('time', activeAction.action_time_second)}
             <input
               type="text"
               name="second"
               placeholder="00"
-              value={!activeAction.time ? second : Math.floor(activeAction.time % 60)}
+              value={!activeAction.action_time_second ? second : Math.floor(activeAction.action_time_second % 60)}
               onChange={(e) => {
                 setSecond(e.target.value);
               }}

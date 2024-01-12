@@ -11,11 +11,10 @@ export default function OpponentsInput({ activeAction, fighter, opponent }) {
   useEffect(() => {
     if (fighter?.id && opponent?.id) {
       setWrestler({
-        [fighter.id]: true,
+        [fighter.id]: false,
         [opponent.id]: false,
       });
     }
-
   }, [fighter, opponent]);
 
   useEffect(() => {
@@ -25,10 +24,9 @@ export default function OpponentsInput({ activeAction, fighter, opponent }) {
         Object.keys(wrestler).find((id) => (wrestler[id] === true ? id : null))
       ),
     });
-  }, [wrestler]);
+  }, [wrestler, fighter, opponent]);
 
-  console.log("input", wrestler );
-
+  console.log("input", wrestler);
 
   const handleWrestler = (wrestlerId) => {
     setWrestler((prevWrestlers) => ({

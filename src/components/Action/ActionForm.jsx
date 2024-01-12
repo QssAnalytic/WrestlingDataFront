@@ -7,7 +7,6 @@ import { FormContext } from "../../context/FormContext";
 import { useForm } from "react-hook-form";
 import { Controller } from "react-hook-form";
 import { DevTool } from "@hookform/devtools";
-import { useParams } from "react-router-dom";
 import { getData, postData } from "../../services/api/requests";
 
 export default function ActionForm() {
@@ -94,7 +93,6 @@ export default function ActionForm() {
   };
 
   console.log("actionsBase", actionsBase);
-  // console.log("active action context in global", singleAction);
 
   return (
     <>
@@ -179,7 +177,7 @@ export default function ActionForm() {
                     <Time
                       id={"action_time_second"}
                       name={"action_time_second"}
-                      activeAction={singleAction}
+                      activeAction={action}
                       setActiveAction={setSingleAction}
                       errors={formState}
                     />
