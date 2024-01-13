@@ -23,6 +23,7 @@ const FormContextProvider = (props) => {
 
   const [singleAction, setSingleAction] = useState({});
   const [actionsBase, setActionsBase] = useState([singleAction]);
+  const [editable, setEditable] = useState(false)
 
   const createNewAction = () => {
     // const action_number = aId();
@@ -50,9 +51,11 @@ const FormContextProvider = (props) => {
     try {
       const response = await getData(`/statistics/${id}`)
       setSingleAction(response)
+      setEditable(true)
       console.log('editt', response);
     }catch(err){
       console.log('edit err', err)
+      setEditable(false);
     }
   };
 
@@ -80,6 +83,8 @@ const FormContextProvider = (props) => {
         setActionsBase,
         editAction,
         loadData,
+        editable,
+        setEditable
       }}
     >
       {props.children}

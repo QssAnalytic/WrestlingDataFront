@@ -6,8 +6,8 @@ export default function Time({
   setActiveAction,
   errors,
 }) {
-  const [minute, setMinute] = useState("");
-  const [second, setSecond] = useState("");
+  const [minute, setMinute] = useState(Math.floor(activeAction.action_time_second / 60) || "");
+  const [second, setSecond] = useState(Math.floor(activeAction.action_time_second % 60) || "");
 
   useEffect(() => {
     handleTime();
@@ -30,7 +30,8 @@ export default function Time({
               type="text"
               name="minute"
               placeholder="00"
-              value={!activeAction.action_time_second ? minute : Math.floor(activeAction.action_time_second / 60)}
+              // value={!activeAction.action_time_second ? minute : Math.floor(activeAction.action_time_second / 60)}
+              value={minute}
               onChange={(e) => {
                 setMinute(e.target.value);
               }}
@@ -48,7 +49,8 @@ export default function Time({
               type="text"
               name="second"
               placeholder="00"
-              value={!activeAction.action_time_second ? second : Math.floor(activeAction.action_time_second % 60)}
+              // value={!activeAction.action_time_second ? second : Math.floor(activeAction.action_time_second % 60)}
+              value={second}
               onChange={(e) => {
                 setSecond(e.target.value);
               }}

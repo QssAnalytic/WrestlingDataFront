@@ -7,12 +7,18 @@ import { FormContext } from "../../context/FormContext";
 import { useForm } from "react-hook-form";
 import { Controller } from "react-hook-form";
 import { DevTool } from "@hookform/devtools";
-import { getData, postData } from "../../services/api/requests";
+import { getData, postData, updateData } from "../../services/api/requests";
 import UnprocessableContent from "../Modals/UnprocessableContent";
 
 export default function ActionForm() {
-  const { addAction, actionsBase, singleAction, setSingleAction } =
-    useContext(FormContext);
+  const {
+    addAction,
+    actionsBase,
+    singleAction,
+    setSingleAction,
+    editable,
+    setEditable,
+  } = useContext(FormContext);
 
   const [actionNames, setActionNames] = useState([]);
   const [techniqueNames, setTechniqueNames] = useState([]);
@@ -89,11 +95,30 @@ export default function ActionForm() {
     }
   };
 
+  const putAction = async (action) => {
+    console.log("put action id", action.id);
+    try {
+      const response = await updateData(
+        `/statistics/${action.id}/`,
+        {
+          ...action,
+        },
+        {
+          headers: { "Content-Type": "application/json" },
+        }
+      );
+      console.log("put response", response);
+      addAction(response)
+      setEditable(false);
+    } catch (err) {
+      console.log("put error", err);
+    }
+  };
   const handleSubmitFn = (data, e) => {
     e.preventDefault();
-    const { action_number } = singleAction;
+    // const { action_number } = singleAction;
     // addAction(action_number);
-    postAction(singleAction);
+    !editable ? postAction(singleAction) : putAction(singleAction);
     console.log("posted data in submit fn", singleAction);
   };
 
