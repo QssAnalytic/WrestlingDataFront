@@ -1,10 +1,25 @@
-import React, { useContext } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import deleteIcon from "../../assets/delete.svg";
 import editIcon from "../../assets/edit.svg";
 import { FormContext } from "../../context/FormContext";
+import { useParams } from "react-router-dom";
+import { getData } from "../../services/api/requests";
 
 export default function Row(props) {
   const { editAction, deleteAction } = useContext(FormContext);
+  const [actionNames, setActionNames] = useState([]);
+  const [techniques, setTechniques] = useState([]);
+
+  const loadSelects = async()=>{
+    setActionNames(await getData('/actions/'));
+    setTechniques(await getData('/techniques/'))
+  }
+
+  useEffect(()=>{
+    loadSelects();
+  },[])
+
+  console.log('rows gt', actionNames, techniques)
 
   const handleActionEdit = (target) => {
     editAction(target.id);
@@ -28,9 +43,9 @@ export default function Row(props) {
           : "00:00"}
       </td>
       <td>{props.score}</td>
-      <td>{props.action}</td>
+      <td>{...actionNames.map((actionName)=> Number(props.action) === Number(actionName.id) ? actionName?.name : null)}</td>
       <td>{props.succesful ? "Yes" : "No"}</td>
-      <td>{props.techniques}</td>
+      <td>{...techniques.map((technique)=>Number(props.techniques) === technique.id ? technique.name : null)}</td>
       <td>{props.defenseReason ? "Yes" : "No"}</td>
       <td>E.Mammadov</td>
       <td>
