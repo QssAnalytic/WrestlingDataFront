@@ -2,14 +2,19 @@ import React, { useContext } from "react";
 import deleteIcon from "../../assets/delete.svg";
 import editIcon from "../../assets/edit.svg";
 import { FormContext } from "../../context/FormContext";
+import { useParams } from "react-router-dom";
 
 export default function Row(props) {
   const { editAction } = useContext(FormContext);
+  const { fightId } = useParams();
 
   const handleActionEdit = (target) => {
     editAction(target.id);
-    console.log('id', target.id)
+    // console.log('id', target.id)
+    console.log("action name", props.action);
   };
+
+  console.log("row time", props.id);
 
   return (
     <tr className="text-center mb-8">
@@ -17,7 +22,9 @@ export default function Row(props) {
       <td className="p-2">{props.fighter}</td>
       <td>{props.opponent}</td>
       <td>
-        {Math.floor(props.time / 60)} : {props.time % 60}
+        {props.time
+          ? `${Math.floor(props.time / 60)} : ${Math.floor(props.time % 60)}`
+          : "00:00"}
       </td>
       <td>{props.score}</td>
       <td>{props.action}</td>
@@ -29,7 +36,7 @@ export default function Row(props) {
         <button
           id={props.id}
           className="w-[1.5rem] h-[1.5rem] flex items-center rounded-3xl p-[5px] bg-[#2C354A]"
-          onClick={(e)=>handleActionEdit(e.currentTarget)}
+          onClick={(e) => handleActionEdit(e.currentTarget)}
         >
           <img src={editIcon} alt="edit" />
         </button>

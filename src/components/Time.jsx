@@ -1,8 +1,13 @@
 import React, { useEffect, useState } from "react";
 
-export default function Time({ id, name, activeAction, setActiveAction, errors }) {
-  const [minute, setMinute] = useState(null);
-  const [second, setSecond] = useState(null);
+export default function Time({
+  name,
+  activeAction,
+  setActiveAction,
+  errors,
+}) {
+  const [minute, setMinute] = useState("");
+  const [second, setSecond] = useState("");
 
   useEffect(() => {
     handleTime();
@@ -24,27 +29,34 @@ export default function Time({ id, name, activeAction, setActiveAction, errors }
             <input
               type="text"
               name="minute"
-              value={
-                minute === null ? Math.floor(activeAction.time / 60) : minute
-              }
+              placeholder="00"
+              value={!activeAction.action_time_second ? minute : Math.floor(activeAction.action_time_second / 60)}
               onChange={(e) => {
                 setMinute(e.target.value);
               }}
-              className={`w-[2.75rem] h-[1.875rem] rounded outline-none bg-[#D9D9D9] bg-opacity-10 text-white text-center ${errors.errors?.[name] ? `border border-red-600 transition-all` : `border-wMain`}`}
+              className={`w-[2.75rem] h-[1.875rem] rounded outline-none bg-[#D9D9D9] bg-opacity-10 text-white text-center ${
+                errors.errors?.[name]
+                  ? `border border-red-600 transition-all`
+                  : `border-wMain`
+              }`}
             />
           </div>
           <p>:</p>
           <div className="second">
+            {console.log('time', activeAction.action_time_second)}
             <input
               type="text"
               name="second"
-              value={
-                second === null ? Math.floor(activeAction.time % 60) : second
-              }
+              placeholder="00"
+              value={!activeAction.action_time_second ? second : Math.floor(activeAction.action_time_second % 60)}
               onChange={(e) => {
                 setSecond(e.target.value);
               }}
-              className={`w-[2.75rem] h-[1.875rem] rounded outline-none bg-[#D9D9D9] bg-opacity-10 text-white border text-center ${errors.errors?.[name] ? `border border-red-600 transition-all` : `border-wMain`}`}
+              className={`w-[2.75rem] h-[1.875rem] rounded outline-none bg-[#D9D9D9] bg-opacity-10 text-white border text-center ${
+                errors.errors?.[name]
+                  ? `border border-red-600 transition-all`
+                  : `border-wMain`
+              }`}
             />
           </div>
         </div>

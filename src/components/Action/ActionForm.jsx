@@ -7,36 +7,54 @@ import { FormContext } from "../../context/FormContext";
 import { useForm } from "react-hook-form";
 import { Controller } from "react-hook-form";
 import { DevTool } from "@hookform/devtools";
+import { getData, postData } from "../../services/api/requests";
+import UnprocessableContent from "../Modals/UnprocessableContent";
 
 export default function ActionForm() {
   const { addAction, actionsBase, singleAction, setSingleAction } =
     useContext(FormContext);
 
-  const { control, handleSubmit, setValue, formState, reset, clearErrors } =
-    useForm({
-      defaultValues: {
-        ...singleAction,
-      },
-    });
+  const [actionNames, setActionNames] = useState([]);
+  const [techniqueNames, setTechniqueNames] = useState([]);
+  const [openModal, setOpenModal] = useState(false);
 
-  const [err, setErr] = useState([]);
+  const {
+    control,
+    handleSubmit,
+    setValue,
+    formState,
+    reset,
+    clearErrors,
+    watch,
+  } = useForm({
+    defaultValues: {
+      ...singleAction,
+    },
+  });
+
+  const getAllDatas = async () => {
+    setActionNames(await getData("/actions/"));
+    setTechniqueNames(await getData("/techniques"));
+  };
+
+  useEffect(() => {
+    getAllDatas();
+  }, []);
 
   useEffect(() => {
     reset({
-      action: singleAction.action || null,
-      Succesful: singleAction.Succesful || null,
-      defense_reason : singleAction?.['defense_reason'] || null,
-      techniques: singleAction.techniques || null,
-      score: singleAction.score || null,
-      fighter: singleAction.fighter || null,
-      opponent: singleAction.opponent || null,
-      time: singleAction.time || null,
+      action_name_id: singleAction?.action_name_id || null,
+      successful: singleAction?.successful || null,
+      defense_reason: singleAction?.["defense_reason"] || null,
+      technique_id: singleAction?.technique_id || null,
+      score: singleAction?.score || null,
+      fighter_id: singleAction?.fighter_id || null,
+      opponent_id: singleAction?.opponent_id || null,
+      action_time_second: singleAction?.action_time_second || null,
+      fight_id: null,
     });
   }, [singleAction, reset]);
 
-  const [formData, setFormData] = useState({
-    matchId: 43214232,
-  });
   const [openSelect, setOpenSelect] = useState({
     action: false,
     techniques: false,
@@ -50,74 +68,89 @@ export default function ActionForm() {
     });
   };
 
-  const handleSubmitFn = async (data, e) => {
-    e.preventDefault();
-    const { actionId } = singleAction;
-
-    setFormData((prevData) => ({
-      ...prevData,
-      ...singleAction,
-    }));
-    addAction(actionId);
-
-    console.log("dataa", data);
+  const postAction = async (formData) => {
+    try {
+      console.log("before post data", singleAction);
+      const response = await postData(
+        "/statistics/",
+        {
+          ...formData,
+        },
+        {
+          headers: { "Content-Type": "application/json" },
+        }
+      );
+      addAction(response);
+      console.log("try in response", response);
+      // setSingleAction(response)
+    } catch (err) {
+      err.response.status === 422 ? setOpenModal(true) : null;
+      console.log("post err", err);
+    }
   };
 
-  console.log("errors", err);
-  console.log("formstate is valid", formState.isValid);
-  console.log("formstate", formState.errors);
-  console.log("context", actionsBase);
-  console.log("active action context", singleAction);
-  console.log("formdata", formData);
+  const handleSubmitFn = (data, e) => {
+    e.preventDefault();
+    const { action_number } = singleAction;
+    // addAction(action_number);
+    postAction(singleAction);
+    console.log("posted data in submit fn", singleAction);
+  };
+
+  console.log("actionsBase", actionsBase);
+
+  // ${
+  // action.isSubmitted ? "pointer-events-none opacity-[40%]" : null }`
 
   return (
     <>
+      {openModal ? <UnprocessableContent setOpenModal={setOpenModal} /> : null}
       {actionsBase?.map((action) => {
-        return action?.actionId === singleAction?.actionId ? (
+        return action?.action_number === singleAction?.action_number ? (
           <form
-            id={`${action?.actionId}`}
-            className={`w-full flex justify-between ${
-              action.isSubmitted ? "pointer-events-none opacity-[40%]" : null
-            }`}
+            id={`${action?.action_number}`}
+            className={`w-full flex justify-between`}
             onSubmit={handleSubmit(handleSubmitFn)}
             aria-disabled={true}
           >
             <div className="action-left basis-[50%] flex flex-col gap-5">
               <Controller
-                name="action"
+                name="action_name_id"
                 control={control}
-                defaultValue={singleAction.action}
+                defaultValue={singleAction.action_name_id}
                 rules={{ required: "This field is required" }}
                 render={({ field }) => (
                   <SelectBox
                     toggleSelect={toggleSelect}
                     openSelect={openSelect}
-                    id={"action"}
+                    id={"action_name_id"}
                     name={"action"}
                     activeAction={singleAction}
                     setActiveAction={setSingleAction}
                     setValue={setValue}
-                    errors={formState.errors?.action}
+                    errors={formState.errors?.action_name_id}
                     clearErrors={clearErrors}
+                    datas={actionNames}
                   />
                 )}
               />
               <Controller
-                name="techniques"
+                name="technique_id"
                 control={control}
-                defaultValue={singleAction.techniques}
+                defaultValue={singleAction.technique_id}
                 rules={{ required: "This field is required" }}
                 render={({ field }) => (
                   <SelectBox
                     toggleSelect={toggleSelect}
                     openSelect={openSelect}
-                    id={"techniques"}
+                    id={"technique_id"}
                     name={"techniques"}
                     activeAction={singleAction}
                     setActiveAction={setSingleAction}
                     setValue={setValue}
-                    errors={formState.errors?.techniques}
+                    errors={formState.errors?.technique_id}
                     clearErrors={clearErrors}
+                    datas={techniqueNames}
                   />
                 )}
               />
@@ -144,14 +177,14 @@ export default function ActionForm() {
                 />
                 <Controller
                   control={control}
-                  name="time"
+                  name="action_time_second"
                   rules={{ required: "It is required field" }}
-                  defaultValue={singleAction.time}
+                  defaultValue={singleAction.action_time_second}
                   render={({ field }) => (
                     <Time
-                      id={"time"}
-                      name={"time"}
-                      activeAction={singleAction}
+                      id={"action_time_second"}
+                      name={"action_time_second"}
+                      activeAction={action}
                       setActiveAction={setSingleAction}
                       errors={formState}
                     />
@@ -161,42 +194,24 @@ export default function ActionForm() {
             </div>
             <div className="action-right flex flex-col basis-[40%] gap-7 rounded">
               <div className="right-top pt-3 pb-11 px-14 bg-wMain flex flex-col xl:flex-row  w-full justify-around flex-wrap">
-                <Controller
-                  name={"Succesful"}
-                  defaultValue={singleAction.Succesful}
-                  control={control}
-                  rules={{ required: "This field is required" }}
-                  render={({ field }) => (
-                    <Chekbox
-                      name={"Succesful"}
-                      checkboxName={"Succesful"}
-                      setActiveAction={setSingleAction}
-                      activeAction={singleAction}
-                      errors={formState}
-                    />
-                  )}
+                <Chekbox
+                  name={"successful"}
+                  checkboxName={"successful"}
+                  setActiveAction={setSingleAction}
+                  activeAction={singleAction}
                 />
 
-                <Controller
-                  control={control}
-                  name={"defense_reason"}
-                  defaultValue={singleAction?.["defense_reason"]}
-                  rules={{ required: "This field is required" }}
-                  render={({ field }) => (
-                    <Chekbox
-                      name={"Defense Reason"}
-                      checkboxName={"defense_reason"}
-                      setActiveAction={setSingleAction}
-                      activeAction={singleAction}
-                      errors={formState}
-                    />
-                  )}
+                <Chekbox
+                  name={"Defense Reason"}
+                  checkboxName={"defense_reason"}
+                  setActiveAction={setSingleAction}
+                  activeAction={singleAction}
                 />
               </div>
               <div className="right-bottom self-end">
                 <button
                   type="submit"
-                  id={singleAction?.actionId}
+                  id={singleAction?.action_number}
                   className={`${
                     action.isSubmitted ? "hidden" : "block"
                   } btn-action w-[19rem] h-[3.125rem] bg-wBlue p-4 rounded text-[#C9D4EA]`}
