@@ -55,7 +55,7 @@ export default function ActionTable({ fightStatistic }) {
                     fighter={action.fighter?.id}
                     opponent={action.opponent_id}
                     time={action.action_time_second}
-                    action={action.action_name?.id}
+                    action={action.action_name_id}
                     techniques={action.technique_id}
                     score={action.score}
                     succesful={action.successful}

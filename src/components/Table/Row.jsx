@@ -9,7 +9,7 @@ export default function Row(props) {
   const { fightId } = useParams();
 
   const handleActionEdit = (target) => {
-    editAction(target.id, fightId);
+    editAction(target.id);
     // console.log('id', target.id)
     console.log("action name", props.action);
   };

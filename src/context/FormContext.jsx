@@ -12,7 +12,7 @@ const FormContextProvider = (props) => {
     opponent_id: undefined,
     defense_reason: null,
     action_name_id: null,
-    score: null,
+    score: undefined,
     technique_id: null,
     action_time_second: 0,
     video_second_begin: "2024-01-10T08:53:43.354000",
@@ -25,21 +25,20 @@ const FormContextProvider = (props) => {
   const [actionsBase, setActionsBase] = useState([singleAction]);
 
   const createNewAction = () => {
-    const action_number = aId();
-    setSingleAction({ action_number: action_number, ...defaultV });
+    // const action_number = aId();
+    setSingleAction({...defaultV });
     setActionsBase((prevActions) => [
       ...prevActions,
-      { action_number: action_number },
+      defaultV
     ]);
   };
 
-  const addAction = (id) => {
+  const addAction = (response) => {
     setActionsBase((prevActions) => [
       ...prevActions.map((action) =>
-        action.action_number === id
+        action.action_number === response.action_number
           ? {
-              ...singleAction,
-              isSubmitted: true,
+              ...response,
             }
           : action
       ),
@@ -47,9 +46,6 @@ const FormContextProvider = (props) => {
   };
 
   const editAction = async(id, fightId) => {
-    // const updatedAction = actionsBase.find(
-    //   (action) => action.id === id
-    // );
     console.log('edit parameters', [id, fightId])
     try {
       const response = await getData(`/statistics/${id}`)
@@ -58,8 +54,6 @@ const FormContextProvider = (props) => {
     }catch(err){
       console.log('edit err', err)
     }
-    // updatedAction.isSubmitted = false;
-    // setSingleAction(updatedAction);
   };
 
   const loadData = async (id) => {
@@ -72,6 +66,8 @@ const FormContextProvider = (props) => {
       console.log("Oops! something went wrong");
     }
   };
+
+  
 
   return (
     <FormContext.Provider

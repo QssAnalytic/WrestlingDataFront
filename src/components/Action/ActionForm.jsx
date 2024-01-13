@@ -80,11 +80,11 @@ export default function ActionForm() {
           headers: { "Content-Type": "application/json" },
         }
       );
+      addAction(response);
       console.log("try in response", response);
+      // setSingleAction(response)
     } catch (err) {
-      err.response.status === 422
-        ? setOpenModal(true)
-        : null;
+      err.response.status === 422 ? setOpenModal(true) : null;
       console.log("post err", err);
     }
   };
@@ -92,7 +92,7 @@ export default function ActionForm() {
   const handleSubmitFn = (data, e) => {
     e.preventDefault();
     const { action_number } = singleAction;
-    addAction(action_number);
+    // addAction(action_number);
     postAction(singleAction);
     console.log("posted data in submit fn", singleAction);
   };
@@ -100,7 +100,7 @@ export default function ActionForm() {
   console.log("actionsBase", actionsBase);
 
   // ${
-    // action.isSubmitted ? "pointer-events-none opacity-[40%]" : null }`
+  // action.isSubmitted ? "pointer-events-none opacity-[40%]" : null }`
 
   return (
     <>
@@ -109,9 +109,7 @@ export default function ActionForm() {
         return action?.action_number === singleAction?.action_number ? (
           <form
             id={`${action?.action_number}`}
-            className={`w-full flex justify-between`
-           
-            }
+            className={`w-full flex justify-between`}
             onSubmit={handleSubmit(handleSubmitFn)}
             aria-disabled={true}
           >
@@ -196,44 +194,18 @@ export default function ActionForm() {
             </div>
             <div className="action-right flex flex-col basis-[40%] gap-7 rounded">
               <div className="right-top pt-3 pb-11 px-14 bg-wMain flex flex-col xl:flex-row  w-full justify-around flex-wrap">
-                <Controller
+                <Chekbox
                   name={"successful"}
-                  defaultValue={singleAction.successful}
-                  control={control}
-                  rules={{ required: "This field is required" }}
-                  render={({ field }) => (
-                    <Chekbox
-                      name={"successful"}
-                      checkboxName={"successful"}
-                      setActiveAction={setSingleAction}
-                      activeAction={singleAction}
-                      errors={formState}
-                      formState={formState}
-                      field={field}
-                      setValue={setValue}
-                      watch={watch}
-                    />
-                  )}
+                  checkboxName={"successful"}
+                  setActiveAction={setSingleAction}
+                  activeAction={singleAction}
                 />
 
-                <Controller
-                  control={control}
-                  name={"defense_reason"}
-                  defaultValue={singleAction?.["defense_reason"]}
-                  rules={{ required: "This field is required" }}
-                  render={({ field }) => (
-                    <Chekbox
-                      name={"Defense Reason"}
-                      checkboxName={"defense_reason"}
-                      setActiveAction={setSingleAction}
-                      activeAction={singleAction}
-                      errors={formState}
-                      formState={formState}
-                      field={field}
-                      setValue={setValue}
-                      watch={watch}
-                    />
-                  )}
+                <Chekbox
+                  name={"Defense Reason"}
+                  checkboxName={"defense_reason"}
+                  setActiveAction={setSingleAction}
+                  activeAction={singleAction}
                 />
               </div>
               <div className="right-bottom self-end">
