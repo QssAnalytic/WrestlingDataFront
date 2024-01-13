@@ -90,7 +90,7 @@ export default function Header({ fightInfo }) {
             <OpponentsInput
               activeAction={singleAction}
               fighter={fightInfo?.fighter}
-              opponent={fightInfo?.oponent}
+              opponent={fightInfo?.oponent} 
             />
           </div>
           <div className="header-right">

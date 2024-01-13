@@ -4,18 +4,21 @@ import change from "../../assets/change.svg";
 import { FormContext } from "../../context/FormContext";
 
 export default function OpponentsInput({ activeAction, fighter, opponent }) {
-  const { singleAction, setSingleAction } = useContext(FormContext);
+  const { singleAction, setSingleAction, actionsBase } =
+    useContext(FormContext);
 
   const [wrestler, setWrestler] = useState({});
 
   useEffect(() => {
     if (fighter?.id && opponent?.id) {
       setWrestler({
-        [fighter.id]: false,
-        [opponent.id]: false,
+        [fighter.id]:
+          (activeAction?.fighter_id === fighter?.id ? true : false) || false,
+        [opponent.id]:
+          (activeAction?.fighter_id === opponent?.id ? true : false) || false,
       });
     }
-  }, [fighter, opponent]);
+  }, [fighter, opponent, activeAction.fighter, actionsBase]);
 
   useEffect(() => {
     setSingleAction({
