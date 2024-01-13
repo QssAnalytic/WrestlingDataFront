@@ -23,6 +23,7 @@ export default function OpponentsInput({ activeAction, fighter, opponent }) {
       fighter_id: Number(
         Object.keys(wrestler).find((id) => (wrestler[id] === true ? id : null))
       ),
+      // fighter_id : null,
     });
   }, [wrestler, fighter, opponent]);
 
@@ -46,13 +47,13 @@ export default function OpponentsInput({ activeAction, fighter, opponent }) {
         !prevWrestlers[Object.keys(prevWrestlers)[1]],
     }));
   };
+  // activeAction.isSubmitted ? "opacity-[50%] pointer-events-none" : null
 
   return (
     <>
       <div
-        className={`wrestlers flex justify-between items-center gap-[5.62rem] ${
-          activeAction.isSubmitted ? "opacity-[50%] pointer-events-none" : null
-        }`}
+        className={`wrestlers flex justify-between items-center gap-[5.62rem]
+        `}
       >
         {/* Wrestler first */}
         <Wrestler

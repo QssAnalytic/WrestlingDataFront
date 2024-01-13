@@ -64,7 +64,7 @@ export default function SelectBox({
                   item.id === activeAction?.[id] ? item.name : null
                 )
               : datas?.map((item) =>
-                  item.id === activeAction?.[id]?.name ? item.name : null
+                  item.id === activeAction?.[id] ? item.name : null
                 )}
           </p>
           <button

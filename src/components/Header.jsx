@@ -13,6 +13,8 @@ export default function Header({ fightInfo }) {
 
   const { fightId } = useParams();
 
+  const [author, setAuthor] = useState('');
+
   const fetchData = async () => {
     try {
       const datas = await actionsBase;
@@ -47,18 +49,25 @@ export default function Header({ fightInfo }) {
               <p className="location">{fightInfo?.location}</p>
               <p className="date">{fightInfo?.fight_date}</p>
             </div>
-            <div className="match-id border w-fit p-2 border-[#474A5B] rounded-sm">
-              <p className="text-wTextSec">
-                Match ID:{" "}
-                <span className="id text-wGreen">{fightInfo?.id}</span>{" "}
-              </p>
-            </div>
           </div>
           <div className="header-middle flex flex-col justify-center items-center gap-[1.69rem]">
             <div className="stage-name">
               <p className="text-wOrange text-[1.5rem]">
                 <span>{fightInfo?.stage}</span> - stage
               </p>
+            </div>
+            <div className="flex gap-[10px] items-center text-wTextSec">
+              <div className="match-id flex flex-col basis-[50%]">
+                <p>Match ID:</p>
+                <p className="border w-fit p-2 border-[#474A5B] rounded-sm pr-28" >
+                  {/* Match ID:{" "} */}
+                  <span className="id text-wGreen">{fightInfo?.id}</span>{" "}
+                </p>
+              </div>
+              <div className="author flex flex-col basis-[50%]">
+                <p>Author :</p>
+                <input className="bg-inherit text-wTextSec border border-[#474A5B] rounded-sm outline-none p-2" type="text" placeholder="Author" value={author} onChange={(e)=> setAuthor(e.target.value)} />
+              </div>
             </div>
             <div className="skill-weight flex gap-[1.88rem]">
               <div className="skill-level gap-[0.5rem] rounded flex bg-wSecGreen bg-opacity-[0.21] text-wShadow items-center px-[1.25rem] py-[0.5rem]">

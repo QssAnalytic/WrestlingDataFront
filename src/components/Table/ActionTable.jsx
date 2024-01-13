@@ -51,7 +51,7 @@ export default function ActionTable({ fightStatistic }) {
                 return (
                   <Row
                     index={index + 1}
-                    id={action.action_number}
+                    id={action.id}
                     fighter={action.fighter?.id}
                     opponent={action.opponent_id}
                     time={action.action_time_second}

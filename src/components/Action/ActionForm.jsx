@@ -8,6 +8,7 @@ import { useForm } from "react-hook-form";
 import { Controller } from "react-hook-form";
 import { DevTool } from "@hookform/devtools";
 import { getData, postData } from "../../services/api/requests";
+import UnprocessableContent from "../Modals/UnprocessableContent";
 
 export default function ActionForm() {
   const { addAction, actionsBase, singleAction, setSingleAction } =
@@ -15,6 +16,7 @@ export default function ActionForm() {
 
   const [actionNames, setActionNames] = useState([]);
   const [techniqueNames, setTechniqueNames] = useState([]);
+  const [openModal, setOpenModal] = useState(false);
 
   const {
     control,
@@ -41,14 +43,14 @@ export default function ActionForm() {
 
   useEffect(() => {
     reset({
-      action_name_id: singleAction.action_name_id || null,
-      successful: singleAction.successful || null,
+      action_name_id: singleAction?.action_name_id || null,
+      successful: singleAction?.successful || null,
       defense_reason: singleAction?.["defense_reason"] || null,
-      technique_id: singleAction.technique_id || null,
-      score: singleAction.score || null,
-      fighter_id: singleAction.fighter_id || null,
-      opponent_id: singleAction.opponent_id || null,
-      action_time_second: singleAction.action_time_second || null,
+      technique_id: singleAction?.technique_id || null,
+      score: singleAction?.score || null,
+      fighter_id: singleAction?.fighter_id || null,
+      opponent_id: singleAction?.opponent_id || null,
+      action_time_second: singleAction?.action_time_second || null,
       fight_id: null,
     });
   }, [singleAction, reset]);
@@ -78,9 +80,12 @@ export default function ActionForm() {
           headers: { "Content-Type": "application/json" },
         }
       );
-      console.log("try in response", response);     
+      console.log("try in response", response);
     } catch (err) {
-      console.log("Oops something went wrong");
+      err.response.status === 422
+        ? setOpenModal(true)
+        : null;
+      console.log("post err", err);
     }
   };
 
@@ -94,15 +99,19 @@ export default function ActionForm() {
 
   console.log("actionsBase", actionsBase);
 
+  // ${
+    // action.isSubmitted ? "pointer-events-none opacity-[40%]" : null }`
+
   return (
     <>
+      {openModal ? <UnprocessableContent setOpenModal={setOpenModal} /> : null}
       {actionsBase?.map((action) => {
         return action?.action_number === singleAction?.action_number ? (
           <form
             id={`${action?.action_number}`}
-            className={`w-full flex justify-between ${
-              action.isSubmitted ? "pointer-events-none opacity-[40%]" : null
-            }`}
+            className={`w-full flex justify-between`
+           
+            }
             onSubmit={handleSubmit(handleSubmitFn)}
             aria-disabled={true}
           >

@@ -46,12 +46,20 @@ const FormContextProvider = (props) => {
     ]);
   };
 
-  const editAction = (id) => {
-    const updatedAction = actionsBase.find(
-      (action) => action.action_number === id
-    );
-    updatedAction.isSubmitted = false;
-    setSingleAction(updatedAction);
+  const editAction = async(id, fightId) => {
+    // const updatedAction = actionsBase.find(
+    //   (action) => action.id === id
+    // );
+    console.log('edit parameters', [id, fightId])
+    try {
+      const response = await getData(`/statistics/${id}`)
+      setSingleAction(response)
+      console.log('editt', response);
+    }catch(err){
+      console.log('edit err', err)
+    }
+    // updatedAction.isSubmitted = false;
+    // setSingleAction(updatedAction);
   };
 
   const loadData = async (id) => {

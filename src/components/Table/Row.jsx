@@ -2,17 +2,19 @@ import React, { useContext } from "react";
 import deleteIcon from "../../assets/delete.svg";
 import editIcon from "../../assets/edit.svg";
 import { FormContext } from "../../context/FormContext";
+import { useParams } from "react-router-dom";
 
 export default function Row(props) {
   const { editAction } = useContext(FormContext);
+  const { fightId } = useParams();
 
   const handleActionEdit = (target) => {
-    editAction(target.id);
+    editAction(target.id, fightId);
     // console.log('id', target.id)
     console.log("action name", props.action);
   };
 
-  console.log("row time", props.time);
+  console.log("row time", props.id);
 
   return (
     <tr className="text-center mb-8">
