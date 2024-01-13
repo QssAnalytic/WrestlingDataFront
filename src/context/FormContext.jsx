@@ -27,9 +27,9 @@ const FormContextProvider = (props) => {
   const [deletedId, setDeletedId] = useState(0);
 
   const createNewAction = () => {
-    // const action_number = aId();
     setSingleAction({ ...defaultV });
     setActionsBase((prevActions) => [...prevActions, defaultV]);
+    setEditable(false)
   };
 
   const addAction = (response) => {
