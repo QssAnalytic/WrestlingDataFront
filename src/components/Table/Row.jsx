@@ -2,17 +2,18 @@ import React, { useContext } from "react";
 import deleteIcon from "../../assets/delete.svg";
 import editIcon from "../../assets/edit.svg";
 import { FormContext } from "../../context/FormContext";
-import { useParams } from "react-router-dom";
 
 export default function Row(props) {
-  const { editAction } = useContext(FormContext);
-  const { fightId } = useParams();
+  const { editAction, deleteAction } = useContext(FormContext);
 
   const handleActionEdit = (target) => {
     editAction(target.id);
-    // console.log('id', target.id)
     console.log("action name", props.action);
   };
+
+  const handleDeleteAction = (target)=>{
+    deleteAction(target.id);
+  }
 
   console.log("row time", props.id);
 
@@ -42,7 +43,7 @@ export default function Row(props) {
         </button>
       </td>
       <td>
-        <button className="w-[1.5rem] h-[1.5rem] flex items-center rounded-3xl p-[5px] bg-[#2C354A]">
+        <button id={props.id} onClick={(e)=>handleDeleteAction(e.currentTarget)} className="w-[1.5rem] h-[1.5rem] flex items-center rounded-3xl p-[5px] bg-[#2C354A]">
           <img src={deleteIcon} alt="delete" />
         </button>
       </td>

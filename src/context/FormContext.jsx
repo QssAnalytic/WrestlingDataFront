@@ -1,7 +1,7 @@
 import { createContext, useState } from "react";
 import { useForm } from "react-hook-form";
 import { v4 as aId } from "uuid";
-import { getData } from "../services/api/requests";
+import { deleteData, getData } from "../services/api/requests";
 
 export const FormContext = createContext();
 const FormContextProvider = (props) => {
@@ -23,14 +23,13 @@ const FormContextProvider = (props) => {
 
   const [singleAction, setSingleAction] = useState({});
   const [actionsBase, setActionsBase] = useState([singleAction]);
+  const [editable, setEditable] = useState(false);
+  const [deletedId, setDeletedId] = useState(0);
 
   const createNewAction = () => {
     // const action_number = aId();
-    setSingleAction({...defaultV });
-    setActionsBase((prevActions) => [
-      ...prevActions,
-      defaultV
-    ]);
+    setSingleAction({ ...defaultV });
+    setActionsBase((prevActions) => [...prevActions, defaultV]);
   };
 
   const addAction = (response) => {
@@ -45,14 +44,16 @@ const FormContextProvider = (props) => {
     ]);
   };
 
-  const editAction = async(id, fightId) => {
-    console.log('edit parameters', [id, fightId])
+  const editAction = async (id, fightId) => {
+    console.log("edit parameters", [id, fightId]);
     try {
-      const response = await getData(`/statistics/${id}`)
-      setSingleAction(response)
-      console.log('editt', response);
-    }catch(err){
-      console.log('edit err', err)
+      const response = await getData(`/statistics/${id}`);
+      setSingleAction(response);
+      setEditable(true);
+      console.log("editt", response);
+    } catch (err) {
+      console.log("edit err", err);
+      setEditable(false);
     }
   };
 
@@ -67,7 +68,16 @@ const FormContextProvider = (props) => {
     }
   };
 
-  
+  const deleteAction = async (id) => {
+    try {
+      // console.log("deleted action index", index);
+      const response = await deleteData(`/statistics/${id}/`);
+      setDeletedId(id)
+      console.log("deleted action", response);
+    } catch (err) {
+      console.log("such an action does not exist in db");
+    }
+  };
 
   return (
     <FormContext.Provider
@@ -80,6 +90,10 @@ const FormContextProvider = (props) => {
         setActionsBase,
         editAction,
         loadData,
+        editable,
+        setEditable,
+        deleteAction,
+        deletedId
       }}
     >
       {props.children}

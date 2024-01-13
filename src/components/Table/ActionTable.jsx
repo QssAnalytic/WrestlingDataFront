@@ -3,20 +3,15 @@ import Row from "./Row";
 import { useContext } from "react";
 import { FormContext } from "../../context/FormContext";
 import { useParams } from "react-router-dom";
-import { getData } from "../../services/api/requests";
 
 export default function ActionTable({ fightStatistic }) {
-  const { actionsBase, loadData } = useContext(FormContext);
+  const { actionsBase, loadData, deletedId } = useContext(FormContext);
 
   const { fightId } = useParams();
 
-  const fetchData = async () => {
-    return await getData(`/fight-infos/${fightId}`);
-  };
-
   useEffect(() => {
     loadData(fightId);
-  }, [fightId]);
+  }, [fightId, deletedId]);
 
   return (
     <>
