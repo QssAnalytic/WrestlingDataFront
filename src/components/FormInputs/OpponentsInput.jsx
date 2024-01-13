@@ -49,7 +49,6 @@ export default function OpponentsInput({ activeAction, fighter, opponent }) {
         !prevWrestlers[Object.keys(prevWrestlers)[1]],
     }));
   };
-  // activeAction.isSubmitted ? "opacity-[50%] pointer-events-none" : null
 
   return (
     <>
