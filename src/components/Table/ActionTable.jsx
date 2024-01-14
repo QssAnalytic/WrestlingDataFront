@@ -55,6 +55,7 @@ export default function ActionTable({ fightStatistic }) {
                     score={action.score}
                     succesful={action.successful}
                     defenseReason={action["defense_reason"]}
+                    author={action.author}
                   />
                 );
               })}
