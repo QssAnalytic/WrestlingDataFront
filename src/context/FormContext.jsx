@@ -1,5 +1,4 @@
 import { createContext, useState } from "react";
-import { useForm } from "react-hook-form";
 import { v4 as aId } from "uuid";
 import { deleteData, getData } from "../services/api/requests";
 
@@ -19,6 +18,7 @@ const FormContextProvider = (props) => {
     video_second_end: "2024-01-10T08:53:43.354000",
     video_link: "https://example.com/",
     action_time: "string2",
+    author : undefined,
   };
 
   const [singleAction, setSingleAction] = useState({});

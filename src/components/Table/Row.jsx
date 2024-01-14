@@ -9,10 +9,15 @@ export default function Row(props) {
   const { editAction, deleteAction } = useContext(FormContext);
   const [actionNames, setActionNames] = useState([]);
   const [techniques, setTechniques] = useState([]);
+  const [opponents, setOpponents] = useState([]);
+
+  const {fightId} = useParams();
 
   const loadSelects = async()=>{
     setActionNames(await getData('/actions/'));
     setTechniques(await getData('/techniques/'))
+    const {fighter, oponent} = await getData(`/fight-infos/${fightId}/`)
+    setOpponents([fighter, oponent])
   }
 
   useEffect(()=>{
@@ -30,13 +35,13 @@ export default function Row(props) {
     deleteAction(target.id);
   }
 
-  console.log("row time", props.id);
+  console.log("row time", opponents);
 
   return (
     <tr className="text-center mb-8">
       <td>{props.index}</td>
-      <td className="p-2">{props.fighter}</td>
-      <td>{props.opponent}</td>
+      <td className="p-2">{opponents.map((opponent)=> opponent.id === props.fighter ? opponent.name : null)}</td>
+      <td>{opponents.map((opponent)=> opponent.id !== props.fighter ? opponent.name : null)}</td>
       <td>
         {props.time
           ? `${Math.floor(props.time / 60)} : ${Math.floor(props.time % 60)}`
@@ -47,7 +52,7 @@ export default function Row(props) {
       <td>{props.succesful ? "Yes" : "No"}</td>
       <td>{...techniques.map((technique)=>Number(props.techniques) === technique.id ? technique.name : null)}</td>
       <td>{props.defenseReason ? "Yes" : "No"}</td>
-      <td>E.Mammadov</td>
+      <td>{props.author}</td>
       <td>
         <button
           id={props.id}

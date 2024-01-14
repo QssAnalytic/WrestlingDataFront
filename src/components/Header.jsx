@@ -8,7 +8,7 @@ import { FormContext } from "../context/FormContext";
 import { Link, useParams } from "react-router-dom";
 
 export default function Header({ fightInfo }) {
-  const { actionsBase, singleAction, loadData, setActionsBase } =
+  const { actionsBase, singleAction, loadData, setActionsBase, setSingleAction } =
     useContext(FormContext);
 
   const { fightId } = useParams();
@@ -66,7 +66,7 @@ export default function Header({ fightInfo }) {
               </div>
               <div className="author flex flex-col basis-[50%]">
                 <p>Author :</p>
-                <input className="bg-inherit text-wTextSec border border-[#474A5B] rounded-sm outline-none p-2" type="text" placeholder="Author" value={author} onChange={(e)=> setAuthor(e.target.value)} />
+                <input className="bg-inherit text-wTextSec border border-[#474A5B] rounded-sm outline-none p-2" value={singleAction?.author || ''} type="text" placeholder="Author" onChange={(e)=> setSingleAction((prev)=> ({...prev, author : e.target.value}))} />
               </div>
             </div>
             <div className="skill-weight flex gap-[1.88rem]">
