@@ -49,7 +49,7 @@ const FormContextProvider = (props) => {
   const editAction = async (id, fightId) => {
     console.log("edit parameters", [id, fightId]);
     try {
-      const response = await getData(`/statistics/${id}`);
+      const response = await getData(`/statistics/${id}/`);
       setSingleAction(response);
       setEditable(true);
       console.log("editt", response);
@@ -61,7 +61,7 @@ const FormContextProvider = (props) => {
 
   const loadData = async (id) => {
     try {
-      const fightActions = (await getData(`/fight-infos/${id}`))
+      const fightActions = (await getData(`/fight-infos/${id}/`))
         .fight_statistic;
       setActionsBase((prevActions) => [...fightActions]);
       return actionsBase;
