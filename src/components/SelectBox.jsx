@@ -29,12 +29,12 @@ export default function SelectBox({
       id: 2,
     },
     {
-      name: 3,
-      id: 3,
-    },
-    {
       name: 4,
       id: 4,
+    },
+    {
+      name: 5,
+      id: 5,
     },
   ];
   console.log('active action in selctbox', activeAction)

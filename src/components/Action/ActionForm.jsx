@@ -69,12 +69,13 @@ export default function ActionForm() {
 
   const toggleSelect = (e) => {
     setOpenSelect({
-      ...openSelect,
+      [Object.keys(openSelect)[0]]: false,
+      [Object.keys(openSelect)[1]]: false,
       [e.currentTarget?.id]: !openSelect[e.currentTarget?.id],
     });
   };
 
-  console.log("selectboxes", openSelect);
+  console.log("selectboxes", Object.keys(openSelect));
 
   const postAction = async (formData) => {
     try {
@@ -182,25 +183,14 @@ export default function ActionForm() {
                 )}
               />
               <div className="left-bottom flex justify-between">
-                <Controller
-                  name="score"
-                  control={control}
-                  defaultValue={singleAction.score}
-                  rules={{ required: "This field is required" }}
-                  render={({ field }) => (
-                    <SelectBox
-                      toggleSelect={toggleSelect}
-                      openSelect={openSelect}
-                      id={"score"}
-                      name={"score"}
-                      activeAction={singleAction}
-                      setActiveAction={setSingleAction}
-                      setValue={setValue}
-                      errors={formState.errors?.score}
-                      clearErrors={clearErrors}
-                      ok
-                    />
-                  )}
+                <SelectBox
+                  toggleSelect={toggleSelect}
+                  openSelect={openSelect}
+                  id={"score"}
+                  name={"score"}
+                  activeAction={singleAction}
+                  setActiveAction={setSingleAction}
+                  ok
                 />
                 <Controller
                   control={control}
