@@ -70,7 +70,7 @@ export default function SelectBox({
           <button
             type="button"
             className="down-select"
-            id="action"
+            id={id}
             onClick={toggleSelect}
           >
             <IoCaretDownOutline />
