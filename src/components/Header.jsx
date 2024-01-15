@@ -95,7 +95,7 @@ export default function Header({ fightInfo }) {
           </div>
           <div className="header-right">
             <div className="righ-btn rounded-sm bg-[#ffffff] bg-opacity-[0.08] py-[0.62rem] px-[1.88rem]">
-              <Link to={"/view-matches"}>
+              <Link to={"/"}>
                 <button className="view-matches flex justify-between items-center gap-[1.88rem] text-wShadow">
                   View matches <IoIosArrowForward className="text-[20px]" />
                 </button>

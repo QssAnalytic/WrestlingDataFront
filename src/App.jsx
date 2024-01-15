@@ -8,7 +8,7 @@ export default function App() {
     <>
       <Routes>
         <Route path="/:fightId" element={<ActionPage />} />
-        <Route path="/view-matches" element={<ViewMatches />} />
+        <Route path="/" element={<ViewMatches />} />
       </Routes>
     </>
   );
