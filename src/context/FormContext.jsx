@@ -23,7 +23,7 @@ const FormContextProvider = (props) => {
 
   const [singleAction, setSingleAction] = useState({
   });
-  const [actionsBase, setActionsBase] = useState([singleAction]);
+  const [actionsBase, setActionsBase] = useState([]);
   const [editable, setEditable] = useState(false);
   const [deletedId, setDeletedId] = useState(0);
 
