@@ -62,8 +62,8 @@ export default function ActionForm() {
   }, [singleAction, reset]);
 
   const [openSelect, setOpenSelect] = useState({
-    action: false,
-    techniques: false,
+    action_name_id: false,
+    technique_id: false,
     score: false,
   });
 
@@ -73,6 +73,8 @@ export default function ActionForm() {
       [e.currentTarget?.id]: !openSelect[e.currentTarget?.id],
     });
   };
+
+  console.log("selectboxes", openSelect);
 
   const postAction = async (formData) => {
     try {
@@ -108,7 +110,7 @@ export default function ActionForm() {
         }
       );
       console.log("put response", response);
-      addAction(response)
+      addAction(response);
       setEditable(false);
     } catch (err) {
       console.log("put error", err);
@@ -146,9 +148,9 @@ export default function ActionForm() {
                 rules={{ required: "This field is required" }}
                 render={({ field }) => (
                   <SelectBox
+                    id={"action_name_id"}
                     toggleSelect={toggleSelect}
                     openSelect={openSelect}
-                    id={"action_name_id"}
                     name={"action"}
                     activeAction={singleAction}
                     setActiveAction={setSingleAction}
