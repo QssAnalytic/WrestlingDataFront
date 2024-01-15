@@ -8,7 +8,7 @@ export default function ViewMatches() {
   const [fightInfos, setFightInfos] = useState([]);
 
   const getFightInfos = async () => {
-    setFightInfos((await getData("/fight-infos/")).slice(0,10));
+    setFightInfos(await getData("/fight-infos/"));
   };
 
   useEffect(() => {
@@ -19,7 +19,7 @@ export default function ViewMatches() {
 
   return (
     <>
-      <div className="view-header text-white h-auto">
+      <div className="view-header text-white h-auto px-9">
         <div className="container m-auto">
           <div className="view-header-inner">
             <div className="view-logo flex gap-3 justify-center">
@@ -29,7 +29,7 @@ export default function ViewMatches() {
             <div className="text-header text-wOrange text-2xl flex justify-center">
               All Match
             </div>
-            <div className="filter-matches flex justify-end mb-4">
+            <div className="filter-matches flex mb-4">
               <button className="filter text-[#26719B] py-3 px-5 flex items-center justify-center gap-2 border rounded border-[#26719B]">
                 Video view <PiVideoBold />
               </button>
@@ -38,6 +38,15 @@ export default function ViewMatches() {
           </div>
         </div>
       </div>
+      <footer className="footer">
+        <div className="container">
+          <div className="footer-inner">
+            <div className="footer-info flex justify-center text-white">
+              <p>By Akshin Guseinov and Eltun Mammadov</p>
+            </div>
+          </div>
+        </div>
+      </footer>
     </>
   );
 }

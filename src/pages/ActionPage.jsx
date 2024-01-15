@@ -28,7 +28,7 @@ export default function ActionPage() {
   return (
     <>
       <Header fightInfo={fightInfo} />
-      <main className="main">
+      <main className="main p-9">
         <div className="container m-auto">
           <div className="main-inner mb-7">
             <div className="action-form text-white flex flex-col gap-1">

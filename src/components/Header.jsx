@@ -32,7 +32,7 @@ export default function Header({ fightInfo }) {
   }, [fightId]);
 
   return (
-    <header className="header w-full">
+    <header className="header w-full p-9">
       <div className="container m-auto">
         <div className="header-inner flex justify-between gap-[1.75rem]">
           <div className="header-left flex flex-col gap-[0.31rem]">
