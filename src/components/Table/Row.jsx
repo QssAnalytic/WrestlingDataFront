@@ -37,11 +37,11 @@ export default function Row(props) {
 
   console.log("row time", opponents);
 
-  return (
+  return ( 
     <tr className="text-center mb-8">
       <td>{props.index}</td>
-      <td className="p-2">{opponents.map((opponent)=> opponent.id === props.fighter ? opponent.name : null)}</td>
-      <td>{opponents.map((opponent)=> opponent.id !== props.fighter ? opponent.name : null)}</td>
+      <td className="p-2">{...opponents.map((opponent)=> opponent.id === props.fighter ? opponent.name : null)}</td>
+      <td>{...opponents.map((opponent)=> opponent.id !== props.fighter ? opponent.name : null)}</td>
       <td>
         {props.time
           ? `${Math.floor(props.time / 60)} : ${Math.floor(props.time % 60)}`
