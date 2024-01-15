@@ -23,7 +23,7 @@ const FormContextProvider = (props) => {
 
   const [singleAction, setSingleAction] = useState({
   });
-  const [actionsBase, setActionsBase] = useState([]);
+  const [actionsBase, setActionsBase] = useState([singleAction]);
   const [editable, setEditable] = useState(false);
   const [deletedId, setDeletedId] = useState(0);
 
@@ -60,7 +60,7 @@ const FormContextProvider = (props) => {
 
   const loadData = async (id) => {
     try {
-      const fightActions = (await getData(`/fight-infos/${id}/`))
+      const fightActions = (await getData(`${id}/`))
         .fight_statistic;
       setActionsBase((prevActions) => [...fightActions]);
       return actionsBase;

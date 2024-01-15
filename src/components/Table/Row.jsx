@@ -16,7 +16,7 @@ export default function Row(props) {
   const loadSelects = async()=>{
     setActionNames(await getData('/actions/'));
     setTechniques(await getData('/techniques/'))
-    const {fighter, oponent} = await getData(`/fight-infos/${fightId}/`)
+    const {fighter, oponent} = await getData(`/fight-infos/${fightId}`)
     setOpponents([fighter, oponent])
   }
 
