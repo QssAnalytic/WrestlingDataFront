@@ -13,8 +13,8 @@ export default function SelectList({
   const {fightId} = useParams();
 
   const handleOption = (value) => {
-    setValue(id, value);
-    clearErrors(id);
+    console.log('salam',id, value)
+    
     setActiveAction((currAction) => ({
       ...currAction,
       [id]: value,
@@ -24,6 +24,10 @@ export default function SelectList({
       action_time: "string2",
       fight_id : Number(fightId),
     }));
+
+
+    setValue(id, value);
+    clearErrors(id);
   };
 
   return (

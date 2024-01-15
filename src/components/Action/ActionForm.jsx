@@ -69,8 +69,8 @@ export default function ActionForm() {
 
   const toggleSelect = (e) => {
     setOpenSelect({
-      [Object.keys(openSelect)[0]]: false,
-      [Object.keys(openSelect)[1]]: false,
+      [Object.keys(openSelect)[0]] : false,
+      [Object.keys(openSelect)[1]] : false,
       [e.currentTarget?.id]: !openSelect[e.currentTarget?.id],
     });
   };
@@ -183,15 +183,15 @@ export default function ActionForm() {
                 )}
               />
               <div className="left-bottom flex justify-between">
-                <SelectBox
-                  toggleSelect={toggleSelect}
-                  openSelect={openSelect}
-                  id={"score"}
-                  name={"score"}
-                  activeAction={singleAction}
-                  setActiveAction={setSingleAction}
-                  ok
-                />
+                    <SelectBox
+                      toggleSelect={toggleSelect}
+                      openSelect={openSelect}
+                      id={"score"}
+                      name={"score"}
+                      activeAction={singleAction}
+                      setActiveAction={setSingleAction}
+                      ok
+                    />
                 <Controller
                   control={control}
                   name="action_time_second"
