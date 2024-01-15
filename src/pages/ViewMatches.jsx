@@ -42,7 +42,7 @@ export default function ViewMatches() {
         <div className="container">
           <div className="footer-inner">
             <div className="footer-info flex justify-center text-white">
-              <p>By Akshin Guseinov and Eltun Mammadov</p>
+              <p>Developed by Akshin Guseinov, Eltun Mammadov, Tamerlan Aliyev, Elvin Guseinov</p>
             </div>
           </div>
         </div>
