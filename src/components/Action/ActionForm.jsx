@@ -40,7 +40,7 @@ export default function ActionForm() {
 
   const getAllDatas = async () => {
     setActionNames(await getData("/actions/"));
-    setTechniqueNames(await getData("/techniques"));
+    setTechniqueNames(await getData("/techniques/"));
   };
 
   useEffect(() => {
