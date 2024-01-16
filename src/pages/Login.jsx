@@ -40,7 +40,7 @@ export default function Login() {
                 />
               </div>
               <div className="go-to-match flex justify-center items-center w-full ">
-                <Link to={`/${1}`} className="w-full">
+                <Link to={`/${fightId}`} className="w-full">
                   <button
                     className="submit text-wTextSec w-full bg-[#3D66B5] rounded-md py-4"
                     type="button"
