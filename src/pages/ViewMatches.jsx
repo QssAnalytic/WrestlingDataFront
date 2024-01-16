@@ -3,6 +3,7 @@ import logo from "../assets/header-logo.svg";
 import { PiVideoBold } from "react-icons/pi";
 import MatchesTable from "../components/Table/MatchesTable";
 import { getData } from "../services/api/requests";
+import { Link } from "react-router-dom";
 
 export default function ViewMatches() {
   const [fightInfos, setFightInfos] = useState([]);
@@ -29,20 +30,28 @@ export default function ViewMatches() {
             <div className="text-header text-wOrange text-2xl flex justify-center">
               All Match
             </div>
-            <div className="filter-matches flex mb-4">
+            <div className="filter-matches flex gap-4 mb-4">
               <button className="filter text-[#26719B] py-3 px-5 flex items-center justify-center gap-2 border rounded border-[#26719B]">
                 Video view <PiVideoBold />
               </button>
+              <Link to={"/login"}>
+                <button className="filter text-[#26719B] py-3 px-5 flex items-center justify-center gap-2 border rounded border-[#26719B]">
+                  Login
+                </button>
+              </Link>
             </div>
             <MatchesTable fightInfos={fightInfos} />
           </div>
         </div>
       </div>
       <footer className="footer">
-        <div className="container">
+        <div className="container m-auto">
           <div className="footer-inner">
             <div className="footer-info flex justify-center text-white">
-              <p>Developed by Akshin Guseinov, Eltun Mammadov, Tamerlan Aliyev, Elvin Guseinov</p>
+              <p>
+                Developed by Akshin Guseinov, Eltun Mammadov, Tamerlan Aliyev,
+                Elvin Guseinov
+              </p>
             </div>
           </div>
         </div>

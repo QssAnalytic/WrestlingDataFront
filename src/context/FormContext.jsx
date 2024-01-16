@@ -19,14 +19,16 @@ const FormContextProvider = (props) => {
     video_link: "https://example.com/",
     action_time: "string2",
     author : undefined,
+    action_submitted : false,
   };
 
   const [singleAction, setSingleAction] = useState({});
-  const [actionsBase, setActionsBase] = useState([]);
+  const [actionsBase, setActionsBase] = useState([defaultV]);
   const [editable, setEditable] = useState(false);
   const [deletedId, setDeletedId] = useState(0);
 
   const createNewAction = () => {
+
     setSingleAction({ ...defaultV });
     setActionsBase((prevActions) => [...prevActions, defaultV]);
     setEditable(false)
