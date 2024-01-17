@@ -36,11 +36,11 @@ export default function ViewMatches() {
               </button>
               <Link to={"/login"}>
                 <button className="filter text-[#26719B] py-3 px-5 flex items-center justify-center gap-2 border rounded border-[#26719B]">
-                  Login
+                  Find Match by ID
                 </button>
               </Link>
             </div>
-            <MatchesTable fightInfos={fightInfos} />
+            <MatchesTable fightInfos={fightInfos.data} />
           </div>
         </div>
       </div>
