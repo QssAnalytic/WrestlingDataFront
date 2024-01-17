@@ -4,16 +4,18 @@ import { PiVideoBold } from "react-icons/pi";
 import MatchesTable from "../components/Table/MatchesTable";
 import { getData } from "../services/api/requests";
 import { Link } from "react-router-dom";
+import Pagination from "../components/Pagination";
 
 export default function ViewMatches() {
+  const LIMIT = 200;
   const [fightInfos, setFightInfos] = useState([]);
 
-  const getFightInfos = async () => {
-    setFightInfos(await getData("/fight-infos/"));
+  const getFightInfos = async (page) => {
+    setFightInfos(await getData(`/fight-infos/?page=${page}&limit=${LIMIT}`));
   };
 
   useEffect(() => {
-    getFightInfos();
+    getFightInfos(1);
   }, []);
 
   console.log("viewMatches", fightInfos);
@@ -41,6 +43,13 @@ export default function ViewMatches() {
               </Link>
             </div>
             <MatchesTable fightInfos={fightInfos.data} />
+            <Pagination
+              perPage={LIMIT}
+              total={fightInfos.count}
+              nextPage={fightInfos.next_page}
+              prevPage={fightInfos.previous_page}
+              onPageChange={getFightInfos}
+            />
           </div>
         </div>
       </div>
