@@ -22,6 +22,7 @@ const FormContextProvider = (props) => {
     action_submitted : false,
   };
 
+
   const [singleAction, setSingleAction] = useState({});
   const [actionsBase, setActionsBase] = useState([defaultV]);
   const [editable, setEditable] = useState(false);
@@ -38,8 +39,9 @@ const FormContextProvider = (props) => {
     setActionsBase((prevActions) => [
       ...prevActions.map((action) =>
         action.action_number === response.action_number
-          ? {
+          ? { 
               ...response,
+            
             }
           : action
       ),
