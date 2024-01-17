@@ -13,6 +13,8 @@ export default function SelectBox({
   errors,
   clearErrors,
   datas,
+  setResponse,
+  response,
   ok,
 }) {
   const scores = [
@@ -61,10 +63,10 @@ export default function SelectBox({
             {console.log('edittt', activeAction[id])}
             {ok
               ? scores.map((item) =>
-                  item.id === activeAction?.[id] ? item.name : null
+                  item.id === response?.[id] ? item.name : null
                 )
               : datas?.map((item) =>
-                  item.id === activeAction?.[id] ? item.name : null
+                  item.id === response?.[id] ? item.name : null
                 )}
           </p>
           <button
@@ -82,6 +84,7 @@ export default function SelectBox({
             setValue={setValue}
             clearErrors={clearErrors}
             data={ok ? scores : datas}
+            setResponse={setResponse}
           />
         </div>
       </div>

@@ -18,20 +18,34 @@ const FormContextProvider = (props) => {
     video_second_end: "2024-01-10T08:53:43.354000",
     video_link: "https://example.com/",
     action_time: "string2",
-    author : undefined,
-    action_submitted : false,
+    author: undefined,
+    action_submitted: false,
+  };
+
+  const defaultResponse = {
+    id: undefined,
+    action_number: undefined,
+    score: undefined,
+    fighter: undefined,
+    action_name: undefined,
+    technique: undefined,
+    opponent: undefined,
+    action_time_second: 0,
+    defense_reason: null,
+    successful: null,
+    author: undefined,
   };
 
   const [singleAction, setSingleAction] = useState({});
-  const [actionsBase, setActionsBase] = useState([defaultV]);
+  const [response, setResponse] = useState({});
+  const [actionsBase, setActionsBase] = useState([defaultResponse]);
   const [editable, setEditable] = useState(false);
   const [deletedId, setDeletedId] = useState(0);
 
   const createNewAction = () => {
-
     setSingleAction({ ...defaultV });
-    setActionsBase((prevActions) => [...prevActions, defaultV]);
-    setEditable(false)
+    setActionsBase((prevActions) => [...prevActions, defaultResponse]);
+    setEditable(false);
   };
 
   const addAction = (response) => {
@@ -74,7 +88,7 @@ const FormContextProvider = (props) => {
     try {
       // console.log("deleted action index", index);
       const response = await deleteData(`/statistics/${id}/`);
-      setDeletedId(id)
+      setDeletedId(id);
       console.log("deleted action", response);
     } catch (err) {
       console.log("such an action does not exist in db");
@@ -95,7 +109,9 @@ const FormContextProvider = (props) => {
         editable,
         setEditable,
         deleteAction,
-        deletedId
+        deletedId,
+        response,
+        setResponse,
       }}
     >
       {props.children}

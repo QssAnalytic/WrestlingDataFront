@@ -8,6 +8,7 @@ export default function SelectList({
   setValue,
   clearErrors,
   data,
+  setResponse
 }) {
 
   const {fightId} = useParams();
@@ -17,13 +18,18 @@ export default function SelectList({
     
     setActiveAction((currAction) => ({
       ...currAction,
-      [id]: value,
+      [`${id}_id`]: value,
       video_second_begin: "2024-01-10T08:53:43.354000",
       video_second_end: "2024-01-10T08:53:43.354000",
       video_link: "https://example.com/",
       action_time: "string2",
       fight_id : Number(fightId),
     }));
+
+    setResponse((currResponse)=>({
+      ...currResponse,
+      [id] : data.map((item)=> item.id === value ? item : null),
+    }))
 
 
     setValue(id, value);

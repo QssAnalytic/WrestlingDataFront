@@ -18,6 +18,8 @@ export default function ActionForm() {
     setSingleAction,
     editable,
     setEditable,
+    response,
+    setResponse,
   } = useContext(FormContext);
 
   const [actionNames, setActionNames] = useState([]);
@@ -62,15 +64,15 @@ export default function ActionForm() {
   }, [singleAction, reset]);
 
   const [openSelect, setOpenSelect] = useState({
-    action_name_id: false,
-    technique_id: false,
+    action_name: false,
+    technique: false,
     score: false,
   });
 
   const toggleSelect = (e) => {
     setOpenSelect({
-      [Object.keys(openSelect)[0]] : false,
-      [Object.keys(openSelect)[1]] : false,
+      [Object.keys(openSelect)[0]]: false,
+      [Object.keys(openSelect)[1]]: false,
       [e.currentTarget?.id]: !openSelect[e.currentTarget?.id],
     });
   };
@@ -80,7 +82,7 @@ export default function ActionForm() {
   const postAction = async (formData) => {
     try {
       console.log("before post data", singleAction);
-      const response = await postData(
+      const res = await postData(
         "/statistics/",
         {
           ...formData,
@@ -89,8 +91,8 @@ export default function ActionForm() {
           headers: { "Content-Type": "application/json" },
         }
       );
-      addAction(response);
-      console.log("try in response", response);
+      addAction(res);
+      console.log("try in response", res);
       // setSingleAction(response)
     } catch (err) {
       err.response.status === 422 ? setOpenModal(true) : null;
@@ -101,7 +103,7 @@ export default function ActionForm() {
   const putAction = async (action) => {
     console.log("put action id", action.id);
     try {
-      const response = await updateData(
+      const res = await updateData(
         `/statistics/${action.id}/`,
         {
           ...action,
@@ -110,8 +112,8 @@ export default function ActionForm() {
           headers: { "Content-Type": "application/json" },
         }
       );
-      console.log("put response", response);
-      addAction(response);
+      console.log("put response", res);
+      addAction(res);
       setEditable(false);
     } catch (err) {
       console.log("put error", err);
@@ -149,7 +151,7 @@ export default function ActionForm() {
                 rules={{ required: "This field is required" }}
                 render={({ field }) => (
                   <SelectBox
-                    id={"action_name_id"}
+                    id={"action_name"}
                     toggleSelect={toggleSelect}
                     openSelect={openSelect}
                     name={"action"}
@@ -159,11 +161,13 @@ export default function ActionForm() {
                     errors={formState.errors?.action_name_id}
                     clearErrors={clearErrors}
                     datas={actionNames}
+                    setResponse={setResponse}
+                    response={response}
                   />
                 )}
               />
               <Controller
-                name="technique_id"
+                name="technique"
                 control={control}
                 defaultValue={singleAction.technique_id}
                 rules={{ required: "This field is required" }}
@@ -171,7 +175,7 @@ export default function ActionForm() {
                   <SelectBox
                     toggleSelect={toggleSelect}
                     openSelect={openSelect}
-                    id={"technique_id"}
+                    id={"technique"}
                     name={"techniques"}
                     activeAction={singleAction}
                     setActiveAction={setSingleAction}
@@ -179,19 +183,23 @@ export default function ActionForm() {
                     errors={formState.errors?.technique_id}
                     clearErrors={clearErrors}
                     datas={techniqueNames}
+                    setResponse={setResponse}
+                    response={response}
                   />
                 )}
               />
               <div className="left-bottom flex justify-between">
-                    <SelectBox
-                      toggleSelect={toggleSelect}
-                      openSelect={openSelect}
-                      id={"score"}
-                      name={"score"}
-                      activeAction={singleAction}
-                      setActiveAction={setSingleAction}
-                      ok
-                    />
+                <SelectBox
+                  toggleSelect={toggleSelect}
+                  openSelect={openSelect}
+                  id={"score"}
+                  name={"score"}
+                  activeAction={singleAction}
+                  setActiveAction={setSingleAction}
+                  setResponse={setResponse}
+                  response={response}
+                  ok
+                />
                 <Controller
                   control={control}
                   name="action_time_second"
@@ -204,6 +212,8 @@ export default function ActionForm() {
                       activeAction={action}
                       setActiveAction={setSingleAction}
                       errors={formState}
+                      setResponse={setResponse}
+                      response={response}
                     />
                   )}
                 />
@@ -216,6 +226,8 @@ export default function ActionForm() {
                   checkboxName={"successful"}
                   setActiveAction={setSingleAction}
                   activeAction={singleAction}
+                  setResponse={setResponse}
+                  response={response}
                 />
 
                 <Chekbox
@@ -223,6 +235,8 @@ export default function ActionForm() {
                   checkboxName={"defense_reason"}
                   setActiveAction={setSingleAction}
                   activeAction={singleAction}
+                  setResponse={setResponse}
+                  response={response}
                 />
               </div>
               <div className="right-bottom self-end">
