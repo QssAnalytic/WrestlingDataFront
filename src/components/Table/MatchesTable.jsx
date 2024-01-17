@@ -12,7 +12,7 @@ export default function MatchesTable({ fightInfos }) {
 
   return (
     <>
-      <div className="all-matches-table">
+      <div className="all-matches-table mb-5">
         <table className="text-[#C7E0EE] font-normal w-full">
           <thead className="p-[10px] text-sm border border-[#fefefe] border-opacity-[31%] bg-[#090D29]">
             <tr className="">
