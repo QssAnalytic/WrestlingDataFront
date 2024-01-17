@@ -26,6 +26,9 @@ export default function OpponentsInput({ activeAction, fighter, opponent }) {
       fighter_id: Number(
         Object.keys(wrestler).find((id) => (wrestler[id] === true ? id : null))
       ),
+      opponent_id: Number(
+        Object.keys(wrestler).find((id) => (wrestler[id] !== true ? id : null))
+      ),
     });
   }, [wrestler, fighter, opponent]);
 

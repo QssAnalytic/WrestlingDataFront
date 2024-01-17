@@ -12,7 +12,7 @@ export default function Login() {
   };
 
   return (
-    <div className="login">
+    <div className="login h-[100vh]">
       <div className="container m-auto px-9">
         <div className="login-inner h-[450px] flex flex-col justify-between">
           <div className="login-header flex justify-end">

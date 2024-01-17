@@ -1,5 +1,9 @@
 import React, { useState } from "react";
-
+import { IoIosArrowBack, IoIosArrowForward } from "react-icons/io";
+import {
+  MdKeyboardDoubleArrowLeft,
+  MdKeyboardDoubleArrowRight,
+} from "react-icons/md";
 function Pagination({ total, perPage, onPageChange, nextPage, prevPage }) {
   const pageToShow = 5;
   const [currentPage, setCurrentPage] = useState(1);
@@ -9,7 +13,7 @@ function Pagination({ total, perPage, onPageChange, nextPage, prevPage }) {
   const isLastPage = currentPage === total;
   const startPage = Math.max(1, currentPage - Math.floor(pageToShow / 2));
 
-  for (let i = startPage; i < total && i < startPage + pageToShow; i++) {
+  for (let i = startPage; i <= total; i++) {
     const isCurrent = i === currentPage;
     const isWithinRange =
       i <= pageToShow ||
@@ -17,9 +21,8 @@ function Pagination({ total, perPage, onPageChange, nextPage, prevPage }) {
       (i >= currentPage - Math.floor(pageToShow / 2) &&
         i < currentPage + Math.floor(pageToShow / 2));
 
-    if (i > startPage) {
+    if (isWithinRange) {
       pages.push(i);
-      console.log("range", pages);
     } else if (typeof pages[pages.length - 1] !== "string") {
       pages.push("...");
     }
@@ -46,35 +49,61 @@ function Pagination({ total, perPage, onPageChange, nextPage, prevPage }) {
     return;
   }
 
+  const passToStart = () => {
+    setCurrentPage(1);
+    onPageChange(1);
+  };
+
+  const passToEnd = () => {
+    setCurrentPage(total);
+    onPageChange(total);
+  };
   return (
     <nav aria-label="Page navigation example">
-      <ul className="pagination flex gap-2">
-        <li className={`page-item ${isFirstPage ? "disabled" : null}`}>
+      <ul className="pagination flex gap-2 justify-center items-center">
+        <li className={`page-item ${isFirstPage ? "hidden" : null}`}>
+          <a className="page-link" href="#" onClick={passToStart}>
+            <MdKeyboardDoubleArrowLeft />
+          </a>
+        </li>
+        <li className={`page-item ${isFirstPage ? "hidden" : null}`}>
           <a className="page-link" href="#" onClick={handlePrevClick}>
-            Previous
+            <IoIosArrowBack />
           </a>
         </li>
         {pages.map((value, index) => {
           return (
             <li
               key={index}
-              className={`page-item ${currentPage === value ? "active" : null}`}
+              className={`page-item ${
+                value === "..." ? "border-none" : null
+              } cursor-pointer border border-wSecBlue px-3 py-1 rounded-lg ${
+                currentPage === value ? "border-green-400" : null
+              }`}
+              onClick={() => {
+                handlePage(value);
+              }}
             >
-              <a
-                className="page-link"
-                href="#"
-                onClick={() => {
-                  handlePage(value);
-                }}
-              >
+              <a className="page-link" href="#">
                 {value}
               </a>
             </li>
           );
         })}
-        <li className={`page-item`}>
-          <a className="page-link" href="#" onClick={handleNextClick}>
-            Next
+        <li
+          className={`page-item ${isLastPage ? "hidden" : null}`}
+          onClick={handleNextClick}
+        >
+          <a className="page-link" href="#">
+            <IoIosArrowForward />
+          </a>
+        </li>
+        <li
+          className={`page-item ${isLastPage ? "hidden" : null}`}
+          onClick={passToEnd}
+        >
+          <a className="page-link" href="#">
+            <MdKeyboardDoubleArrowRight />
           </a>
         </li>
       </ul>
