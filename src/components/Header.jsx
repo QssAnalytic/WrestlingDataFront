@@ -6,14 +6,20 @@ import { IoIosArrowForward } from "react-icons/io";
 import OpponentsInput from "./FormInputs/OpponentsInput";
 import { FormContext } from "../context/FormContext";
 import { Link, useParams } from "react-router-dom";
+import { updateData } from "../services/api/requests";
 
 export default function Header({ fightInfo }) {
-  const { actionsBase, singleAction, loadData, setActionsBase, setSingleAction } =
-    useContext(FormContext);
+  const {
+    actionsBase,
+    singleAction,
+    loadData,
+    setActionsBase,
+    setSingleAction,
+  } = useContext(FormContext);
 
   const { fightId } = useParams();
 
-  const [author, setAuthor] = useState('');
+  const [author, setAuthor] = useState("");
 
   const fetchData = async () => {
     try {
@@ -25,11 +31,24 @@ export default function Header({ fightInfo }) {
     }
   };
 
+  const handleFinishMatch = async () => {
+    try{
+      const response = await updateData(`fight-infos/status/${fightId}`);
+      console.log('finish match res', response)
+    }catch(err){
+      console.log('finish match err', err)
+    }
+  };
+
+
   useEffect(() => {
     loadData(fightId);
     fetchData();
     console.log("header id", fightId);
   }, [fightId]);
+
+  console.log('fightInfo in header', fightInfo)
+
 
   return (
     <header className="header w-full p-9">
@@ -59,14 +78,25 @@ export default function Header({ fightInfo }) {
             <div className="flex gap-[10px] items-center text-wTextSec">
               <div className="match-id flex flex-col basis-[50%]">
                 <p>Match ID:</p>
-                <p className="border w-fit p-2 border-[#474A5B] rounded-sm pr-28" >
+                <p className="border w-fit p-2 border-[#474A5B] rounded-sm pr-28">
                   {/* Match ID:{" "} */}
                   <span className="id text-wGreen">{fightInfo?.id}</span>{" "}
                 </p>
               </div>
               <div className="author flex flex-col basis-[50%]">
                 <p>Author :</p>
-                <input className="bg-inherit text-wTextSec border border-[#474A5B] rounded-sm outline-none p-2" value={singleAction?.author || ''} type="text" placeholder="Author" onChange={(e)=> setSingleAction((prev)=> ({...prev, author : e.target.value}))} />
+                <input
+                  className="bg-inherit text-wTextSec border border-[#474A5B] rounded-sm outline-none p-2"
+                  value={singleAction?.author || ""}
+                  type="text"
+                  placeholder="Author"
+                  onChange={(e) =>
+                    setSingleAction((prev) => ({
+                      ...prev,
+                      author: e.target.value,
+                    }))
+                  }
+                />
               </div>
             </div>
             <div className="skill-weight flex gap-[1.88rem]">
@@ -90,16 +120,24 @@ export default function Header({ fightInfo }) {
             <OpponentsInput
               activeAction={singleAction}
               fighter={fightInfo?.fighter}
-              opponent={fightInfo?.oponent} 
+              opponent={fightInfo?.oponent}
             />
           </div>
-          <div className="header-right">
+          <div className="header-right flex flex-col gap-6">
             <div className="righ-btn rounded-sm bg-[#ffffff] bg-opacity-[0.08] py-[0.62rem] px-[1.88rem]">
               <Link to={"/"}>
                 <button className="view-matches flex justify-between items-center gap-[1.88rem] text-wShadow">
                   View matches <IoIosArrowForward className="text-[20px]" />
                 </button>
               </Link>
+            </div>
+            <div className="final-submit-btn rounded-sm bg-[#ffffff] transition-all hover:bg-white text-center bg-opacity-[0.4] py-[0.62rem] px-[1.88rem] ">
+              <button
+                className="match-submit gap-[1.88rem] text-wSecMain text-center"
+                onClick={handleFinishMatch}
+              >
+                Finish Match
+              </button>
             </div>
           </div>
         </div>
