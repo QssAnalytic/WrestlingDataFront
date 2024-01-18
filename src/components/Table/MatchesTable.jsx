@@ -1,6 +1,8 @@
 import React, { useContext, useEffect } from "react";
 import { Link } from "react-router-dom";
 import { FormContext } from "../../context/FormContext";
+import Checked from "../../assets/checked.svg";
+import Unchecked from "../../assets/Unchecked.svg";
 
 export default function MatchesTable({ fightInfos }) {
   const { loadData, actionsBase } = useContext(FormContext);
@@ -19,9 +21,9 @@ export default function MatchesTable({ fightInfos }) {
               <th className="p-3 tracking-wide font-semibold text-center text-sm border border-[#fefefe] border-opacity-[31%]">
                 Match ID:
               </th>
-              <th className="p-3 tracking-wide font-semibold text-center text-sm border border-[#fefefe] border-opacity-[31%]">
+              {/* <th className="p-3 tracking-wide font-semibold text-center text-sm border border-[#fefefe] border-opacity-[31%]">
                 Wrestling type:
-              </th>
+              </th> */}
               <th className="p-3 tracking-wide font-semibold text-center text-sm border border-[#fefefe] border-opacity-[31%]">
                 Level:
               </th>
@@ -40,24 +42,30 @@ export default function MatchesTable({ fightInfos }) {
               <th className="p-3 tracking-wide font-semibold text-center text-sm border border-[#fefefe] border-opacity-[31%]">
                 Stage:
               </th>
-              <th className="p-3 tracking-wide font-semibold text-center text-sm border border-[#fefefe] border-opacity-[31%]">
+              {/* <th className="p-3 tracking-wide font-semibold text-center text-sm border border-[#fefefe] border-opacity-[31%]">
                 Nation (Op.1):
-              </th>
+              </th> */}
               <th className="p-3 tracking-wide font-semibold text-center text-sm border border-[#fefefe] border-opacity-[31%]">
                 Opponent 1:
               </th>
               <th className="p-3 tracking-wide font-semibold text-center text-sm border border-[#fefefe] border-opacity-[31%]">
                 Opponent 2:
               </th>
-              <th className="p-3 tracking-wide font-semibold text-center text-sm border border-[#fefefe] border-opacity-[31%]">
+              {/* <th className="p-3 tracking-wide font-semibold text-center text-sm border border-[#fefefe] border-opacity-[31%]">
                 Nation (Op.2):
-              </th>
+              </th> */}
               <th className="p-3 tracking-wide font-semibold text-center text-sm border border-[#fefefe] border-opacity-[31%]">
                 Points:
               </th>
               <th className="p-3 tracking-wide font-semibold text-center text-sm border border-[#fefefe] border-opacity-[31%]">
-                Win by
+                Status
               </th>
+              <th className="p-3 tracking-wide font-semibold text-center text-sm border border-[#fefefe] border-opacity-[31%]">
+                Check
+              </th>
+              {/* <th className="p-3 tracking-wide font-semibold text-center text-sm border border-[#fefefe] border-opacity-[31%]">
+                Win by
+              </th> */}
               <th className="p-3 tracking-wide font-semibold text-center text-sm border border-[#fefefe] border-opacity-[31%]">
                 Enter Match
               </th>
@@ -75,10 +83,9 @@ export default function MatchesTable({ fightInfos }) {
                   <td className="p-3  text-sm text-center border border-[#fefefe] border-opacity-[31%]">
                     {fight.id}
                   </td>
-
-                  <td className="p-3  text-sm text-center border border-[#fefefe] border-opacity-[31%]">
+                  {/* <td className="p-3  text-sm text-center border border-[#fefefe] border-opacity-[31%]">
                     {fight.wrestling_type}
-                  </td>
+                  </td> */}
                   <td className="p-3 text-sm text-center border border-[#fefefe] border-opacity-[31%]">
                     {fight.fighter.level}
                   </td>
@@ -97,24 +104,34 @@ export default function MatchesTable({ fightInfos }) {
                   <td className="p-3 text-sm text-center border border-[#fefefe] border-opacity-[31%]">
                     {fight.stage}
                   </td>
-                  <td className="p-3 text-sm text-center border border-[#fefefe] border-opacity-[31%]">
+                  {/* <td className="p-3 text-sm text-center border border-[#fefefe] border-opacity-[31%]">
                     {fight.fighter.natinality_name}
-                  </td>
+                  </td> */}
                   <td className="p-3 text-sm text-center border border-[#fefefe] border-opacity-[31%]">
                     {fight.fighter.name}
                   </td>
                   <td className="p-3 text-sm text-center border border-[#fefefe] border-opacity-[31%]">
                     {fight.oponent.name}
                   </td>
-                  <td className="p-3 text-sm text-center border border-[#fefefe] border-opacity-[31%]">
+                  {/* <td className="p-3 text-sm text-center border border-[#fefefe] border-opacity-[31%]">
                     {fight.oponent.natinality_name}
-                  </td>
+                  </td> */}
                   <td className="p-3  text-sm text-center border border-[#fefefe] border-opacity-[31%]">
                     {fight.oponent1_point}:{fight.oponent2_point}
                   </td>
-                  <td className="p-3 text-sm text-center border border-[#fefefe] border-opacity-[31%]">
-                    {fight.decision}
+                  <td className="p-3  text-sm text-center border border-[#fefefe] border-opacity-[31%]">
+                    {fight.status}
                   </td>
+                  <td className="p-3  text-sm text-center border border-[#fefefe] border-opacity-[31%]">
+                    {fight.is_submitted ? (
+                      <img src={Checked} />
+                    ) : (
+                      <img className="pl-[10px]" src={Unchecked} />
+                    )}
+                  </td>
+                  {/* <td className="p-3 text-sm text-center border border-[#fefefe] border-opacity-[31%]">
+                    {fight.decision}
+                  </td> */}
                   <td className="p-3 text-sm w-full text-center border cursor-pointer border-[#fefefe] border-opacity-[31%]">
                     <Link to={`/${fight.id}`} className="border-none">
                       <button
