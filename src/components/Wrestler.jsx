@@ -19,7 +19,7 @@ export default function Wrestler({
             ? " border-wGreen"
             : "border-[#000] border-opacity-[60%] opacity-[50%]"
         }`}
-      >
+      > 
         <p className="nationality-name text-white text-xl w-32 h-12 flex items-center justify-center">{nationality}</p>
       </div>
       <div className="wrestler-name-nationality flex gap-2 ">

@@ -16,6 +16,7 @@ export default function ActionCounter({
   };
 
   const handleNewAction = () => {
+    console.log('added')
     createNewAction();
   };
 

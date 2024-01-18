@@ -4,44 +4,55 @@ import { deleteData, getData } from "../services/api/requests";
 
 export const FormContext = createContext();
 const FormContextProvider = (props) => {
+  const action_number = aId();
   const defaultV = {
-    action_number: aId(),
+    action_number: action_number,
     successful: null,
     fighter_id: undefined,
     opponent_id: undefined,
+    fight_id : undefined,
     defense_reason: null,
     action_name_id: null,
-    score: undefined,
+    score_id: undefined,
     technique_id: null,
     action_time_second: 0,
-    video_second_begin: "2024-01-10T08:53:43.354000",
-    video_second_end: "2024-01-10T08:53:43.354000",
     video_link: "https://example.com/",
-    action_time: "string2",
-    author : undefined,
-    action_submitted : false,
+    author: undefined,
+    action_submitted: false,
   };
 
+  const defaultResponse = {
+    id: undefined,
+    action_name: undefined,
+    technique: undefined,
+    successful: undefined,
+    defense_reason: undefined,
+    fighter: undefined,
+    opponent: undefined,
+    fight_id: undefined,
+    author: undefined,
+    score: undefined,
+    action_number: action_number,
+  };
 
   const [singleAction, setSingleAction] = useState({});
-  const [actionsBase, setActionsBase] = useState([defaultV]);
+  const [response, setResponse] = useState({...defaultResponse});
+  const [actionsBase, setActionsBase] = useState([defaultResponse]);
   const [editable, setEditable] = useState(false);
   const [deletedId, setDeletedId] = useState(0);
 
   const createNewAction = () => {
-
-    setSingleAction({ ...defaultV });
-    setActionsBase((prevActions) => [...prevActions, defaultV]);
-    setEditable(false)
+    setSingleAction(defaultV);
+    setActionsBase((prevActions) => [...prevActions, defaultResponse]);
+    setEditable(false);
   };
 
   const addAction = (response) => {
     setActionsBase((prevActions) => [
       ...prevActions.map((action) =>
         action.action_number === response.action_number
-          ? { 
+          ? {
               ...response,
-            
             }
           : action
       ),
@@ -52,7 +63,20 @@ const FormContextProvider = (props) => {
     console.log("edit parameters", [id, fightId]);
     try {
       const response = await getData(`/statistics/${id}/`);
-      setSingleAction(response);
+      setSingleAction({
+        id: response.id,
+        action_name_id: response.action_name?.id,
+        technique_id: response.technique?.id,
+        action_number: response.action_number,
+        action_time_second: response.action_time_second,
+        fighter_id: response.fighter?.id,
+        opponent_id: response.opponent?.id,
+        fight_id : response.fight_id,
+        score_id: response.score,
+        successful: response.successful,
+        defense_reason: response.defense_reason,
+        author: response.author,
+      });
       setEditable(true);
       console.log("editt", response);
     } catch (err) {
@@ -74,9 +98,8 @@ const FormContextProvider = (props) => {
 
   const deleteAction = async (id) => {
     try {
-      // console.log("deleted action index", index);
       const response = await deleteData(`/statistics/${id}/`);
-      setDeletedId(id)
+      setDeletedId(id);
       console.log("deleted action", response);
     } catch (err) {
       console.log("such an action does not exist in db");
@@ -97,7 +120,9 @@ const FormContextProvider = (props) => {
         editable,
         setEditable,
         deleteAction,
-        deletedId
+        deletedId,
+        response,
+        setResponse,
       }}
     >
       {props.children}

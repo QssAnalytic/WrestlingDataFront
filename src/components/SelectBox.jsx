@@ -61,10 +61,10 @@ export default function SelectBox({
             {console.log('edittt', activeAction[id])}
             {ok
               ? scores.map((item) =>
-                  item.id === activeAction?.[id] ? item.name : null
+                  item.id === activeAction?.[`${id}_id`] ? item.name : null
                 )
               : datas?.map((item) =>
-                  item.id === activeAction?.[id] ? item.name : null
+                  item.id === activeAction?.[`${id}_id`] ? item.name : null
                 )}
           </p>
           <button

@@ -4,7 +4,7 @@ import change from "../../assets/change.svg";
 import { FormContext } from "../../context/FormContext";
 
 export default function OpponentsInput({ activeAction, fighter, opponent }) {
-  const { singleAction, setSingleAction, actionsBase } =
+  const { singleAction, setSingleAction, actionsBase, editable } =
     useContext(FormContext);
 
   const [wrestler, setWrestler] = useState({});
@@ -18,7 +18,7 @@ export default function OpponentsInput({ activeAction, fighter, opponent }) {
           (activeAction?.fighter_id === opponent?.id ? true : false) || false,
       });
     }
-  }, [fighter, opponent, activeAction.fighter, actionsBase]);
+  }, [fighter, opponent, activeAction.fighter, actionsBase, editable]);
 
   useEffect(() => {
     setSingleAction({
