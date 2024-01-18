@@ -18,6 +18,8 @@ export default function ActionForm() {
     setSingleAction,
     editable,
     setEditable,
+    response,
+    setResponse,
   } = useContext(FormContext);
 
   const [actionNames, setActionNames] = useState([]);
@@ -53,7 +55,7 @@ export default function ActionForm() {
       successful: singleAction?.successful || null,
       defense_reason: singleAction?.["defense_reason"] || null,
       technique_id: singleAction?.technique_id || null,
-      score: singleAction?.score || null,
+      score_id: singleAction?.score_id || null,
       fighter_id: singleAction?.fighter_id || null,
       opponent_id: singleAction?.opponent_id || null,
       action_time_second: singleAction?.action_time_second || null,
@@ -69,17 +71,15 @@ export default function ActionForm() {
 
   const toggleSelect = (e) => {
     setOpenSelect({
-      [Object.keys(openSelect)[0]] : false,
-      [Object.keys(openSelect)[1]] : false,
+      [Object.keys(openSelect)[0]]: false,
+      [Object.keys(openSelect)[1]]: false,
       [e.currentTarget?.id]: !openSelect[e.currentTarget?.id],
     });
   };
 
-  console.log("selectboxes", Object.keys(openSelect));
-
+  console.log("before post data", singleAction);
   const postAction = async (formData) => {
     try {
-      console.log("before post data", singleAction);
       const response = await postData(
         "/statistics/",
         {
@@ -93,7 +93,7 @@ export default function ActionForm() {
       console.log("try in response", response);
       // setSingleAction(response)
     } catch (err) {
-      err.response.status === 422 ? setOpenModal(true) : null;
+      err.response?.status === 422 ? setOpenModal(true) : null;
       console.log("post err", err);
     }
   };
@@ -105,6 +105,7 @@ export default function ActionForm() {
         `/statistics/${action.id}/`,
         {
           ...action,
+          video_link: "https://example.com/",
         },
         {
           headers: { "Content-Type": "application/json" },
@@ -119,24 +120,24 @@ export default function ActionForm() {
   };
   const handleSubmitFn = (data, e) => {
     e.preventDefault();
-    // const { action_number } = singleAction;
-    // addAction(action_number);
     !editable ? postAction(singleAction) : putAction(singleAction);
     console.log("posted data in submit fn", singleAction);
   };
 
   console.log("actionsBase", actionsBase);
 
-  // ${
-  // action.isSubmitted ? "pointer-events-none opacity-[40%]" : null }`
+  // action?.action_number === singleAction?.action_number
 
   return (
     <>
       {/* {openModal ? <UnprocessableContent setOpenModal={setOpenModal} /> : null} */}
       {actionsBase?.map((action) => {
+        {
+          console.log("is equal", singleAction);
+        }
         return action?.action_number === singleAction?.action_number ? (
           <form
-            id={`${action?.action_number}`}
+            id={`${singleAction?.action_number}`}
             className={`w-full flex justify-between`}
             onSubmit={handleSubmit(handleSubmitFn)}
             aria-disabled={true}
@@ -149,7 +150,7 @@ export default function ActionForm() {
                 rules={{ required: "This field is required" }}
                 render={({ field }) => (
                   <SelectBox
-                    id={"action_name_id"}
+                    id={"action_name"}
                     toggleSelect={toggleSelect}
                     openSelect={openSelect}
                     name={"action"}
@@ -171,7 +172,7 @@ export default function ActionForm() {
                   <SelectBox
                     toggleSelect={toggleSelect}
                     openSelect={openSelect}
-                    id={"technique_id"}
+                    id={"technique"}
                     name={"techniques"}
                     activeAction={singleAction}
                     setActiveAction={setSingleAction}
@@ -183,15 +184,15 @@ export default function ActionForm() {
                 )}
               />
               <div className="left-bottom flex justify-between">
-                    <SelectBox
-                      toggleSelect={toggleSelect}
-                      openSelect={openSelect}
-                      id={"score"}
-                      name={"score"}
-                      activeAction={singleAction}
-                      setActiveAction={setSingleAction}
-                      ok
-                    />
+                <SelectBox
+                  toggleSelect={toggleSelect}
+                  openSelect={openSelect}
+                  id={"score"}
+                  name={"score"}
+                  activeAction={singleAction}
+                  setActiveAction={setSingleAction}
+                  ok
+                />
                 <Controller
                   control={control}
                   name="action_time_second"
@@ -201,7 +202,7 @@ export default function ActionForm() {
                     <Time
                       id={"action_time_second"}
                       name={"action_time_second"}
-                      activeAction={action}
+                      activeAction={singleAction}
                       setActiveAction={setSingleAction}
                       errors={formState}
                     />
@@ -230,7 +231,7 @@ export default function ActionForm() {
                   type="submit"
                   id={singleAction?.action_number}
                   className={`${
-                    action.isSubmitted ? "hidden" : "block"
+                    singleAction.isSubmitted ? "hidden" : "block"
                   } btn-action w-[19rem] h-[3.125rem] bg-wBlue p-4 rounded text-[#C9D4EA]`}
                 >
                   Submit

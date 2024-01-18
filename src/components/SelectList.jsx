@@ -17,9 +17,7 @@ export default function SelectList({
     
     setActiveAction((currAction) => ({
       ...currAction,
-      [id]: value,
-      video_second_begin: "2024-01-10T08:53:43.354000",
-      video_second_end: "2024-01-10T08:53:43.354000",
+      [`${id}_id`]: value,
       video_link: "https://example.com/",
       action_time: "string2",
       fight_id : Number(fightId),

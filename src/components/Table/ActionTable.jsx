@@ -47,14 +47,14 @@ export default function ActionTable({ fightStatistic }) {
                   <Row
                     index={index + 1}
                     id={action.id}
-                    fighter={action.fighter?.id}
-                    opponent={action.opponent_id}
+                    fighter={action.fighter?.name}
+                    opponent={action.opponent?.name}
                     time={action.action_time_second}
-                    action={action.action_name_id}
-                    techniques={action.technique_id}
+                    action={action.action_name?.name}
+                    technique={action.technique?.name}
                     score={action.score}
                     succesful={action.successful}
-                    defenseReason={action["defense_reason"]}
+                    defenseReason={action.defense_reason}
                     author={action.author}
                   />
                 );
