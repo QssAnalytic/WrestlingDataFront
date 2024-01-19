@@ -31,7 +31,7 @@ export default function SelectList({
   return (
     <>
       <div
-        className={`drop-select-box absolute top-14 w-full z-40 font-light left-0 ${
+        className={`drop-select-box absolute top-14 w-full h-36 overflow-auto z-40 font-light left-0 ${
           !openSelect[id] ? "hidden" : "block"
         }`}
       >
@@ -39,7 +39,7 @@ export default function SelectList({
           {data?.map((item, index) => {
             return (
               <li
-                className="select-item bg-[#2E4E8F] py-4 px-5"
+                className="select-item bg-[#2E4E8F] hover:bg-wSecGreen py-2 px-5"
                 id={item?.id}
                 onClick={(e) => handleOption(Number(e.currentTarget.id))}
               >
