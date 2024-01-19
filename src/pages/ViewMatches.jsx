@@ -1,18 +1,26 @@
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import logo from "../assets/header-logo.svg";
 import { PiVideoBold } from "react-icons/pi";
 import MatchesTable from "../components/Table/MatchesTable";
 import { getData } from "../services/api/requests";
 import { Link } from "react-router-dom";
 import Pagination from "../components/Pagination";
+import Filter from "../components/Filter";
+import { FormContext } from "../context/FormContext";
 
 export default function ViewMatches() {
   const LIMIT = 200;
-  const [fightInfos, setFightInfos] = useState([]);
+  // const [fights, setFights] = useState([]);
+  const { fightInfos , setFightInfos} = useContext(FormContext);
 
   const getFightInfos = async (page) => {
     setFightInfos(await getData(`/fight-infos/?page=${page}&limit=${LIMIT}`));
   };
+
+  useEffect(()=>{
+    // console.log('figthhhh')
+    // setFights([fightInfos])
+  },[fightInfos])
 
   useEffect(() => {
     getFightInfos(1);
@@ -42,7 +50,8 @@ export default function ViewMatches() {
                 </button>
               </Link>
             </div>
-            <MatchesTable fightInfos={fightInfos.data} />
+            <Filter />
+            <MatchesTable fightInfos={fightInfos.data || fightInfos} />
             <Pagination
               perPage={LIMIT}
               total={fightInfos.count}

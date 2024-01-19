@@ -1,14 +1,12 @@
 import React, { useContext, useEffect } from "react";
-import SelectBox from "../SelectBox";
+import SelectBox from "../FormInputs/SelectBox";
 import { useState } from "react";
-import Chekbox from "../Chekbox";
-import Time from "../Time";
+import Chekbox from "../FormInputs/Chekbox";
+import Time from "../FormInputs/Time";
 import { FormContext } from "../../context/FormContext";
 import { useForm } from "react-hook-form";
 import { Controller } from "react-hook-form";
-import { DevTool } from "@hookform/devtools";
 import { getData, postData, updateData } from "../../services/api/requests";
-import UnprocessableContent from "../Modals/UnprocessableContent";
 
 export default function ActionForm() {
   const {
