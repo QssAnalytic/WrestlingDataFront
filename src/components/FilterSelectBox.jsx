@@ -1,26 +1,50 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { BiSolidDownArrow } from "react-icons/bi";
 
 export default function FilterSelectBox({
   id,
+  name,
   handleFilterSelects,
   filterSelects,
   value,
   setValue,
-  datas,
-  ok,
+  datas = [],
+  valueKey,
+  filterKey
 }) {
+  const [selectedValue, setSelectedValue] = useState();
+
   const handleInput = (e) => {
     e.stopPropagation();
   };
+
+  useEffect(()=>{
+    const val = datas?.find((item)=> item?.[filterKey || id] === value?.[id])?.[valueKey || id];
+    console.log('selectdeki val', val )
+    setSelectedValue(val)
+  },[value[valueKey|| id]])
+
+  const setFilterParams = (value) => {
+    setValue((prevParams) => ({
+      ...prevParams,
+      [id]: value,
+    }));
+  };
+
   return (
     <>
       <div
         id={id}
         onClick={(e) => handleFilterSelects(e.currentTarget.id)}
-        className="filter-select relative cursor-pointer bg-[#1B3458] text-[#DADADA] w-60 py-3 px-3 rounded flex items-center justify-between"
+        className={`${
+          !datas?.length > 0
+            ? "pointer-events-none bg-[#1B3458]/40 text-[#DADADA]/40"
+            : null
+        } filter-select relative cursor-pointer bg-[#1B3458] text-[#DADADA] w-60 py-3 px-3 rounded flex items-center justify-between`}
       >
-        <p className="p-0">{`${id.charAt(0).toUpperCase() + id.slice(1)}`}</p>
+        <p className="p-0 capitalize truncate">
+          {selectedValue || name}
+        </p>
         <button
           className="drop-select"
           onClick={(e) => handleFilterSelects(e.target.id)}
@@ -45,13 +69,17 @@ export default function FilterSelectBox({
               />
             </li>
             {datas?.map((item, index) => {
-                {console.log('item', item[Object.keys(item)[0]])}
-                {console.log(`${ok ? null : item.id}`)}
+              {
+                console.log("item", item[Object.keys(item)[0]]);
+              }
               return (
                 <li
                   key={index}
                   className="item p-3 hover:bg-wShadow hover:text-[#000000] cursor-pointer"
-                  onClick={() => setValue(ok ? item[Object.keys(item)[0]] : item.id)}
+                  onClick={() => {
+                    setFilterParams(item[filterKey || id]);
+                    setSelectedValue(item[valueKey || id])
+                  }}
                 >
                   {item[Object.keys(item)[0]]}
                 </li>
