@@ -1,24 +1,29 @@
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import logo from "../assets/header-logo.svg";
 import { PiVideoBold } from "react-icons/pi";
 import MatchesTable from "../components/Table/MatchesTable";
 import { getData } from "../services/api/requests";
 import { Link } from "react-router-dom";
 import Pagination from "../components/Pagination";
+import Filter from "../components/Filter";
+import useSWR from "swr";
+import { fightInfosEndpoints } from "../services/api/endponits";
+import { FilterContext } from "../context/FilterContext";
 
 export default function ViewMatches() {
   const LIMIT = 200;
-  const [fightInfos, setFightInfos] = useState([]);
+  const { filterParams } = useContext(FilterContext);
+  const [page, setPage] = useState(1);
 
-  const getFightInfos = async (page) => {
-    setFightInfos(await getData(`/fight-infos/?page=${page}&limit=${LIMIT}`));
+  const handlePage = (page) => {
+    setPage(page);
   };
 
-  useEffect(() => {
-    getFightInfos(1);
-  }, []);
-
-  console.log("viewMatches", fightInfos);
+  const {
+    data: matches,
+    isLoading,
+    error,
+  } = useSWR(fightInfosEndpoints.search({ ...filterParams, page }), getData);
 
   return (
     <>
@@ -42,14 +47,29 @@ export default function ViewMatches() {
                 </button>
               </Link>
             </div>
-            <MatchesTable fightInfos={fightInfos.data} />
-            <Pagination
-              perPage={LIMIT}
-              total={fightInfos.count}
-              nextPage={fightInfos.next_page}
-              prevPage={fightInfos.previous_page}
-              onPageChange={getFightInfos}
-            />
+            <Filter />
+
+            {isLoading ? (
+              <div className="loading">Loading...</div>
+            ) : error ? (
+              <div>Oops! Something went wrong</div>
+            ) : (
+              <>
+                
+                {matches?.data?.length > 0 ? (
+                  <>
+                    <MatchesTable fightInfos={matches.data} />
+                    <Pagination
+                      total={matches.count}
+                      nextPage={matches.next_page}
+                      prevPage={matches.previous_page}
+                      onPageChange={handlePage}
+                    />
+                  </>
+                ) :<p>No data found</p>}
+                
+              </>
+            )}
           </div>
         </div>
       </div>

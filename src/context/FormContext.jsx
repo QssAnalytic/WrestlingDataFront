@@ -10,7 +10,7 @@ const FormContextProvider = (props) => {
     successful: null,
     fighter_id: undefined,
     opponent_id: undefined,
-    fight_id : undefined,
+    fight_id: undefined,
     defense_reason: null,
     action_name_id: null,
     score_id: undefined,
@@ -36,10 +36,11 @@ const FormContextProvider = (props) => {
   };
 
   const [singleAction, setSingleAction] = useState({});
-  const [response, setResponse] = useState({...defaultResponse});
+  const [response, setResponse] = useState({ ...defaultResponse });
   const [actionsBase, setActionsBase] = useState([defaultResponse]);
   const [editable, setEditable] = useState(false);
   const [deletedId, setDeletedId] = useState(0);
+  const [fightInfos, setFightInfos] = useState([]);
 
   const createNewAction = () => {
     setSingleAction(defaultV);
@@ -71,7 +72,7 @@ const FormContextProvider = (props) => {
         action_time_second: response.action_time_second,
         fighter_id: response.fighter?.id,
         opponent_id: response.opponent?.id,
-        fight_id : response.fight_id,
+        fight_id: response.fight_id,
         score_id: response.score,
         successful: response.successful,
         defense_reason: response.defense_reason,
@@ -90,6 +91,8 @@ const FormContextProvider = (props) => {
       const fightActions = (await getData(`/fight-infos/${id}`))
         .fight_statistic;
       setActionsBase((prevActions) => [...fightActions]);
+      console.log("iddd", id);
+      console.log("iddd2", fightActions);
       return actionsBase;
     } catch (err) {
       console.log("Oops! something went wrong");
@@ -123,6 +126,8 @@ const FormContextProvider = (props) => {
         deletedId,
         response,
         setResponse,
+        fightInfos,
+        setFightInfos,
       }}
     >
       {props.children}

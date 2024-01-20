@@ -15,7 +15,7 @@ export default {
         wMain : '#080C2B',
         wSecMain : '#1B234F',
         wGray : '#A1A4AB',
-        wText : '#A0CEE8',
+        wText : '#A0CEE8', 
         wShadow : '#BBBBBD',
         wTextSec : '#DBDBDB',
         wSecGreen : '#61a89f',

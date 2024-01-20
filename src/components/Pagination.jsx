@@ -4,7 +4,7 @@ import {
   MdKeyboardDoubleArrowLeft,
   MdKeyboardDoubleArrowRight,
 } from "react-icons/md";
-function Pagination({ total, perPage, onPageChange, nextPage, prevPage }) {
+function Pagination({ total, onPageChange, nextPage, prevPage }) {
   const pageToShow = 5;
   const [currentPage, setCurrentPage] = useState(1);
   //   const pages = Array.from({ length: total }).map((_, index) => index + 1);

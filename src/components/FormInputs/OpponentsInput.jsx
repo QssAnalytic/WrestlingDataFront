@@ -1,5 +1,5 @@
 import React, { useContext, useState, useEffect } from "react";
-import Wrestler from "../Wrestler";
+import Wrestler from "./Wrestler";
 import change from "../../assets/change.svg";
 import { FormContext } from "../../context/FormContext";
 
