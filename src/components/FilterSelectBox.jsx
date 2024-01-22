@@ -10,19 +10,42 @@ export default function FilterSelectBox({
   setValue,
   datas = [],
   valueKey,
-  filterKey
+  filterKey,
 }) {
   const [selectedValue, setSelectedValue] = useState();
+  const [filterSearchValue, setFilterSearchValue] = useState("");
+  const [datass, setDatass] = useState(datas);
+
+ 
 
   const handleInput = (e) => {
     e.stopPropagation();
   };
 
-  useEffect(()=>{
-    const val = datas?.find((item)=> item?.[filterKey || id] === value?.[id])?.[valueKey || id];
-    console.log('selectdeki val', val )
-    setSelectedValue(val)
-  },[value[valueKey|| id]])
+  // useEffect(() => {
+  //   const val = datas?.find(
+  //     (item) => item?.[filterKey || id] === value?.[id]
+  //   )?.[valueKey || id];
+  //   console.log("selectdeki val", val);
+  //   setSelectedValue(val);
+  // }, [value[valueKey || id]]);
+
+  // useEffect(() => {
+  //   if (filterSearchValue !== "") {
+  //     setDatass(prevDatas => {
+  //       const filteredData = prevDatas?.filter(item =>
+  //         String(item?.[valueKey || id])
+  //           ?.toLowerCase()
+  //           .includes(filterSearchValue.toLowerCase())
+  //       );
+  //       console.log("filteredData", filteredData);
+  //       return filteredData;
+  //     });
+  //   } else {
+  //     setDatass(datas);
+  //   }
+  // }, [filterSearchValue, id, valueKey]);
+  
 
   const setFilterParams = (value) => {
     setValue((prevParams) => ({
@@ -42,9 +65,7 @@ export default function FilterSelectBox({
             : null
         } filter-select relative cursor-pointer bg-[#1B3458] text-[#DADADA] w-60 py-3 px-3 rounded flex items-center justify-between`}
       >
-        <p className="p-0 capitalize truncate">
-          {selectedValue || name}
-        </p>
+        <p className="p-0 capitalize truncate">{selectedValue || name}</p>
         <button
           className="drop-select"
           onClick={(e) => handleFilterSelects(e.target.id)}
@@ -63,11 +84,16 @@ export default function FilterSelectBox({
                 type="text"
                 name="search"
                 id="search"
+                value={filterSearchValue}
                 className="p-2 outline-none bg-[#1B3458] text-xs"
                 placeholder="Search Level..."
                 onClick={handleInput}
+                onChange={(e) => {
+                  setFilterSearchValue(e.target.value);
+                }}
               />
             </li>
+            {console.log("datss", datass)}
             {datas?.map((item, index) => {
               {
                 console.log("item", item[Object.keys(item)[0]]);
@@ -78,7 +104,7 @@ export default function FilterSelectBox({
                   className="item p-3 hover:bg-wShadow hover:text-[#000000] cursor-pointer"
                   onClick={() => {
                     setFilterParams(item[filterKey || id]);
-                    setSelectedValue(item[valueKey || id])
+                    setSelectedValue(item[valueKey || id]);
                   }}
                 >
                   {item[Object.keys(item)[0]]}

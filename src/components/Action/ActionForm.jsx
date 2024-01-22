@@ -189,7 +189,7 @@ export default function ActionForm() {
                   name={"score"}
                   activeAction={singleAction}
                   setActiveAction={setSingleAction}
-                  ok
+                  ok={true}
                 />
                 <Controller
                   control={control}

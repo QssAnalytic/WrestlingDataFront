@@ -6,13 +6,13 @@ import { FormContext } from "../context/FormContext";
 import useSWR from "swr";
 import { filtersEndpoints } from "../services/api/endponits";
 import { FilterContext } from "../context/FilterContext";
+import { GrUpdate } from "react-icons/gr";
 
 export default function Filter() {
   const { loadData, setFightInfos } = useContext(FormContext);
   const { setFilterParams, filterParams } = useContext(FilterContext);
   const [filterSelects, setFilterSelects] = useState({});
   const [input, setInput] = useState({});
-
 
   const { data: dates } = useSWR(filtersEndpoints.dates, getData);
   const { data: tournaments } = useSWR(
@@ -21,14 +21,20 @@ export default function Filter() {
       : null,
     getData
   );
-  const { data: weights } = useSWR(
+
+  const { data: styles } = useSWR(
     filterParams?.tournament_id
-      ? filtersEndpoints.weights(filterParams?.tournament_id)
+      ? filtersEndpoints.style(filterParams?.tournament_id)
+      : null
+  , getData);
+  const { data: weights } = useSWR(
+    filterParams?.tournament_id && filterParams?.wrestling_type
+      ? filtersEndpoints.weights(filterParams?.tournament_id, filterParams?.wrestling_type)
       : null,
     getData
   );
 
-  console.log('weights', weights)
+  console.log("weights", weights);
 
   const { data: stages } = useSWR(
     filterParams?.weight_category
@@ -39,7 +45,7 @@ export default function Filter() {
 
   useEffect(() => {
     loadFights(input?.matchId);
-    console.log('effect', input.matchId)
+    console.log("effect", input.matchId);
   }, [input?.matchId]);
 
   const loadFights = async (fightId) => {
@@ -54,34 +60,40 @@ export default function Filter() {
     }));
   };
 
-  const resetFilter = ()=>{
+  const resetFilter = () => {
     setFilterParams({
       tournament_id: undefined,
       place: undefined,
       wrestler_name: undefined,
       author: undefined,
-      weight_category : undefined,
+      weight_category: undefined,
       is_submitted: undefined,
       status: undefined,
       page: 1,
       limit: 200,
       date: undefined,
-    })
-  }
+    });
+  };
 
   return (
     <div className="filter mb-3 flex gap-5">
-      <FilterInput
+      {/* <FilterInput
         id={"matchId"}
         setInput={setInput}
         input={input}
         placeholder={"Enter Match ID..."}
-      />
+      /> */}
       <FilterInput
         id={"wrestler_name"}
         setInput={setFilterParams}
         input={filterParams}
-        placeholder={"Enter Wrestler name..."}
+        placeholder={"Wrestler name..."}
+      />
+      <FilterInput
+        id={"author"}
+        setInput={setFilterParams}
+        input={filterParams}
+        placeholder={"Author name..."}
       />
       {/* <FilterInput id={"place"} setInput={setFilterParams} input={filterParams} placeholder={'Enter Place...'} /> */}
       <FilterSelectBox
@@ -103,6 +115,17 @@ export default function Filter() {
         datas={tournaments}
         valueKey={"name"}
         filterKey={"id"}
+      />
+      <FilterSelectBox
+        id={"wrestling_type"}
+        name={"style"}
+        handleFilterSelects={handleFilterSelects}
+        filterSelects={filterSelects}
+        value={filterParams}
+        setValue={setFilterParams}
+        datas={styles}
+        // valueKey={"name"}
+        // filterKey={"id"}
       />
       <FilterSelectBox
         id={"weight_category"}
@@ -129,7 +152,11 @@ export default function Filter() {
         filterSelects={filterSelects}
         value={filterParams}
         setValue={setFilterParams}
-        datas={[{status : 'not started'},{status : 'in progress'}, {status : 'completed'}]}
+        datas={[
+          { status: "not started" },
+          { status: "in progress" },
+          { status: "completed" },
+        ]}
       />
       <FilterSelectBox
         id={"is_submitted"}
@@ -138,11 +165,19 @@ export default function Filter() {
         filterSelects={filterSelects}
         value={filterParams}
         setValue={setFilterParams}
-        valueKey={'name'}
-        datas={[{name : 'Checked',is_submitted : true},{name : 'Unchecked', is_submitted : false},]}
+        valueKey={"name"}
+        datas={[
+          { name: "Checked", is_submitted: true },
+          { name: "Unchecked", is_submitted: false },
+        ]}
       />
 
-      <button className="reset bg-[#1B3458] rounded text-xs" onClick={resetFilter}>Reset Filter</button>
+      <button
+        className="reset rounded text-[#ffffff]/50 text-lg transition-all hover:rotate-180 hover:text-[#ffffff] duration-700"
+        onClick={resetFilter}
+      >
+        <GrUpdate></GrUpdate>
+      </button>
     </div>
   );
 }

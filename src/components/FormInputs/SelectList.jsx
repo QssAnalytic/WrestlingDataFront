@@ -1,5 +1,6 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { useParams } from "react-router-dom";
+import { useState } from "react";
 
 export default function SelectList({
   openSelect,
@@ -8,21 +9,31 @@ export default function SelectList({
   setValue,
   clearErrors,
   data,
+  ok
 }) {
+  const { fightId } = useParams();
+  const [searchInput, setSearchInput] = useState("");
+  const [datas, setDatas] = useState(data);
 
-  const {fightId} = useParams();
+
+  useEffect(()=>{
+   if(searchInput){
+    setDatas(datas.filter((item)=> item.name.toLowerCase().includes(searchInput)))
+   }else{
+    setDatas(data)
+   }
+  },[searchInput])
 
   const handleOption = (value) => {
-    console.log('salam',id, value)
-    
+    console.log("salam", id, value);
+
     setActiveAction((currAction) => ({
       ...currAction,
       [`${id}_id`]: value,
       video_link: "https://example.com/",
       action_time: "string2",
-      fight_id : Number(fightId),
+      fight_id: Number(fightId),
     }));
-
 
     setValue(id, value);
     clearErrors(id);
@@ -36,15 +47,30 @@ export default function SelectList({
         }`}
       >
         <ul>
-          {data?.map((item, index) => {
+          <li
+            className={`select-item bg-[#2E4E8F] hover:bg-wSecGreen`}
+          >
+            <input
+              type="text"
+              className={`outline-none border-none bg-wSecMain w-full py-2 px-3`}
+              placeholder={`Search ${id}`}
+              name={'find'}
+              value={searchInput}
+              onClick={(e)=> e.stopPropagation()}
+              onChange={(e)=> setSearchInput(e.target.value) }
+            />
+          </li>
+          {datas?.map((item, index) => {
             return (
-              <li
-                className="select-item bg-[#2E4E8F] hover:bg-wSecGreen py-2 px-5"
-                id={item?.id}
-                onClick={(e) => handleOption(Number(e.currentTarget.id))}
-              >
-                {item.name}
-              </li>
+              <>
+                <li
+                  className="select-item bg-[#2E4E8F] hover:bg-wSecGreen py-2 px-5"
+                  id={item?.id}
+                  onClick={(e) => handleOption(Number(e.currentTarget.id))}
+                >
+                  {item.name}
+                </li>
+              </>
             );
           })}
         </ul>
