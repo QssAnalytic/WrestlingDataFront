@@ -13,39 +13,43 @@ export default function FilterSelectBox({
   filterKey,
 }) {
   const [selectedValue, setSelectedValue] = useState();
-  const [filterSearchValue, setFilterSearchValue] = useState("");
-  const [datass, setDatass] = useState(datas);
-
- 
+  const [filterSearchValue, setFilterSearchValue] = useState('');
+  let datass = [];
+  datass.push(...datas);
 
   const handleInput = (e) => {
     e.stopPropagation();
   };
 
-  // useEffect(() => {
-  //   const val = datas?.find(
-  //     (item) => item?.[filterKey || id] === value?.[id]
-  //   )?.[valueKey || id];
-  //   console.log("selectdeki val", val);
-  //   setSelectedValue(val);
-  // }, [value[valueKey || id]]);
+
+  useEffect(() => {
+    const val = datas?.find(
+      (item) => item?.[filterKey || id] === value?.[id]
+    )?.[valueKey || id];
+    console.log("selectdeki val", val);
+    setSelectedValue(val);
+  }, [value[valueKey || id]]);
+
+  // Filter search system
 
   // useEffect(() => {
-  //   if (filterSearchValue !== "") {
-  //     setDatass(prevDatas => {
-  //       const filteredData = prevDatas?.filter(item =>
+  //   if (filterSearchValue) {
+  //     console.log('filter seact', filterSearchValue)
+  //     console.log('effectedki dat', datas)
+  //       const filteredData = datas?.filter(item =>
   //         String(item?.[valueKey || id])
   //           ?.toLowerCase()
   //           .includes(filterSearchValue.toLowerCase())
   //       );
   //       console.log("filteredData", filteredData);
-  //       return filteredData;
-  //     });
+  //       datass.splice(0).push(...filteredData)
+       
   //   } else {
-  //     setDatass(datas);
+  //     datass.push(datas)
   //   }
-  // }, [filterSearchValue, id, valueKey]);
+  // }, [filterSearchValue]);
   
+  console.log('filter selectbox', datass)
 
   const setFilterParams = (value) => {
     setValue((prevParams) => ({
