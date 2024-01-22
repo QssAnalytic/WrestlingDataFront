@@ -21,7 +21,7 @@ export default function FilterInput({ id, setInput, input, placeholder }) {
           type="text"
           value={inputV}
           onChange={(e) => setInputV(e.target.value)}
-          className="border-none bg-[#1B3458] outline-none h-full w-full rounded px-3 py-2"
+          className="border-none bg-[#1B3458] truncate outline-none h-full w-full rounded px-3 py-2"
           placeholder={placeholder}
         />
       </div>

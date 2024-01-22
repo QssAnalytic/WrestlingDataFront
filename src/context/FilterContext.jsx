@@ -7,6 +7,7 @@ const FilterContextProvider = (props) => {
     place: undefined,
     wrestler_name: undefined,
     author: undefined,
+    wrestling_type: undefined,
     weight_category : undefined,
     is_submitted: undefined,
     status: undefined,

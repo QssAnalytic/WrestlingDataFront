@@ -21,12 +21,12 @@ export default function MatchesTable({ fightInfos }) {
               <th className="p-3 tracking-wide font-semibold text-center text-sm border border-[#fefefe] border-opacity-[31%]">
                 Match ID:
               </th>
-              {/* <th className="p-3 tracking-wide font-semibold text-center text-sm border border-[#fefefe] border-opacity-[31%]">
-                Wrestling type:
-              </th> */}
               <th className="p-3 tracking-wide font-semibold text-center text-sm border border-[#fefefe] border-opacity-[31%]">
-                Level:
+                Wrestling type:
               </th>
+              {/* <th className="p-3 tracking-wide font-semibold text-center text-sm border border-[#fefefe] border-opacity-[31%]">
+                Level:
+              </th> */}
               <th className="p-3 tracking-wide font-semibold text-center text-sm border border-[#fefefe] border-opacity-[31%]">
                 Tournament:
               </th>
@@ -34,7 +34,7 @@ export default function MatchesTable({ fightInfos }) {
                 Palace:
               </th>
               <th className="p-3 tracking-wide font-semibold text-center text-sm border border-[#fefefe] border-opacity-[31%]">
-                Weight (kg):
+                Weight:
               </th>
               <th className="p-3 tracking-wide font-semibold text-center text-sm border border-[#fefefe] border-opacity-[31%]">
                 Date:
@@ -83,12 +83,12 @@ export default function MatchesTable({ fightInfos }) {
                   <td className="p-3  text-sm text-center border border-[#fefefe] border-opacity-[31%]">
                     {fight.id}
                   </td>
-                  {/* <td className="p-3  text-sm text-center border border-[#fefefe] border-opacity-[31%]">
+                  <td className="p-3  text-sm text-center border border-[#fefefe] border-opacity-[31%]">
                     {fight.wrestling_type}
-                  </td> */}
-                  <td className="p-3 text-sm text-center border border-[#fefefe] border-opacity-[31%]">
-                    {fight.fighter?.level}
                   </td>
+                  {/* <td className="p-3 text-sm text-center border border-[#fefefe] border-opacity-[31%]">
+                    {fight.fighter?.level}
+                  </td> */}
                   <td className="p-3   text-sm text-center border border-[#fefefe] border-opacity-[31%]">
                     {fight.tournament?.name}
                   </td>
@@ -132,7 +132,7 @@ export default function MatchesTable({ fightInfos }) {
                   {/* <td className="p-3 text-sm text-center border border-[#fefefe] border-opacity-[31%]">
                     {fight.decision}
                   </td> */}
-                  <td className="p-3 text-sm w-full text-center border cursor-pointer border-[#fefefe] border-opacity-[31%]">
+                  <td className="p-3 text-sm  text-center border cursor-pointer border-[#fefefe] border-opacity-[31%]">
                     <Link to={`/${fight.id}`} className="border-none">
                       <button
                         className="enter border-none bg-none outline-none w-full"
