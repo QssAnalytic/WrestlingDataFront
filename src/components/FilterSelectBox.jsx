@@ -29,6 +29,7 @@ export default function FilterSelectBox({
     console.log("selectdeki val", val);
     setSelectedValue(val);
   }, [value[valueKey || id]]);
+  console.log('salam');
 
   // Filter search system
 
