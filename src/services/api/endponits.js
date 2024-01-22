@@ -13,8 +13,8 @@ const fightInfosEndpoints = {
 const filtersEndpoints = {
   dates: `/filters/dates/`,
   tournaments: (date) => `/filters/tournaments/${date}/`,
-  style : (tournamentId)=> `/filters/style/${tournamentId}`,
-  weights: (tournamentId,wrestlingType) => `/filters/weights/${tournamentId}/${wrestlingType}`,
+  style : (tournamentId)=> `/filters/style/${tournamentId}/`,
+  weights: (tournamentId,wrestlingType) => `/filters/weights/${tournamentId}/${wrestlingType}/`,
   stages: (weight) => `/filters/stages/${weight}/`,
 };
 
