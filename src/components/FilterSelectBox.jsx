@@ -13,9 +13,10 @@ export default function FilterSelectBox({
   filterKey,
 }) {
   const [selectedValue, setSelectedValue] = useState();
-  const [filterSearchValue, setFilterSearchValue] = useState('');
-  let datass = [];
-  datass.push(...datas);
+  const [filterSearchValue, setFilterSearchValue] = useState(null);
+  const [datass, setDatass] = useState([...datas])
+  // let datass = [];
+  // datass.push(...datas);
 
   const handleInput = (e) => {
     e.stopPropagation();
@@ -29,26 +30,21 @@ export default function FilterSelectBox({
     console.log("selectdeki val", val);
     setSelectedValue(val);
   }, [value[valueKey || id]]);
-  console.log('salam');
 
   // Filter search system
 
-  // useEffect(() => {
-  //   if (filterSearchValue) {
-  //     console.log('filter seact', filterSearchValue)
-  //     console.log('effectedki dat', datas)
-  //       const filteredData = datas?.filter(item =>
-  //         String(item?.[valueKey || id])
-  //           ?.toLowerCase()
-  //           .includes(filterSearchValue.toLowerCase())
-  //       );
-  //       console.log("filteredData", filteredData);
-  //       datass.splice(0).push(...filteredData)
-       
-  //   } else {
-  //     datass.push(datas)
-  //   }
-  // }, [filterSearchValue]);
+  useEffect(() => {
+    if (filterSearchValue) {
+      const filteredData = datas?.filter(item =>
+        String(item?.[valueKey || id])
+          ?.toLowerCase()
+          .includes(filterSearchValue.toLowerCase())
+      );
+      setDatass(filteredData);
+    } else {
+      setDatass(datas);
+    }
+  }, [filterSearchValue]);
   
   console.log('filter selectbox', datass)
 
@@ -99,7 +95,7 @@ export default function FilterSelectBox({
               />
             </li>
             {console.log("datss", datass)}
-            {datas?.map((item, index) => {
+            { datass.length > 0 ? datass?.map((item, index) => {
               {
                 console.log("item", item[Object.keys(item)[0]]);
               }
@@ -115,7 +111,23 @@ export default function FilterSelectBox({
                   {item[Object.keys(item)[0]]}
                 </li>
               );
-            })}
+            }) : datas?.map((item, index) => {
+              {
+                console.log("item", item[Object.keys(item)[0]]);
+              }
+              return (
+                <li
+                  key={index}
+                  className="item p-3 hover:bg-wShadow hover:text-[#000000] cursor-pointer"
+                  onClick={() => {
+                    setFilterParams(item[filterKey || id]);
+                    setSelectedValue(item[valueKey || id]);
+                  }}
+                >
+                  {item[Object.keys(item)[0]]}
+                </li>
+              );
+            }) }
           </ul>
         </div>
       </div>
