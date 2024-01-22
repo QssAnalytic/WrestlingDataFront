@@ -87,10 +87,10 @@ export default function MatchesTable({ fightInfos }) {
                     {fight.wrestling_type}
                   </td> */}
                   <td className="p-3 text-sm text-center border border-[#fefefe] border-opacity-[31%]">
-                    {fight.fighter.level}
+                    {fight.fighter?.level}
                   </td>
                   <td className="p-3   text-sm text-center border border-[#fefefe] border-opacity-[31%]">
-                    {fight.tournament.name}
+                    {fight.tournament?.name}
                   </td>
                   <td className="p-3 text-sm text-center border border-[#fefefe] border-opacity-[31%]">
                     {fight.location}
@@ -108,10 +108,10 @@ export default function MatchesTable({ fightInfos }) {
                     {fight.fighter.natinality_name}
                   </td> */}
                   <td className="p-3 text-sm text-center border border-[#fefefe] border-opacity-[31%]">
-                    {fight.fighter.name}
+                    {fight.fighter?.name}
                   </td>
                   <td className="p-3 text-sm text-center border border-[#fefefe] border-opacity-[31%]">
-                    {fight.oponent.name}
+                    {fight.oponent?.name}
                   </td>
                   {/* <td className="p-3 text-sm text-center border border-[#fefefe] border-opacity-[31%]">
                     {fight.oponent.natinality_name}

@@ -28,6 +28,8 @@ export default function Filter() {
     getData
   );
 
+  console.log('weights', weights)
+
   const { data: stages } = useSWR(
     filterParams?.weight_category
       ? filtersEndpoints.stages(filterParams?.weight_category)
@@ -37,10 +39,11 @@ export default function Filter() {
 
   useEffect(() => {
     loadFights(input?.matchId);
+    console.log('effect', input.matchId)
   }, [input?.matchId]);
 
   const loadFights = async (fightId) => {
-    setFightInfos([await getData(`fight-infos/${fightId}`)]);
+    setFightInfos(await getData(`fight-infos/${Number(fightId)}`));
   };
 
   const handleFilterSelects = (id) => {
@@ -50,6 +53,21 @@ export default function Filter() {
       [id]: !prev[id],
     }));
   };
+
+  const resetFilter = ()=>{
+    setFilterParams({
+      tournament_id: undefined,
+      place: undefined,
+      wrestler_name: undefined,
+      author: undefined,
+      weight_category : undefined,
+      is_submitted: undefined,
+      status: undefined,
+      page: 1,
+      limit: 200,
+      date: undefined,
+    })
+  }
 
   return (
     <div className="filter mb-3 flex gap-5">
@@ -104,6 +122,27 @@ export default function Filter() {
         setValue={setFilterParams}
         datas={stages}
       />
+      <FilterSelectBox
+        id={"status"}
+        name={"status"}
+        handleFilterSelects={handleFilterSelects}
+        filterSelects={filterSelects}
+        value={filterParams}
+        setValue={setFilterParams}
+        datas={[{status : 'not started'},{status : 'in progress'}, {status : 'completed'}]}
+      />
+      <FilterSelectBox
+        id={"is_submitted"}
+        name={"check"}
+        handleFilterSelects={handleFilterSelects}
+        filterSelects={filterSelects}
+        value={filterParams}
+        setValue={setFilterParams}
+        valueKey={'name'}
+        datas={[{name : 'Checked',is_submitted : true},{name : 'Unchecked', is_submitted : false},]}
+      />
+
+      <button className="reset bg-[#1B3458] rounded text-xs" onClick={resetFilter}>Reset Filter</button>
     </div>
   );
 }

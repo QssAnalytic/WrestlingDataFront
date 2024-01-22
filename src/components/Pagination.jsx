@@ -29,9 +29,12 @@ function Pagination({ total, onPageChange, nextPage, prevPage }) {
   }
 
   function handlePage(pageNum) {
+    console.log('handle page', pageNum)
     setCurrentPage(pageNum);
     onPageChange(pageNum);
   }
+
+  console.log('current page', currentPage)
 
   function handlePrevClick() {
     if (prevPage) {
@@ -78,7 +81,7 @@ function Pagination({ total, onPageChange, nextPage, prevPage }) {
               className={`page-item ${
                 value === "..." ? "border-none" : null
               } cursor-pointer border border-wSecBlue px-3 py-1 rounded-lg ${
-                currentPage === value ? "border-green-400" : null
+                currentPage === value ? "border border-green-400" : null
               }`}
               onClick={() => {
                 handlePage(value);
