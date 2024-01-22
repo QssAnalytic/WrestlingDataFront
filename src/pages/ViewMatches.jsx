@@ -7,16 +7,20 @@ import { Link } from "react-router-dom";
 import Pagination from "../components/Pagination";
 import Filter from "../components/Filter";
 import useSWR from "swr";
-import { fightInfosEndpoints } from "../services/api/endponits";
+import { fightInfosEndpoints, filtersEndpoints } from "../services/api/endponits";
 import { FilterContext } from "../context/FilterContext";
 
 export default function ViewMatches() {
   const LIMIT = 200;
-  const { filterParams } = useContext(FilterContext);
+  const { filterParams, setFilterParams } = useContext(FilterContext);
   const [page, setPage] = useState(1);
 
   const handlePage = (page) => {
     setPage(page);
+    setFilterParams((prevParams)=>({
+      ...prevParams,
+      page : page,
+    }))
   };
 
   const {
@@ -48,7 +52,6 @@ export default function ViewMatches() {
               </Link>
             </div>
             <Filter />
-
             {isLoading ? (
               <div className="loading">Loading...</div>
             ) : error ? (
