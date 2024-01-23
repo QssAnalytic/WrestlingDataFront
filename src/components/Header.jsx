@@ -5,8 +5,9 @@ import weight from "../assets/weight.svg";
 import { IoIosArrowForward } from "react-icons/io";
 import OpponentsInput from "./FormInputs/OpponentsInput";
 import { FormContext } from "../context/FormContext";
-import { Link, useParams } from "react-router-dom";
-import { updateData } from "../services/api/requests";
+import { Link, useNavigate, useParams } from "react-router-dom";
+import { postData, updateData } from "../services/api/requests";
+import { fightInfosEndpoints } from "../services/api/endponits";
 
 export default function Header({ fightInfo }) {
   const {
@@ -18,6 +19,8 @@ export default function Header({ fightInfo }) {
   } = useContext(FormContext);
 
   const { fightId } = useParams();
+  const navigate = useNavigate();
+  const [checked, setChecked] = useState("");
 
   const [author, setAuthor] = useState("");
 
@@ -32,14 +35,25 @@ export default function Header({ fightInfo }) {
   };
 
   const handleFinishMatch = async () => {
-    try{
+    try {
       const response = await updateData(`fight-infos/status/${fightId}`);
-      console.log('finish match res', response)
-    }catch(err){
-      console.log('finish match err', err)
+      navigate('/')
+      console.log("finish match res", response);
+    } catch (err) {
+      console.log("finish match err", err);
     }
   };
 
+  const handleQuality = async () => {
+    try {
+      const response = await updateData(
+        fightInfosEndpoints.check(`${Number(fightId)}`)
+      );
+      setChecked(response);
+    } catch (err) {
+      console.log(err);
+    }
+  };
 
   useEffect(() => {
     loadData(fightId);
@@ -47,8 +61,7 @@ export default function Header({ fightInfo }) {
     console.log("header id", fightId);
   }, [fightId]);
 
-  console.log('fightInfo in header', fightInfo)
-
+  console.log("fightInfo in header", fightInfo);
 
   return (
     <header className="header w-full p-9">
@@ -131,12 +144,30 @@ export default function Header({ fightInfo }) {
                 </button>
               </Link>
             </div>
-            <div className="final-submit-btn rounded-sm bg-[#ffffff] transition-all hover:bg-white text-center bg-opacity-[0.4] py-[0.62rem] px-[1.88rem] ">
+            <div className={`${fightInfo?.status === 'completed' ? 'pointer-events-none opacity-40' : 'pointer-events-auto'}final-submit-btn rounded-sm bg-[#ffffff] transition-all hover:bg-white text-center bg-opacity-[0.4] py-[0.62rem] px-[1.88rem]`}>
               <button
-                className="match-submit gap-[1.88rem] text-wSecMain text-center"
+                className={` ${fightInfo?.status === 'completed' ? 'pointer-events-none' :'pointer-events-auto'}match-submit gap-[1.88rem] text-wSecMain text-center`}
                 onClick={handleFinishMatch}
               >
                 Finish Match
+              </button>
+            </div>
+            <div
+              className={`final-submit-btn rounded-sm bg-[#ffffff] transition-all hover:bg-white text-center bg-opacity-[0.4] py-[0.62rem] px-[1.88rem] ${
+                checked === "checked" || fightInfo?.is_submitted
+                  ? "opacity-[60%] pointer-events-none"
+                  : "pointer-events-auto"
+              }`}
+            >
+              <button
+                className={`match-submit gap-[1.88rem] text-wSecMain text-center ${
+                  checked  === "checked" || fightInfo?.is_submitted
+                    ? "pointer-events-none"
+                    : "pointer-events-auto"
+                }`}
+                onClick={handleQuality}
+              >
+                Check Quality
               </button>
             </div>
           </div>
