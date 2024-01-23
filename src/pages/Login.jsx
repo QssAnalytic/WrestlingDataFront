@@ -1,15 +1,20 @@
-import React, { useContext, useState } from "react";
+import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import { IoIosArrowForward } from "react-icons/io";
-import { FormContext } from "../context/FormContext";
+import CreateNewMatch from "../components/CreateNewMatch";
+import LoginForm from "../components/LoginForm";
 export default function Login() {
-  const { loadData } = useContext(FormContext);
-  const [fightId, setFightId] = useState("");
+  const [openComponent, setOpenComponent] = useState({
+    find : true,
+    create : false,
+  });
 
-  const handleMatch = () => {
-    loadData(Number(fightId));
-    console.log('match Id', fightId)
-  };
+  const handleOpenComponent = (id)=>{
+    setOpenComponent((prev)=>({
+      [Object.keys(prev)?.[0]] : false,
+      [id] : !prev[id]
+    }))
+  }
 
   return (
     <div className="login h-[100vh]">
@@ -24,34 +29,28 @@ export default function Login() {
               </Link>
             </div>
           </div>
-          <div className="form-container flex justify-center items-center">
-            <div className="login-form flex flex-col justify-center items-center gap-[10px] w-[400px]">
-              <div className="match-id flex flex-col gap-2 justify-center items-center w-full">
-                <label htmlFor="matchId" className="text-wTextSec self-start">
-                  Match ID:
-                </label>
-                <input
-                  type="text"
-                  value={fightId}
-                  onChange={(e) => setFightId(e.target.value)}
-                  name="matchId"
-                  className=" w-full outline-none bg-wSecMain px-[20px] py-[10px] rounded-md  text-wTextSec"
-                  placeholder="Enter match id..."
-                />
-              </div>
-              <div className="go-to-match flex justify-center items-center w-full ">
-                <Link to={`/${fightId}`} className="w-full">
-                  <button
-                    className="submit text-wTextSec w-full bg-[#3D66B5] rounded-md py-4"
-                    type="button"
-                    onClick={handleMatch}
-                  >
-                    Go to match
-                  </button>
-                </Link>
-              </div>
+          <div className="login-btns flex items-center gap-8 justify-center">
+            <div className="find">
+              <button
+                id="find"
+                className="bg-[#3D66B5] py-4 px-32 text-[#eaeaea] rounded"
+                onClick={(e)=> handleOpenComponent(e.currentTarget.id)}
+              >
+                Find Match by ID:
+              </button>
+            </div>
+            <div className="find">
+              <button
+                id="create"
+                className="bg-[#3D66B5] py-4 px-32 text-[#eaeaea] rounded"
+                onClick={(e)=> handleOpenComponent(e.currentTarget.id)}
+              >
+                Create new match:
+              </button>
             </div>
           </div>
+          <LoginForm id={'find'} openComponent={openComponent} />
+          <CreateNewMatch id={'create'} openComponent={openComponent} />
         </div>
       </div>
     </div>

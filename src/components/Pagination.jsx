@@ -64,12 +64,12 @@ function Pagination({ total, onPageChange, nextPage, prevPage }) {
   return (
     <nav aria-label="Page navigation example">
       <ul className="pagination flex gap-2 justify-center items-center">
-        <li className={`page-item ${isFirstPage ? "hidden" : null}`}>
+        <li className={`page-item opacity-60 transition-all duration-200 hover:opacity-100 ${isFirstPage ? "hidden" : null}`}>
           <a className="page-link" href="#" onClick={passToStart}>
             <MdKeyboardDoubleArrowLeft />
           </a>
         </li>
-        <li className={`page-item ${isFirstPage ? "hidden" : null}`}>
+        <li className={`page-item opacity-60 transition-all duration-200 hover:opacity-100 ${isFirstPage ? "hidden" : null}`}>
           <a className="page-link" href="#" onClick={handlePrevClick}>
             <IoIosArrowBack />
           </a>
@@ -78,8 +78,8 @@ function Pagination({ total, onPageChange, nextPage, prevPage }) {
           return (
             <li
               key={index}
-              className={`page-item ${
-                value === "..." ? "border-none" : null
+              className={`page-item transition-all duration-200 hover:bg-[#eaeaea] hover:text-wBlue hover:border-transparent ${
+                value === "..." ? "border-none pointer-events-none" : null
               } cursor-pointer border border-wSecBlue px-3 py-1 rounded-lg ${
                 currentPage === value ? "border border-green-400" : null
               }`}
@@ -94,7 +94,7 @@ function Pagination({ total, onPageChange, nextPage, prevPage }) {
           );
         })}
         <li
-          className={`page-item ${isLastPage ? "hidden" : null}`}
+          className={`page-item opacity-60 transition-all duration-200 hover:opacity-100 ${isLastPage ? "hidden" : null}`}
           onClick={handleNextClick}
         >
           <a className="page-link" href="#">
@@ -102,7 +102,7 @@ function Pagination({ total, onPageChange, nextPage, prevPage }) {
           </a>
         </li>
         <li
-          className={`page-item ${isLastPage ? "hidden" : null}`}
+          className={`page-item opacity-60 transition-all duration-200 hover:opacity-100 ${isLastPage ? "hidden" : null}`}
           onClick={passToEnd}
         >
           <a className="page-link" href="#">
