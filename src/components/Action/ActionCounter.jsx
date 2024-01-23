@@ -6,8 +6,9 @@ export default function ActionCounter({
   actionsBase,
   setActiveAction,
   activeAction,
+  fightInfo,
 }) {
-  const { createNewAction } = useContext(FormContext);
+  const { createNewAction} = useContext(FormContext);
 
   const handleActiveAction = (target) => {
     console.log("action id selected", target.id);
@@ -41,7 +42,7 @@ export default function ActionCounter({
             </div>
           );
         })}
-        <div className="add-action">
+        <div className={`${fightInfo?.is_submitted ? 'hidden' : 'block'} add-action`}>
           <button
             className="rounded-[2rem] text-[20px] flex justify-center items-center bg-wSecMain p-2"
             onClick={handleNewAction}

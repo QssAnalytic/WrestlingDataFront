@@ -14,8 +14,8 @@ export default function MatchesTable({ fightInfos }) {
 
   return (
     <>
-      <div className="all-matches-table mb-5">
-        <table className="text-[#C7E0EE] font-normal w-full">
+      <div className="all-matches-table mb-5 text-xs">
+        <table className="text-[#C7E0EE] font-normal w-full text-xs">
           <thead className="p-[10px] text-sm border border-[#fefefe] border-opacity-[31%] bg-[#090D29]">
             <tr className="">
               <th className="p-3 tracking-wide font-semibold text-center text-sm border border-[#fefefe] border-opacity-[31%]">
@@ -80,59 +80,59 @@ export default function MatchesTable({ fightInfos }) {
                   className="bg-[#2A2D50] text-xs cursor-pointer transition-all hover:bg-[#090D29] border border-[#269B85] border-opacity-[30%]"
                   onClick={(e) => handleFight(e.currentTarget)}
                 >
-                  <td className="p-3  text-sm text-center border border-[#fefefe] border-opacity-[31%]">
+                  <td className="p-1  text-xs text-center border border-[#fefefe] border-opacity-[31%]">
                     {fight.id}
                   </td>
-                  <td className="p-3  text-sm text-center border border-[#fefefe] border-opacity-[31%]">
+                  <td className="p-1  text-xs text-center border border-[#fefefe] border-opacity-[31%]">
                     {fight.wrestling_type}
                   </td>
                   {/* <td className="p-3 text-sm text-center border border-[#fefefe] border-opacity-[31%]">
                     {fight.fighter?.level}
                   </td> */}
-                  <td className="p-3   text-sm text-center border border-[#fefefe] border-opacity-[31%]">
+                  <td className="p-1  truncate text-xs text-center border border-[#fefefe] border-opacity-[31%]">
                     {fight.tournament?.name}
                   </td>
-                  <td className="p-3 text-sm text-center border border-[#fefefe] border-opacity-[31%]">
+                  <td className="p-1 text-xs text-center truncate border border-[#fefefe] border-opacity-[31%]">
                     {fight.location}
                   </td>
-                  <td className="p-3   text-sm text-center border border-[#fefefe] border-opacity-[31%]">
+                  <td className="p-1   text-xs text-center border border-[#fefefe] border-opacity-[31%]">
                     {fight.weight_category}
                   </td>
-                  <td className="p-3 text-sm text-center border border-[#fefefe] border-opacity-[31%]">
+                  <td className="p-1 text-[12px] truncate text-center border border-[#fefefe] border-opacity-[31%]">
                     {fight.fight_date}
                   </td>
-                  <td className="p-3 text-sm text-center border border-[#fefefe] border-opacity-[31%]">
+                  <td className="p-1 text-xs text-center border border-[#fefefe] border-opacity-[31%]">
                     {fight.stage}
                   </td>
                   {/* <td className="p-3 text-sm text-center border border-[#fefefe] border-opacity-[31%]">
                     {fight.fighter.natinality_name}
                   </td> */}
-                  <td className="p-3 text-sm text-center border border-[#fefefe] border-opacity-[31%]">
+                  <td className="p-1 text-xs text-center border border-[#fefefe] border-opacity-[31%]">
                     {fight.fighter?.name}
                   </td>
-                  <td className="p-3 text-sm text-center border border-[#fefefe] border-opacity-[31%]">
+                  <td className="p-1 text-xs text-center border border-[#fefefe] border-opacity-[31%]">
                     {fight.oponent?.name}
                   </td>
                   {/* <td className="p-3 text-sm text-center border border-[#fefefe] border-opacity-[31%]">
                     {fight.oponent.natinality_name}
                   </td> */}
-                  <td className="p-3  text-sm text-center border border-[#fefefe] border-opacity-[31%]">
+                  <td className="p-1  text-xs text-center border border-[#fefefe] border-opacity-[31%]">
                     {fight.oponent1_point}:{fight.oponent2_point}
                   </td>
-                  <td className="p-3  text-sm text-center border border-[#fefefe] border-opacity-[31%]">
+                  <td className="p-1  text-xs text-center border border-[#fefefe] border-opacity-[31%]">
                     {fight.status}
                   </td>
-                  <td className="p-3  text-sm text-center border border-[#fefefe] border-opacity-[31%]">
+                  <td className="p-1 text-xs text-center   border border-[#fefefe] border-opacity-[31%]">
                     {fight.is_submitted ? (
-                      <img src={Checked} />
+                      <img src={Checked} className="pl-[21px]" />
                     ) : (
-                      <img className="pl-[10px]" src={Unchecked} />
+                      <img src={Unchecked} className="pl-[21px]"/>
                     )}
                   </td>
                   {/* <td className="p-3 text-sm text-center border border-[#fefefe] border-opacity-[31%]">
                     {fight.decision}
                   </td> */}
-                  <td className="p-3 text-sm  text-center border cursor-pointer border-[#fefefe] border-opacity-[31%]">
+                  <td className="p-1 text-xs  text-center border cursor-pointer border-[#fefefe] border-opacity-[31%]">
                     <Link to={`/${fight.id}`} className="border-none">
                       <button
                         className="enter border-none bg-none outline-none w-full"

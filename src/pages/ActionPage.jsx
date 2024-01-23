@@ -7,6 +7,7 @@ import { FormContext } from "../context/FormContext";
 import { useContext } from "react";
 import { useParams } from "react-router-dom";
 import { getData } from "../services/api/requests";
+import Notification from "../components/Modals/Notification";
 
 export default function ActionPage() {
   const { actionsBase, singleAction, setSingleAction } =
@@ -21,18 +22,20 @@ export default function ActionPage() {
 
   useEffect(() => {
     getFightInfo();
-    setSingleAction(fightInfo?.fight_statistic || [])
+    setSingleAction(fightInfo?.fight_statistic || []);
   }, []);
   console.log("fightiddd", fightInfo);
 
   return (
-    <>
+    <div>
+      {/* <Notification /> */}
       <Header fightInfo={fightInfo} />
       <main className="main px-9">
         <div className="container m-auto">
           <div className="main-inner mb-7">
             <div className="action-form text-white flex flex-col gap-1">
               <ActionCounter
+                fightInfo={fightInfo}
                 actionsBase={actionsBase}
                 setActiveAction={setSingleAction}
                 activeAction={singleAction}
@@ -45,6 +48,6 @@ export default function ActionPage() {
           </div>
         </div>
       </main>
-    </>
+    </div>
   );
 }
