@@ -1,8 +1,8 @@
 const fightInfosEndpoints = {
   base: "/fight-infos",
   byId: (id) => `/fight-infos/${id}`,
-  status: (id) => `/fight-infos/status/${id}`,
-  check: (id) => `/fight-infos/check/${id}`,
+  status: (status,id) => `/fight-infos/status/?status=${status}&fight_info_id=${id}`,
+  // check: (checked,id) => `/fight-infos/check/?checked=${checked}&fight_info_id=${id}`,
   search: (params) => {
     return `/fight-infos/?${Object.entries(params)
       .map(([key, value]) => (value ? `&${key}=${value}` : null))
@@ -20,4 +20,10 @@ const filtersEndpoints = {
   stages: (weight) => `/filters/stages/${weight}/`,
 };
 
-export { filtersEndpoints, fightInfosEndpoints };
+const createNewMatchEnpoints = {
+  countries : `/filters/countries/`,
+  fighters : (country_name)=> `/filters/fighters/${country_name}`,
+  years : (wrestler_id)=> `/filters/years/${wrestler_id}`,
+}
+
+export { filtersEndpoints, fightInfosEndpoints, createNewMatchEnpoints };

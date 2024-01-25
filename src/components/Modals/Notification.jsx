@@ -3,7 +3,7 @@ import React from 'react'
 export default function Notification({message, modalName}) {
   return (
     <>
-    <div className="notification-container absolute top-[50%] left-[50%] translate-x-[-50%] translate-y-[-50%] bg-[#080C2B] rounded py-12 w-[31rem] z-50">
+    <div className="notification-container absolute top-[50%]  left-[50%] translate-x-[-50%] translate-y-[-50%] bg-[#080C2B] rounded py-12 w-[31rem] z-50">
         <div className="notification-inner flex flex-col gap-5">
             <div className="notification-message flex justify-center items-center text-[#eaeaea]">
                 <h4 className='message'>Are you sure?</h4>

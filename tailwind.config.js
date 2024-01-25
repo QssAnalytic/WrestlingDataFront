@@ -19,7 +19,9 @@ export default {
         wShadow : '#BBBBBD',
         wTextSec : '#DBDBDB',
         wSecGreen : '#61a89f',
-      }
+      },
+      
+      
     },
   },
   plugins: [],

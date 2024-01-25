@@ -1,9 +1,29 @@
-import React from "react";
+import React, { useContext } from "react";
+import useSWR from "swr";
+import { createNewMatchEnpoints } from "../services/api/endponits";
+import { getDashboardData } from "../services/api/requests";
+import { FightContext } from "../context/FightContext";
+import CreateSelectBox from "./CreateSelectBox";
 
-export default function CreateNewMatch({id, openComponent}) {
+export default function CreateNewMatch({ id, openComponent }) {
+  const { newFight, setSelectOpen, selectOpen } = useContext(FightContext);
+
+  const { data: countries } = useSWR(
+    createNewMatchEnpoints.countries,
+    getDashboardData
+  );
+
+ 
+
+  console.log("createnew match", selectOpen);
+
   return (
     <>
-      <div className={`create-new-match-container ${!openComponent[id] ? 'hidden' : 'block'}`}>
+      <div
+        className={`create-new-match-container ${
+          !openComponent[id] ? "hidden" : "block"
+        }`}
+      >
         <form action="" className="flex flex-col gap-4">
           <div className="create-new-macth flex flex-col gap-5 justify-center items-center w-full">
             <div className="first-line flex gap-4 items-center">
@@ -31,7 +51,7 @@ export default function CreateNewMatch({id, openComponent}) {
                   type="date"
                   id="date"
                   name="date"
-                  class="rounded bg-[#575968] px-6 py-[0.36rem] outline-none focus:outline-none"
+                  className="rounded bg-[#575968] px-6 py-[0.36rem] outline-none focus:outline-none"
                 />
               </div>
               <div className="create-input flex flex-col gap-[0.62rem] text-[#eaeaea]">
@@ -53,42 +73,7 @@ export default function CreateNewMatch({id, openComponent}) {
               </div>
             </div>
             <div className="second-line flex gap-4 items-center">
-              <div className="create-input flex flex-col gap-[0.62rem] text-[#eaeaea]">
-                <label htmlFor="tournament">Opponent 1:</label>
-                <input
-                  type="text"
-                  name="tournament"
-                  id="tournament"
-                  className="bg-[#575968] rounded px-2 py-2 outline-none"
-                />
-              </div>
-              <div className="create-input flex flex-col gap-[0.62rem] text-[#eaeaea]">
-                <label htmlFor="place">Opponent 2:</label>
-                <input
-                  type="text"
-                  name="place"
-                  id="place"
-                  className="bg-[#575968] rounded px-2 py-2 outline-none"
-                />
-              </div>
-              <div className="create-input flex flex-col gap-[0.62rem] text-[#eaeaea]">
-                <label htmlFor="place">Nation (Op.1):</label>
-                <input
-                  type="text"
-                  name="place"
-                  id="place"
-                  className="bg-[#575968] rounded px-2 py-2 outline-none"
-                />
-              </div>
-              <div className="create-input flex flex-col gap-[0.62rem] text-[#eaeaea]">
-                <label htmlFor="place">Nation (Op.2):</label>
-                <input
-                  type="text"
-                  name="place"
-                  id="place"
-                  className="bg-[#575968] rounded px-2 py-2 outline-none"
-                />
-              </div>
+              {/* <CreateSelectBox id={'nation1'} datas={countries}/> */}
             </div>
           </div>
           <div className="create-btn text-[#fff] flex justify-center items-center">

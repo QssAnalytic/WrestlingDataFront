@@ -5,15 +5,18 @@ import "./index.css";
 import FormContextProvider from "./context/FormContext";
 import { BrowserRouter } from "react-router-dom";
 import FilterContextProvider from "./context/FilterContext.jsx";
+import FightContextProvider from "./context/FightContext.jsx";
 
 ReactDOM.createRoot(document.getElementById("root")).render(
   // <React.StrictMode>
-    <BrowserRouter>
+  <BrowserRouter>
+    <FightContextProvider>
       <FilterContextProvider>
         <FormContextProvider>
           <App />
         </FormContextProvider>
       </FilterContextProvider>
-    </BrowserRouter>
+    </FightContextProvider>
+  </BrowserRouter>
   // </React.StrictMode>
 );

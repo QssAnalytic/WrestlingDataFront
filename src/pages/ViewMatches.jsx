@@ -20,6 +20,7 @@ export default function ViewMatches() {
   const [page, setPage] = useState(1);
 
   const handlePage = (page) => {
+    console.log('nextpage', page)
     setPage(page);
     setFilterParams((prevParams) => ({
       ...prevParams,
@@ -31,7 +32,7 @@ export default function ViewMatches() {
     data: matches,
     isLoading,
     error,
-  } = useSWR(fightInfosEndpoints.search({ ...filterParams, page }), getData);
+  } = useSWR(fightInfosEndpoints.search({ ...filterParams, page : filterParams.page }), getData);
 
   return (
     <>
