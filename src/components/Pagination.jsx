@@ -11,12 +11,12 @@ function Pagination({ total, onPageChange, nextPage, prevPage }) {
   const pages = [];
   const isFirstPage = currentPage === 1;
   const isLastPage = currentPage === total;
-  const startPage = Math.max(1, currentPage - Math.floor(pageToShow / 2));
+  // const startPage = Math.max(1, currentPage - Math.floor(pageToShow / 2));
 
-  for (let i = startPage; i <= total; i++) {
+  for (let i = 1; i <= total; i++) {
     const isCurrent = i === currentPage;
     const isWithinRange =
-      i <= pageToShow ||
+      i <= pageToShow || 
       i > total - pageToShow ||
       (i >= currentPage - Math.floor(pageToShow / 2) &&
         i < currentPage + Math.floor(pageToShow / 2));
@@ -75,11 +75,12 @@ function Pagination({ total, onPageChange, nextPage, prevPage }) {
           </a>
         </li>
         {pages.map((value, index) => {
+          {console.log('valuesss', value)}
           return (
             <li
               key={index}
               className={`page-item transition-all duration-200 hover:bg-[#eaeaea] hover:text-wBlue hover:border-transparent ${
-                value === "..." ? "border-none pointer-events-none" : null
+                value === "..." ? " tracking-[0.28rem] border-none pointer-events-none" : null
               } cursor-pointer border border-wSecBlue px-3 py-1 rounded-lg ${
                 currentPage === value ? "border border-green-400" : null
               }`}
@@ -87,7 +88,7 @@ function Pagination({ total, onPageChange, nextPage, prevPage }) {
                 handlePage(value);
               }}
             >
-              <a className="page-link" href="#">
+              <a className="page-link" href={`#${value}`}>
                 {value}
               </a>
             </li>

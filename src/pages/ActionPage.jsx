@@ -8,28 +8,29 @@ import { useContext } from "react";
 import { useParams } from "react-router-dom";
 import { getData } from "../services/api/requests";
 import Notification from "../components/Modals/Notification";
+import useSWR from "swr";
+import { fightInfosEndpoints } from "../services/api/endponits";
 
 export default function ActionPage() {
   const { actionsBase, singleAction, setSingleAction } =
     useContext(FormContext);
 
-  const [fightInfo, setFightInfo] = useState();
   const { fightId } = useParams();
-
-  const getFightInfo = async () => {
-    setFightInfo(await getData(`/fight-infos/${fightId}`));
-  };
+  
+  const { data: fightInfo, isLoading } = useSWR(
+    fightInfosEndpoints.byId(fightId),
+    getData
+  );
 
   useEffect(() => {
-    getFightInfo();
     setSingleAction(fightInfo?.fight_statistic || []);
   }, []);
   console.log("fightiddd", fightInfo);
 
   return (
-    <div>
+    <>
       {/* <Notification /> */}
-      <Header fightInfo={fightInfo} />
+      {!isLoading? <><Header fightInfo={fightInfo} />
       <main className="main px-9">
         <div className="container m-auto">
           <div className="main-inner mb-7">
@@ -47,7 +48,8 @@ export default function ActionPage() {
             </div>
           </div>
         </div>
-      </main>
-    </div>
+      </main>) </> : <p className="text-white">Loading...</p> }
+      
+    </>
   );
 }

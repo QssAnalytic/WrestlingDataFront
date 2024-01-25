@@ -75,8 +75,8 @@ export default function FilterSelectBox({
         </button>
 
         <div
-          className={`${
-            filterSelects[id] ? "block" : "hidden"
+          className={`transition-all duration-300 ${
+            filterSelects[id] ? "opacity-[100%] pointer-events-auto" : "opacity-0 pointer-events-none"
           } filter-select-drop absolute overflow-auto h-30 bg-[#1B3458] w-full left-0 top-14 rounded-lg`}
         >
           <ul id="salam" className="select-item-container overflow-auto h-64">
@@ -102,7 +102,7 @@ export default function FilterSelectBox({
               return (
                 <li
                   key={index}
-                  className="item p-3 hover:bg-wShadow hover:text-[#000000] cursor-pointer"
+                  className="item p-2 text-xs hover:bg-wShadow hover:text-[#000000] cursor-pointer"
                   onClick={() => {
                     setFilterParams(item[filterKey || id]);
                     setSelectedValue(item[valueKey || id]);
@@ -118,7 +118,7 @@ export default function FilterSelectBox({
               return (
                 <li
                   key={index}
-                  className="item p-3 hover:bg-wShadow hover:text-[#000000] cursor-pointer"
+                  className="item p-2 text-xs hover:bg-wShadow hover:text-[#000000] cursor-pointer"
                   onClick={() => {
                     setFilterParams(item[filterKey || id]);
                     setSelectedValue(item[valueKey || id]);

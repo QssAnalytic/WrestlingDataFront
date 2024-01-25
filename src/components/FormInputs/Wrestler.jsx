@@ -14,7 +14,7 @@ export default function Wrestler({
       onClick={(e) => handleWrestler(e.currentTarget.id)}
     >
       <div
-        className={`wrestler-img w-fit border-[2px] rounded-md ${wrestlerColor} ${
+        className={`wrestler-img w-fit border-[2px] transition-all duration-300 rounded-md hover:opacity-[100%] ${wrestlerColor} ${
           activeWrestler[opponent?.id]
             ? " border-wGreen"
             : "border-[#000] border-opacity-[60%] opacity-[50%]"
