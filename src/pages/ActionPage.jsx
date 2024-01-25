@@ -15,12 +15,29 @@ export default function ActionPage() {
   const { actionsBase, singleAction, setSingleAction } =
     useContext(FormContext);
 
+  const [qualityCheck, setQualityCheck] = useState({
+    status: "",
+  });
+
+  const [fightInfo, setFightInfo] = useState();
   const { fightId } = useParams();
-  
-  const { data: fightInfo, isLoading } = useSWR(
-    fightInfosEndpoints.byId(fightId),
-    getData
-  );
+
+  const getFightInfo = async () => {
+    setFightInfo(await getData(`/fight-infos/${fightId}`));
+  };
+
+  useEffect(() => {
+    getFightInfo();
+  }, [qualityCheck]);
+
+  useEffect(() => {
+    setSingleAction(fightInfo?.fight_statistic || []);
+  }, []);
+
+  // const { data: fightInfo, isLoading } = useSWR(
+  //   fightInfosEndpoints.byId(fightId),
+  //   getData
+  // );
 
   useEffect(() => {
     setSingleAction(fightInfo?.fight_statistic || []);
@@ -30,26 +47,36 @@ export default function ActionPage() {
   return (
     <>
       {/* <Notification /> */}
-      {!isLoading? <><Header fightInfo={fightInfo} />
-      <main className="main px-9">
-        <div className="container m-auto">
-          <div className="main-inner mb-7">
-            <div className="action-form text-white flex flex-col gap-1">
-              <ActionCounter
-                fightInfo={fightInfo}
-                actionsBase={actionsBase}
-                setActiveAction={setSingleAction}
-                activeAction={singleAction}
-              />
-              <div className="flex flex-col gap-8 bg-wSecMain border border-wGreen rounded-md py-5 px-10">
-                <ActionForm />
-                <ActionTable fightStatistic={fightInfo?.fight_statistic} />
+      {/* {!isLoading ? ( */}
+        <>
+          <Header
+            fightInfo={fightInfo}
+            qualityCheck={qualityCheck}
+            setQualityCheck={setQualityCheck}
+          />
+          <main className="main px-9">
+            <div className="container m-auto">
+              <div className="main-inner mb-7">
+                <div className="action-form text-white flex flex-col gap-1">
+                  <ActionCounter
+                    fightInfo={fightInfo}
+                    actionsBase={actionsBase}
+                    setActiveAction={setSingleAction}
+                    activeAction={singleAction}
+                  />
+                  <div className="flex flex-col gap-8 bg-wSecMain border border-wGreen rounded-md py-5 px-10">
+                    <ActionForm />
+                    <ActionTable fightStatistic={fightInfo?.fight_statistic} />
+                  </div>
+                </div>
               </div>
             </div>
-          </div>
-        </div>
-      </main>) </> : <p className="text-white">Loading...</p> }
-      
+          </main>
+          ){" "}
+        </>
+      ) 
+        {/* <p className="text-white">Loading...</p> */}
+      {/* )} */}
     </>
   );
 }

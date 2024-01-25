@@ -1,6 +1,6 @@
 import { createContext, useState } from "react";
 
-export const FightContex = createContext();
+export const FightContext = createContext();
 
 const FightContextProvider = (props) => {
   const [newFight, setNewFight] = useState({
@@ -22,14 +22,25 @@ const FightContextProvider = (props) => {
     tournament_date: "2024-01-23",
   });
 
+  const [selectOpen, setSelectOpen] = useState({
+    nation1 : false,
+    status : false,
+    quality : false,
+  });
+
   return (
-    <FightContex.Provider
+    <FightContext.Provider
       value={{
         newFight,
         setNewFight,
+        selectOpen,
+        setSelectOpen
       }}
     >
       {props.children}
-    </FightContex.Provider>
+    </FightContext.Provider>
   );
 };
+
+
+export default FightContextProvider;

@@ -8,8 +8,11 @@ import { FormContext } from "../context/FormContext";
 import { Link, useNavigate, useParams } from "react-router-dom";
 import { postData, updateData } from "../services/api/requests";
 import { fightInfosEndpoints } from "../services/api/endponits";
+import { FightContext } from "../context/FightContext";
+import CreateSelectBox from "./CreateSelectBox";
+import useSWR from "swr";
 
-export default function Header({ fightInfo }) {
+export default function Header({ fightInfo, qualityCheck, setQualityCheck }) {
   const {
     actionsBase,
     singleAction,
@@ -19,9 +22,13 @@ export default function Header({ fightInfo }) {
   } = useContext(FormContext);
 
   const { fightId } = useParams();
+  const { selectOpen, setSelectOpen } = useContext(FightContext);
+  const [response, setResponse] = useState('')
   const navigate = useNavigate();
-  const [checked, setChecked] = useState("");
 
+ 
+
+  console.log("check", qualityCheck);
   const [author, setAuthor] = useState("");
 
   const fetchData = async () => {
@@ -33,33 +40,22 @@ export default function Header({ fightInfo }) {
       console.log("salam men geldim err");
     }
   };
+  const { data: statusResponse } = useSWR(
+    qualityCheck?.status
+      ? fightInfosEndpoints.status(qualityCheck?.status, fightId)
+      : null,
+    updateData
+  );
 
-  const handleFinishMatch = async () => {
-    try {
-      const response = await updateData(`fight-infos/status/${fightId}`);
-      navigate('/')
-      console.log("finish match res", response);
-    } catch (err) {
-      console.log("finish match err", err);
-    }
-  };
-
-  const handleQuality = async () => {
-    try {
-      const response = await updateData(
-        fightInfosEndpoints.check(`${Number(fightId)}`)
-      );
-      setChecked(response);
-    } catch (err) {
-      console.log(err);
-    }
-  };
+  useEffect(()=>{
+    setResponse(statusResponse);
+  },[statusResponse])
 
   useEffect(() => {
     loadData(fightId);
     fetchData();
     console.log("header id", fightId);
-  }, [fightId]);
+  }, [fightId, qualityCheck]);
 
   console.log("fightInfo in header", fightInfo);
 
@@ -144,32 +140,26 @@ export default function Header({ fightInfo }) {
                 </button>
               </Link>
             </div>
-            <div className={`${fightInfo?.status === 'completed' ? 'pointer-events-none opacity-40' : 'pointer-events-auto'}final-submit-btn rounded-sm bg-[#ffffff] transition-all hover:bg-white text-center bg-opacity-[0.4] py-[0.62rem] px-[1.88rem]`}>
-              <button
-                className={` ${fightInfo?.status === 'completed' ? 'pointer-events-none' :'pointer-events-auto'}match-submit gap-[1.88rem] text-wSecMain text-center`}
-                onClick={handleFinishMatch}
-              >
-                Finish Match
-              </button>
-            </div>
-            <div
-              className={`final-submit-btn rounded-sm bg-[#ffffff] transition-all hover:bg-white text-center bg-opacity-[0.4] py-[0.62rem] px-[1.88rem] ${
-                checked === "checked" || fightInfo?.is_submitted
-                  ? "opacity-[60%] pointer-events-none"
-                  : "pointer-events-auto"
-              }`}
-            >
-              <button
-                className={`match-submit gap-[1.88rem] text-wSecMain text-center ${
-                  checked  === "checked" || fightInfo?.is_submitted
-                    ? "pointer-events-none"
-                    : "pointer-events-auto"
-                }`}
-                onClick={handleQuality}
-              >
-                Check Quality
-              </button>
-            </div>
+            <CreateSelectBox
+              id={"status"}
+              datas={["not started", "in progress", "completed", 'checked']}
+              selectOpen={selectOpen}
+              setSelectOpen={setSelectOpen}
+              setValue={setQualityCheck}
+              value={qualityCheck}
+              response={response}
+              fightInfo={fightInfo}
+            />
+            {/* <CreateSelectBox
+              id={"quality"}
+              datas={["checked", "unchecked"]}
+              selectOpen={selectOpen}
+              setSelectOpen={setSelectOpen}
+              setValue={setQualityCheck}
+              value={qualityCheck}
+              // response={checkResponse}
+              fightInfo={fightInfo}
+            /> */}
           </div>
         </div>
       </div>
