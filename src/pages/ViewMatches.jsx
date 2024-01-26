@@ -19,20 +19,25 @@ export default function ViewMatches() {
   const { filterParams, setFilterParams } = useContext(FilterContext);
   const [page, setPage] = useState(1);
 
-  const handlePage = (page) => {
+  const handlePage = (pageNum) => {
     console.log('nextpage', page)
-    setPage(page);
+    setPage(pageNum);
     setFilterParams((prevParams) => ({
       ...prevParams,
-      page: page,
-    }));
+      page: pageNum,
+    }))
+    setTimeout(()=>{
+      mutate()
+    },1);
   };
 
   const {
     data: matches,
     isLoading,
     error,
-  } = useSWR(fightInfosEndpoints.search({ ...filterParams, page : filterParams.page }), getData);
+    mutate,
+  } = useSWR(fightInfosEndpoints.search({ ...filterParams, page : filterParams.page}), getData);
+
 
   return (
     <>
@@ -71,6 +76,8 @@ export default function ViewMatches() {
                       nextPage={matches.next_page}
                       prevPage={matches.previous_page}
                       onPageChange={handlePage}
+                      filterParams={filterParams}
+                      mutate={mutate}
                     />
                   </>
                 ) : (
