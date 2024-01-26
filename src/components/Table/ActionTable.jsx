@@ -19,14 +19,14 @@ export default function ActionTable({ fightStatistic }) {
         <h4 className="text-wOrange text-center">Preview match info</h4>
         <div className="match-table w-full bg-wMain p-5">
           <table
-            className="w-full"
-            style={{
-              border: "1px solid transparent",
-              borderCollapse: "separate",
-              borderSpacing: "8px",
-            }}
+            className="w-full border-spacing-y-2 border-separate"
+            // style={{
+            //   border: "1px solid transparent",
+            //   borderCollapse: "separate",
+            //   borderSpacing: "8px",
+            // }}
           >
-            <thead className="rounded-sm bg-wSecMain text-wText font-[400]">
+            <thead className="rounded-lg bg-wSecMain text-wText font-[400] ">
               <tr>
                 <th className="p-2">Action No:</th>
                 <th>Fighter</th>
@@ -41,7 +41,7 @@ export default function ActionTable({ fightStatistic }) {
                 <th colSpan="2"></th>
               </tr>
             </thead>
-            <tbody className="rounded-sm bg-[#121C34] text-wText font-[400]">
+            <tbody className="rounded-sm text-wText font-[400]">
               {actionsBase?.map((action, index) => {
                 return (
                   <Row

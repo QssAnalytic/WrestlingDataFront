@@ -14,6 +14,8 @@ export default function CreateSelectBox({
   setValue,
   response,
   fightInfo,
+  mutate,
+  isLoading,
 }) {
   const iconStyle = {
     color: "green",
@@ -33,12 +35,15 @@ export default function CreateSelectBox({
     });
   };
 
-  const handleAddNew = ()=>{
-    setNewInput((prev)=> !prev)
-  }
+  const handleAddNew = () => {
+    setNewInput((prev) => !prev);
+  };
 
   return (
     <div className="flex flex-col gap-2">
+      <div className="select-label text-[#eaeaea]">
+        <p>{name}</p>
+      </div>
       {!newInput ? (
         <div
           id={id}
@@ -46,9 +51,6 @@ export default function CreateSelectBox({
           onClick={(e) => triggerSelect(e.currentTarget.id)}
         >
           <div className="selectbox w-full flex justify-between">
-            {/* <div className="flag w-[100px]">
-            <img src={`https://flagcdn.com/${value?.[id]?.slice(0,2)}.svg`} alt=""  className="h-[50px]"/>
-          </div> */}
             <p className="px-2 py-3 capitalize truncate">
               {value?.[id] ? value?.[id] : fightInfo?.[id] || name}
             </p>
@@ -68,7 +70,7 @@ export default function CreateSelectBox({
               {datas?.map((item) => (
                 <li
                   className="hover:bg-slate-200 hover:rounded hover:text-black py-2 px-3 flex justify-between items-center"
-                  onClick={() =>
+                  onClick={() => {
                     setValue((prev) => ({
                       ...prev,
                       [id]:
@@ -79,8 +81,11 @@ export default function CreateSelectBox({
                           : value?.[id] === item.data
                           ? ""
                           : item.data,
-                    }))
-                  }
+                    }));
+                    setTimeout(() => {
+                      mutate && mutate();
+                    }, 1);
+                  }}
                 >
                   {item.data}
                   {value?.[id] === item.data ||
@@ -93,7 +98,13 @@ export default function CreateSelectBox({
           </div>
         </div>
       ) : (
-        <CreateInput id={id} name={id} value={value} setValue={setValue} type={'text'} />
+        <CreateInput
+          id={id}
+          name={id}
+          value={value}
+          setValue={setValue}
+          type={"text"}
+        />
       )}
 
       {id === "opponent1" || id === "opponent2" ? (

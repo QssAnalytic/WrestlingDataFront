@@ -12,7 +12,13 @@ import { FightContext } from "../context/FightContext";
 import CreateSelectBox from "./CreateSelectBox";
 import useSWR from "swr";
 
-export default function Header({ fightInfo, qualityCheck, setQualityCheck }) {
+export default function Header({
+  fightInfo,
+  qualityCheck,
+  setQualityCheck,
+  mutate,
+  isLoading,
+}) {
   const {
     actionsBase,
     singleAction,
@@ -152,6 +158,8 @@ export default function Header({ fightInfo, qualityCheck, setQualityCheck }) {
               value={qualityCheck}
               response={response}
               fightInfo={fightInfo}
+              mutate={mutate}
+              isLoading={isLoading}
             />
           </div>
         </div>

@@ -14,32 +14,19 @@ import { fightInfosEndpoints } from "../services/api/endponits";
 export default function ActionPage() {
   const { actionsBase, singleAction, setSingleAction } =
     useContext(FormContext);
-
-
-
-  const [fightInfo, setFightInfo] = useState();
   const { fightId } = useParams();
-
-  const [qualityCheck, setQualityCheck] = useState({
-    status: fightInfo?.status || "",
-  });
-  const getFightInfo = async () => {
-    setFightInfo(await getData(`/fight-infos/${fightId}`));
-  };
-
-  useEffect(() => {
-    getFightInfo();
-  }, [qualityCheck]);
 
   useEffect(() => {
     setSingleAction(fightInfo?.fight_statistic || []);
   }, []);
 
-  // const { data: fightInfo, isLoading } = useSWR(
-  //   fightInfosEndpoints.byId(fightId),
-  //   getData
-  // );
+  const {
+    data: fightInfo,
+    isLoading,
+    mutate,
+  } = useSWR(fightInfosEndpoints.byId(fightId), getData);
 
+  const [qualityCheck, setQualityCheck] = useState({status : ''});
   useEffect(() => {
     setSingleAction(fightInfo?.fight_statistic || []);
   }, []);
@@ -48,13 +35,15 @@ export default function ActionPage() {
   return (
     <>
       {/* <Notification /> */}
-      {/* {!isLoading ? ( */}
         <>
           <Header
             fightInfo={fightInfo}
             qualityCheck={qualityCheck}
             setQualityCheck={setQualityCheck}
+            mutate={mutate}
+            isLoading={isLoading}
           />
+      {!isLoading ? (
           <main className="main px-9">
             <div className="container m-auto">
               <div className="main-inner mb-7">
@@ -73,11 +62,11 @@ export default function ActionPage() {
               </div>
             </div>
           </main>
-          ){" "}
+          ) : (
+            <p className="text-white">Loading...</p>
+          )}
         </>
       ) 
-        {/* <p className="text-white">Loading...</p> */}
-      {/* )} */}
     </>
   );
 }

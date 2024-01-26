@@ -38,10 +38,10 @@ export default function Row(props) {
   console.log("row time", opponents);
 
   return ( 
-    <tr className="text-center mb-8">
-      <td>{props.index}</td>
-      <td className="p-2">{props.fighter}</td>
-      <td>{props.opponent}</td>
+    <tr className="text-center bg-[#121C34]  cursor-pointer transition-all duration-300 hover:bg-slate-300 hover:text-red-500">
+      <td className="rounded-tl-md rounded-bl-md">{props.index}</td>
+      <td className="p-2 truncate">{props.fighter}</td>
+      <td className="truncate">{props.opponent}</td>
       <td>
         {props.time
           ? `${Math.floor(props.time / 60)} : ${Math.floor(props.time % 60)}`
@@ -62,7 +62,7 @@ export default function Row(props) {
           <img src={editIcon} alt="edit" />
         </button>
       </td>
-      <td>
+      <td className="rounded-tr-md rounded-br-md">
         <button id={props.id} onClick={(e)=>handleDeleteAction(e.currentTarget)} className="w-[1.5rem] h-[1.5rem] flex items-center rounded-3xl p-[5px] bg-[#2C354A]">
           <img src={deleteIcon} alt="delete" />
         </button>

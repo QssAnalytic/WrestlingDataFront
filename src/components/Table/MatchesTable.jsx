@@ -1,11 +1,13 @@
 import React, { useContext, useEffect } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { FormContext } from "../../context/FormContext";
 import Checked from "../../assets/checked.svg";
 import Unchecked from "../../assets/Unchecked.svg";
 
 export default function MatchesTable({ fightInfos }) {
   const { loadData, actionsBase } = useContext(FormContext);
+
+  const navigate = useNavigate();
 
   const handleFight = (target) => {
     loadData(target.id);
@@ -75,9 +77,9 @@ export default function MatchesTable({ fightInfos }) {
               {/* <th className="p-3 tracking-wide font-semibold text-center text-sm border border-[#fefefe] border-opacity-[31%]">
                 Win by
               </th> */}
-              <th className="p-3 tracking-wide font-semibold text-center text-sm border border-[#fefefe] border-opacity-[31%]">
+              {/* <th className="p-3 tracking-wide font-semibold text-center text-sm border border-[#fefefe] border-opacity-[31%]">
                 Enter Match
-              </th>
+              </th> */}
             </tr>
           </thead>
           <tbody>
@@ -87,7 +89,10 @@ export default function MatchesTable({ fightInfos }) {
                   id={fight.id}
                   key={index}
                   className="bg-[#2A2D50] text-xs cursor-pointer transition-all hover:bg-[#090D29] border border-[#269B85] border-opacity-[30%]"
-                  onClick={(e) => handleFight(e.currentTarget)}
+                  onClick={(e) => {
+                    handleFight(e.currentTarget)
+                    navigate(`/${fight.id}`)
+                  }}
                 >
                   <td className="p-1  text-xs text-center border border-[#fefefe] border-opacity-[31%]">
                     {fight.id}
@@ -151,7 +156,7 @@ export default function MatchesTable({ fightInfos }) {
                   <td className="p-3 text-sm text-center border border-[#fefefe] border-opacity-[31%] truncate">
                     {!fight?.author ? "---" : fight?.author}
                   </td>
-                  <td className="p-1 text-xs  text-center border cursor-pointer border-[#fefefe] border-opacity-[31%]">
+                  {/* <td className="p-1 text-xs  text-center border cursor-pointer border-[#fefefe] border-opacity-[31%]">
                     <Link to={`/${fight.id}`} className="border-none">
                       <button
                         className="enter border-none bg-none outline-none w-full"
@@ -162,7 +167,7 @@ export default function MatchesTable({ fightInfos }) {
                         Enter
                       </button>
                     </Link>
-                  </td>
+                  </td> */}
                 </tr>
               );
             })}
