@@ -15,13 +15,14 @@ export default function ActionPage() {
   const { actionsBase, singleAction, setSingleAction } =
     useContext(FormContext);
 
-  const [qualityCheck, setQualityCheck] = useState({
-    status: "",
-  });
+
 
   const [fightInfo, setFightInfo] = useState();
   const { fightId } = useParams();
 
+  const [qualityCheck, setQualityCheck] = useState({
+    status: fightInfo?.status || "",
+  });
   const getFightInfo = async () => {
     setFightInfo(await getData(`/fight-infos/${fightId}`));
   };
