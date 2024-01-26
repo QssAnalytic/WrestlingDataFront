@@ -7,13 +7,11 @@
   background-image: url(./assets/backk.svg);
   background-repeat: no-repeat;
   background-size: cover;
-  /* background-color: blue; */
   font-family: 'Rubik', sans-serif;
   padding-top: 1.87rem; 
-  /* width: 100%; */
+  width: 100%;
+  overflow-x: scroll;
   display: flex;
-  /* height: 100dvh; */
-  /* opacity: 0.5; */
   height: 100%;
   gap: 1.87rem;
   flex-direction: column;

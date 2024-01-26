@@ -23,10 +23,8 @@ export default function Header({ fightInfo, qualityCheck, setQualityCheck }) {
 
   const { fightId } = useParams();
   const { selectOpen, setSelectOpen } = useContext(FightContext);
-  const [response, setResponse] = useState('')
+  const [response, setResponse] = useState("");
   const navigate = useNavigate();
-
- 
 
   console.log("check", qualityCheck);
   const [author, setAuthor] = useState("");
@@ -47,9 +45,9 @@ export default function Header({ fightInfo, qualityCheck, setQualityCheck }) {
     updateData
   );
 
-  useEffect(()=>{
+  useEffect(() => {
     setResponse(statusResponse);
-  },[statusResponse])
+  }, [statusResponse]);
 
   useEffect(() => {
     loadData(fightId);
@@ -142,7 +140,12 @@ export default function Header({ fightInfo, qualityCheck, setQualityCheck }) {
             </div>
             <CreateSelectBox
               id={"status"}
-              datas={["not started", "in progress", "completed", 'checked']}
+              datas={[
+                { data: "not started" },
+                { data: "in progress" },
+                { data: "completed" },
+                { data: "checked" },
+              ]}
               selectOpen={selectOpen}
               setSelectOpen={setSelectOpen}
               setValue={setQualityCheck}
@@ -150,16 +153,6 @@ export default function Header({ fightInfo, qualityCheck, setQualityCheck }) {
               response={response}
               fightInfo={fightInfo}
             />
-            {/* <CreateSelectBox
-              id={"quality"}
-              datas={["checked", "unchecked"]}
-              selectOpen={selectOpen}
-              setSelectOpen={setSelectOpen}
-              setValue={setQualityCheck}
-              value={qualityCheck}
-              // response={checkResponse}
-              fightInfo={fightInfo}
-            /> */}
           </div>
         </div>
       </div>

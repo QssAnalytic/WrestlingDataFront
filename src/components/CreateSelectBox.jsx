@@ -1,22 +1,26 @@
-import React from "react";
+import React, { useState } from "react";
 import { BiSolidDownArrow } from "react-icons/bi";
 import { FaCircle } from "react-icons/fa";
+import { MdAdd } from "react-icons/md";
+import CreateInput from "./CreateInput";
 
 export default function CreateSelectBox({
   id,
+  name,
   datas,
   selectOpen,
   setSelectOpen,
   value,
   setValue,
   response,
-  fightInfo
+  fightInfo,
 }) {
+  const iconStyle = {
+    color: "green",
+    fontSize: "10px",
+  };
 
-    const iconStyle = {
-        color : 'green',
-        fontSize : '10px',
-    }
+  const [newInput, setNewInput] = useState(false);
 
   const triggerSelect = (id) => {
     console.log("id", id);
@@ -29,38 +33,80 @@ export default function CreateSelectBox({
     });
   };
 
+  const handleAddNew = ()=>{
+    setNewInput((prev)=> !prev)
+  }
+
   return (
-    <>
-      <div
-        id={id}
-        className={`bg-[#575968] flex relative cursor-pointer text-[#eaeaea] gap-[0.62rem] rounded`}
-        onClick={(e) => triggerSelect(e.currentTarget.id)}
-      >
-        <div className="selectbox w-full flex justify-between">
-          <p className="px-2 py-3 capitalize">{value?.[id] ? value?.[id] : (fightInfo?.[id] || id) }</p>
+    <div className="flex flex-col gap-2">
+      {!newInput ? (
+        <div
+          id={id}
+          className={`bg-[#575968] flex relative cursor-pointer text-[#eaeaea] gap-[0.62rem] rounded w-52`}
+          onClick={(e) => triggerSelect(e.currentTarget.id)}
+        >
+          <div className="selectbox w-full flex justify-between">
+            {/* <div className="flag w-[100px]">
+            <img src={`https://flagcdn.com/${value?.[id]?.slice(0,2)}.svg`} alt=""  className="h-[50px]"/>
+          </div> */}
+            <p className="px-2 py-3 capitalize truncate">
+              {value?.[id] ? value?.[id] : fightInfo?.[id] || name}
+            </p>
+            <button
+              className="open-select px-2 py-3 bg-[#6A6B79] rounded-r"
+              type="button"
+            >
+              <BiSolidDownArrow />
+            </button>
+          </div>
+          <div
+            className={`${
+              selectOpen?.[id] ? "block" : "hidden"
+            } rounded absolute top-14 bg-[#6A6B79] h-[150px] left-0 z-20 overflow-y-scroll`}
+          >
+            <ul className="w-52">
+              {datas?.map((item) => (
+                <li
+                  className="hover:bg-slate-200 hover:rounded hover:text-black py-2 px-3 flex justify-between items-center"
+                  onClick={() =>
+                    setValue((prev) => ({
+                      ...prev,
+                      [id]:
+                        id === "opponent1" || id === "opponent2"
+                          ? value?.[id] === item.id
+                            ? ""
+                            : item.id
+                          : value?.[id] === item.data
+                          ? ""
+                          : item.data,
+                    }))
+                  }
+                >
+                  {item.data}
+                  {value?.[id] === item.data ||
+                  fightInfo?.[id] === item.data ? (
+                    <FaCircle style={iconStyle} />
+                  ) : null}
+                </li>
+              ))}
+            </ul>
+          </div>
+        </div>
+      ) : (
+        <CreateInput id={id} name={id} value={value} setValue={setValue} type={'text'} />
+      )}
+
+      {id === "opponent1" || id === "opponent2" ? (
+        <div className="add-new" onClick={handleAddNew}>
           <button
-            className="open-select px-2 py-3 bg-[#6A6B79] rounded-r"
+            className="flex text-[#eaeaea] items-center transition-all duration-200 hover:text-green-300"
             type="button"
           >
-            <BiSolidDownArrow />
+            <MdAdd />
+            Add new one
           </button>
         </div>
-        <div
-          className={`${
-            selectOpen[id] ? "block" : "hidden"
-          } w-full rounded absolute top-14 bg-[#6A6B79] left-0 z-20`}
-        >
-          <ul>
-            {datas?.map((data) => (
-              <li className="hover:bg-slate-200 hover:text-black py-3 px-3 flex justify-between items-center" onClick={()=> setValue((prev)=>({...prev, [id] : (value?.[id] === data ? '' : data)}))}>
-                {data}
-                {value?.[id] === data || fightInfo?.[id] === data ? <FaCircle style={iconStyle} /> : null}
-                
-              </li>
-            ))}
-          </ul>
-        </div>
-      </div>
-    </>
+      ) : null}
+    </div>
   );
 }

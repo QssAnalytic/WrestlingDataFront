@@ -4,28 +4,31 @@ export const FightContext = createContext();
 
 const FightContextProvider = (props) => {
   const [newFight, setNewFight] = useState({
-    wrestling_type: "string",
-    fight_date: "2024-01-23",
-    location: "string",
-    weight_category: 0,
-    stage: "string",
-    decision: "string",
-    is_submitted: true,
-    status: "string",
-    oponent1_point: 0,
-    oponent2_point: 0,
-    level: "string",
-    fight_name: "string",
-    opponent_name: "string",
-    winner_name: "string",
-    tournament_name: "string",
-    tournament_date: "2024-01-23",
+    wrestling_type: undefined,
+    location: undefined,
+    weight_category: undefined,
+    stage: undefined,
+    decision: undefined,
+    opponent1_nationality: undefined,
+    opponent2_nationality: undefined,
+    level: undefined,
+    opponent1: undefined,
+    opponent2: undefined,
+    tournament_name: undefined,
+    tournament_date: undefined,
   });
 
   const [selectOpen, setSelectOpen] = useState({
-    nation1 : false,
-    status : false,
-    quality : false,
+    opponent1_nationality: false,
+    opponent2_nationality: false,
+    wrestling_type : false,
+    opponent1: false,
+    opponent2: false,
+    status: false,
+    decision: false,
+    stage : false,
+    quality: false,
+    level: false,
   });
 
   return (
@@ -34,13 +37,12 @@ const FightContextProvider = (props) => {
         newFight,
         setNewFight,
         selectOpen,
-        setSelectOpen
+        setSelectOpen,
       }}
     >
       {props.children}
     </FightContext.Provider>
   );
 };
-
 
 export default FightContextProvider;
