@@ -8,7 +8,7 @@ export default function ActionCounter({
   activeAction,
   fightInfo,
 }) {
-  const { createNewAction} = useContext(FormContext);
+  const { createNewAction } = useContext(FormContext);
 
   const handleActiveAction = (target) => {
     console.log("action id selected", target.id);
@@ -20,6 +20,8 @@ export default function ActionCounter({
     console.log('added')
     createNewAction();
   };
+
+  console.log('counterdaki', fightInfo)
 
   return (
     <div className="action-counter">
