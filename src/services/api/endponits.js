@@ -2,7 +2,7 @@ const fightInfosEndpoints = {
   base: "/fight-infos",
   byId: (id) => `/fight-infos/${id}`,
   status: (status,id) => `/fight-infos/status/?status=${status}&fight_info_id=${id}`,
-  // check: (checked,id) => `/fight-infos/check/?checked=${checked}&fight_info_id=${id}`,
+  addNewFigth : `/fight-infos/`,
   search: (params) => {
     return `/fight-infos/?${Object.entries(params)
       .map(([key, value]) => (value ? `&${key}=${value}` : null))
