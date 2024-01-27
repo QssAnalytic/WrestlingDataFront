@@ -9,6 +9,7 @@ import { FightContext } from "../context/FightContext";
 import CreateSelectBox from "./CreateSelectBox";
 import { WrestlingTypes, desicions, level, stage } from "../static/data";
 import CreateInput from "./CreateInput";
+import toast, { Toaster } from "react-hot-toast";
 
 export default function CreateNewMatch({ id, openComponent }) {
   const { newFight, setNewFight, setSelectOpen, selectOpen } =
@@ -41,8 +42,8 @@ export default function CreateNewMatch({ id, openComponent }) {
         fightInfosEndpoints.addNewFigth,
         newFight
       );
-      prompt(`Match succesfully created. Please copy your id! ID is ${response.id}`)
       console.log("macth successfully created", response);
+      toast(`Copy match id : ${response.id}`, {style : {background : 'lightblue', color : 'white'}, duration : 7000})
     } catch (err) {
       console.log("created err", err);
     }
@@ -173,6 +174,7 @@ export default function CreateNewMatch({ id, openComponent }) {
             >
               Create
             </button>
+            <Toaster/>
           </div>
         </form>
       </div>

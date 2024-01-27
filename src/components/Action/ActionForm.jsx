@@ -4,9 +4,11 @@ import { useState } from "react";
 import Chekbox from "../FormInputs/Chekbox";
 import Time from "../FormInputs/Time";
 import { FormContext } from "../../context/FormContext";
+import Notification from "../Modals/Notification";
 import { useForm } from "react-hook-form";
 import { Controller } from "react-hook-form";
 import { getData, postData, updateData } from "../../services/api/requests";
+import toast, { Toaster } from "react-hot-toast";
 
 export default function ActionForm() {
   const {
@@ -89,10 +91,17 @@ export default function ActionForm() {
       );
       addAction(response);
       console.log("try in response", response);
+      toast("Successfully added", {
+        style: { background: "green", color: "#eaeaea" },
+      });
+      setSingleAction('')
+
       // setSingleAction(response)
     } catch (err) {
-      err.response?.status === 422 ? setOpenModal(true) : null;
-      console.log("post err", err);
+      toast("Please fill correctly", {
+        style: { background: "red", color: "#eaeaea" },
+      });
+      console.log("post err", err.response?.status);
     }
   };
 
@@ -112,7 +121,10 @@ export default function ActionForm() {
       console.log("put response", response);
       addAction(response);
       setEditable(false);
+      setSingleAction('')
+    toast('Succesfully updated', {style : {background : 'green', color : '#eaeaea'}})
     } catch (err) {
+    toast('Update error', {style : {background : 'red', color : '#eaeaea'}})
       console.log("put error", err);
     }
   };
@@ -128,7 +140,7 @@ export default function ActionForm() {
 
   return (
     <>
-      {/* {openModal ? <UnprocessableContent setOpenModal={setOpenModal} /> : null} */}
+      {/* <Notification message={openModal?.message} modalName={openModal?.action}  setOpenModal={setOpenModal} openModal={openModal} />  */}
       {actionsBase?.map((action) => {
         {
           console.log("is equal", singleAction);
@@ -234,6 +246,7 @@ export default function ActionForm() {
                 >
                   Submit
                 </button>
+                <Toaster />
               </div>
             </div>
           </form>

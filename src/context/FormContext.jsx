@@ -1,6 +1,7 @@
 import { createContext, useState } from "react";
 import { v4 as aId } from "uuid";
 import { deleteData, getData } from "../services/api/requests";
+import toast from "react-hot-toast";
 
 export const FormContext = createContext();
 const FormContextProvider = (props) => {
@@ -41,6 +42,7 @@ const FormContextProvider = (props) => {
   const [editable, setEditable] = useState(false);
   const [deletedId, setDeletedId] = useState(0);
   const [fightInfos, setFightInfos] = useState([]);
+  const [errors, setErrors] = useState('');
 
   const createNewAction = () => {
     setSingleAction(defaultV);
@@ -88,14 +90,14 @@ const FormContextProvider = (props) => {
 
   const loadData = async (id) => {
     try {
-      const fightActions = (await getData(`/fight-infos/${id}`))
+      const response = (await getData(`/fight-infos/${id}`))
         .fight_statistic;
-      setActionsBase((prevActions) => [...fightActions]);
-      console.log("iddd", id);
-      console.log("iddd2", fightActions);
+      setActionsBase((prevActions) => [...response]);
+      console.log('load data id', response.status)
       return actionsBase;
     } catch (err) {
-      console.log("Oops! something went wrong");
+      toast('Wrong match ID. Try again.', {style : {background : 'red' , color : '#eaeaea'}})
+      console.log("Oops! something went wrong", err.code);
     }
   };
 

@@ -2,8 +2,9 @@ import React from "react";
 import { FormContext } from "../context/FormContext";
 import { Link } from "react-router-dom";
 import { useState, useContext } from "react";
+import { Toaster } from "react-hot-toast";
 
-export default function LoginForm({id, openComponent}) {
+export default function LoginForm({ id, openComponent }) {
   const { loadData } = useContext(FormContext);
   const [fightId, setFightId] = useState("");
 
@@ -14,7 +15,11 @@ export default function LoginForm({id, openComponent}) {
 
   return (
     <>
-      <div className={`form-container flex justify-center items-center ${!openComponent[id] ? 'hidden': 'flex'}`}>
+      <div
+        className={`form-container flex justify-center items-center ${
+          !openComponent[id] ? "hidden" : "flex"
+        }`}
+      >
         <div className="login-form flex flex-col justify-center items-center gap-[10px] w-[400px]">
           <div className="match-id flex flex-col gap-2 justify-center items-center w-full">
             <label htmlFor="matchId" className="text-wTextSec self-start">
@@ -38,6 +43,7 @@ export default function LoginForm({id, openComponent}) {
               >
                 Go to match
               </button>
+              <Toaster />
             </Link>
           </div>
         </div>
