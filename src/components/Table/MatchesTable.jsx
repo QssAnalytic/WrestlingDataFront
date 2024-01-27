@@ -88,7 +88,7 @@ export default function MatchesTable({ fightInfos }) {
                 <tr
                   id={fight.id}
                   key={index}
-                  className="bg-[#2A2D50] text-xs cursor-pointer transition-all hover:bg-[#090D29] border border-[#269B85] border-opacity-[30%]"
+                  className="bg-[#2A2D50] bg-opacity-30 text-xs cursor-pointer transition-all hover:bg-[#090D29] border border-[#269B85] border-opacity-[30%]"
                   onClick={(e) => {
                     handleFight(e.currentTarget)
                     navigate(`/${fight.id}`)
