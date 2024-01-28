@@ -1,11 +1,21 @@
-import React, { useContext, useEffect } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { FormContext } from "../../context/FormContext";
 import Checked from "../../assets/checked.svg";
 import Unchecked from "../../assets/Unchecked.svg";
+import { BiEdit } from "react-icons/bi";
+import EditMatch from "../EditMatch";
+import useSWR from "swr";
+import { fightInfosEndpoints } from "../../services/api/endponits";
+import { getData } from "../../services/api/requests";
 
-export default function MatchesTable({ fightInfos }) {
+export default function MatchesTable({
+  fightInfos,
+  openEditMatch,
+  setOpenEditMatch,
+}) {
   const { loadData, actionsBase } = useContext(FormContext);
+  const [editId, setEditId] = useState(0)
 
   const navigate = useNavigate();
 
@@ -14,8 +24,17 @@ export default function MatchesTable({ fightInfos }) {
     console.log("matches table", actionsBase);
   };
 
+  const {data : editableMatch} = useSWR(editId ? fightInfosEndpoints.byId(editId) : null, getData)
+
+  const handleMatchEdit = (e, id) => {
+    e.stopPropagation();
+    setEditId(id)
+    setOpenEditMatch(true);
+  };
+
   return (
     <>
+      <EditMatch openEditMatch={openEditMatch} setOpenEditMatch={setOpenEditMatch} editableMatch={editableMatch} />
       <div className="all-matches-table mb-5 text-xs">
         <table className="text-[#C7E0EE] font-normal w-full text-xs">
           <thead className="p-[10px] text-sm border border-[#fefefe] border-opacity-[31%] bg-[#090D29]">
@@ -74,9 +93,7 @@ export default function MatchesTable({ fightInfos }) {
               <th className="p-3 tracking-wide truncate font-semibold text-center text-sm border border-[#fefefe] border-opacity-[31%]">
                 Author
               </th>
-              {/* <th className="p-3 tracking-wide font-semibold text-center text-sm border border-[#fefefe] border-opacity-[31%]">
-                Win by
-              </th> */}
+              <th className="p-3 tracking-wide font-semibold text-center text-sm border border-[#fefefe] border-opacity-[31%]"></th>
               {/* <th className="p-3 tracking-wide font-semibold text-center text-sm border border-[#fefefe] border-opacity-[31%]">
                 Enter Match
               </th> */}
@@ -90,8 +107,8 @@ export default function MatchesTable({ fightInfos }) {
                   key={index}
                   className="bg-[#2A2D50] bg-opacity-30 text-xs cursor-pointer transition-all hover:bg-[#090D29] border border-[#269B85] border-opacity-[30%]"
                   onClick={(e) => {
-                    handleFight(e.currentTarget)
-                    navigate(`/${fight.id}`)
+                    handleFight(e.currentTarget);
+                    navigate(`/${fight.id}`);
                   }}
                 >
                   <td className="p-1  text-xs text-center border border-[#fefefe] border-opacity-[31%]">
@@ -155,6 +172,12 @@ export default function MatchesTable({ fightInfos }) {
                   </td>
                   <td className="p-3 text-sm text-center border border-[#fefefe] border-opacity-[31%] truncate">
                     {!fight?.author ? "---" : fight?.author}
+                  </td>
+                  <td
+                    className="p-3 text-sm text-center border border-[#fefefe] border-opacity-[31%] truncate"
+                    onClick={(e) => handleMatchEdit(e, fight?.id)}
+                  >
+                    <BiEdit />
                   </td>
                   {/* <td className="p-1 text-xs  text-center border cursor-pointer border-[#fefefe] border-opacity-[31%]">
                     <Link to={`/${fight.id}`} className="border-none">

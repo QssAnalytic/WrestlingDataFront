@@ -13,22 +13,24 @@ import {
 } from "../services/api/endponits";
 import { FilterContext } from "../context/FilterContext";
 import nodata from "../assets/empty.svg";
+import { FallingLines } from "react-loader-spinner";
 
 export default function ViewMatches() {
   const LIMIT = 200;
   const { filterParams, setFilterParams } = useContext(FilterContext);
+  const [openEditMatch, setOpenEditMatch] = useState(false);
   const [page, setPage] = useState(1);
 
   const handlePage = (pageNum) => {
-    console.log('nextpage', page)
+    console.log("nextpage", page);
     setPage(pageNum);
     setFilterParams((prevParams) => ({
       ...prevParams,
       page: pageNum,
-    }))
-    setTimeout(()=>{
-      mutate()
-    },1);
+    }));
+    setTimeout(() => {
+      mutate();
+    }, 1);
   };
 
   const {
@@ -36,12 +38,18 @@ export default function ViewMatches() {
     isLoading,
     error,
     mutate,
-  } = useSWR(fightInfosEndpoints.search({ ...filterParams, page : filterParams.page}), getData);
-
+  } = useSWR(
+    fightInfosEndpoints.search({ ...filterParams, page: filterParams.page }),
+    getData
+  );
 
   return (
     <>
-      <div className="view-header text-white h-auto px-9">
+      <div
+        className={`view-header text-white relative h-auto px-9 ${
+          openEditMatch ? "pointer-events-none" : null
+        }`}
+      >
         <div className="container m-auto">
           <div className="view-header-inner">
             <div className="view-logo flex gap-3 justify-center">
@@ -63,14 +71,26 @@ export default function ViewMatches() {
             </div>
             <Filter />
             {isLoading ? (
-              <div className="loading">Loading...</div>
+              <div className="w-[100vh] translate-x-[60%]">
+                <FallingLines
+                  color="#eaeaea"
+                  width="400"
+                  visible={true}
+                  className='flex justify-center items-center'
+                  ariaLabel="falling-circles-loading"
+                />
+               </div>
             ) : error ? (
               <div>Oops! Something went wrong</div>
             ) : (
               <>
                 {matches?.data?.length > 0 ? (
                   <>
-                    <MatchesTable fightInfos={matches.data} />
+                    <MatchesTable
+                      fightInfos={matches.data}
+                      openEditMatch={openEditMatch}
+                      setOpenEditMatch={setOpenEditMatch}
+                    />
                     <Pagination
                       total={matches.count}
                       nextPage={matches.next_page}

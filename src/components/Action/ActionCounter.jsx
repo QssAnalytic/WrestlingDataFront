@@ -1,6 +1,7 @@
 import React, { useContext } from "react";
 import { IoMdAdd } from "react-icons/io";
 import { FormContext } from "../../context/FormContext";
+import { MdClose } from "react-icons/md";
 
 export default function ActionCounter({
   actionsBase,
@@ -44,6 +45,9 @@ export default function ActionCounter({
             </div>
           );
         })}
+        {/* <div className="delete-action absolute">
+          <MdClose/>
+        </div> */}
         <div className={`${fightInfo?.is_submitted ? 'hidden' : 'block'} add-action`}>
           <button
             className="rounded-[2rem] text-[20px] flex justify-center items-center bg-wSecMain p-2"
