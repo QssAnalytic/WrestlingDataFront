@@ -5,9 +5,10 @@ import Checked from "../../assets/checked.svg";
 import Unchecked from "../../assets/Unchecked.svg";
 import { BiEdit } from "react-icons/bi";
 import EditMatch from "../EditMatch";
-import useSWR from "swr";
+import useSWR, { mutate } from "swr";
 import { fightInfosEndpoints } from "../../services/api/endponits";
 import { getData } from "../../services/api/requests";
+import { FightContext } from "../../context/FightContext";
 
 export default function MatchesTable({
   fightInfos,
@@ -15,7 +16,8 @@ export default function MatchesTable({
   setOpenEditMatch,
 }) {
   const { loadData, actionsBase } = useContext(FormContext);
-  const [editId, setEditId] = useState(0)
+  const { setFightInfo } = useContext(FightContext);
+  const [editId, setEditId] = useState(0);
 
   const navigate = useNavigate();
 
@@ -24,17 +26,30 @@ export default function MatchesTable({
     console.log("matches table", actionsBase);
   };
 
-  const {data : editableMatch} = useSWR(editId ? fightInfosEndpoints.byId(editId) : null, getData)
+  const { data: editableMatch, mutate } = useSWR(
+    editId ? fightInfosEndpoints.byId(editId) : null,
+    getData
+  );
 
   const handleMatchEdit = (e, id) => {
     e.stopPropagation();
-    setEditId(id)
+    mutate();
+    setEditId(id);
     setOpenEditMatch(true);
   };
 
+  useEffect(()=>{
+    setFightInfo(editableMatch);
+  },[editableMatch,openEditMatch])
+
   return (
     <>
-      <EditMatch openEditMatch={openEditMatch} setOpenEditMatch={setOpenEditMatch} editableMatch={editableMatch} />
+      <EditMatch
+        openEditMatch={openEditMatch}
+        setOpenEditMatch={setOpenEditMatch}
+        editableMatch={editableMatch}
+        mutate={mutate}
+      />
       <div className="all-matches-table mb-5 text-xs">
         <table className="text-[#C7E0EE] font-normal w-full text-xs">
           <thead className="p-[10px] text-sm border border-[#fefefe] border-opacity-[31%] bg-[#090D29]">

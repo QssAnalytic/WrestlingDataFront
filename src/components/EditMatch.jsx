@@ -1,10 +1,57 @@
-import React from "react";
+import React, { useContext, useEffect, useState } from "react";
+import { FightContext } from "../context/FightContext";
+import CreateSelectBox from "./CreateSelectBox";
+import {
+  WrestlingTypes,
+  desicions,
+  level,
+  scores,
+  sources,
+  stage,
+  status,
+} from "../static/data";
+import CreateInput from "./CreateInput";
+import useSWR from "swr";
+import { fightInfosEndpoints } from "../services/api/endponits";
+import { updateData } from "../services/api/requests";
 
-export default function EditMatch({ openEditMatch, setOpenEditMatch, editableMatch }) {
+export default function EditMatch({
+  openEditMatch,
+  setOpenEditMatch,
+  editableMatch,
+  mutate,
+}) {
+  const { fightInfo, setFightInfo } = useContext(FightContext);
+  const [selectOpen, setSelectOpen] = useState({
+    level: false,
+    stage: false,
+    decision: false,
+    status: false,
+    wrestling_type: false,
+    source_type: false,
+    oponent1_point: false,
+    oponent2_point: false,
+  });
 
-    const handleCancelEdit = ()=>{
-        setOpenEditMatch(false)
+  const handleCancelEdit = () => {
+    setOpenEditMatch(false);
+    // setFightInfo({})
+  };
+
+  const handleMatchUpdate = async () => {
+    console.log("before match update", fightInfo);
+    setFightInfo({});
+    setOpenEditMatch(false);
+    try {
+      const response = await updateData(
+        fightInfosEndpoints.updateFight(editableMatch?.id),
+        fightInfo
+      );
+      console.log("updated match", response);
+    } catch (err) {
+      console.log("err update fight", err);
     }
+  };
 
   return (
     <>
@@ -16,14 +63,192 @@ export default function EditMatch({ openEditMatch, setOpenEditMatch, editableMat
         }`}
       >
         <div className="edit-container h-full w-full relative">
-          <div className="h-[500px] w-[600px] rounded-md bg-wSecMain sticky top-[10%] left-[30%] flex flex-col justify-between py-7 px-4">
+          <div className="h-[910px] w-[900px] rounded-md bg-wSecMain sticky top-0 left-[27%] flex flex-col justify-between py-10 px-10">
             <div className="edit-header text-center">
-                <h2 className="text-[20px]">Edit Match : {editableMatch?.id}</h2>
+              <h2 className="text-[20px]">Edit Match : {editableMatch?.id}</h2>
             </div>
-            <div className="edit-form"></div>
+            <div className="edit-form flex flex-col gap-3">
+              <div className="flex gap-3">
+                <CreateSelectBox
+                  datas={level}
+                  id={"level"}
+                  name={"Level"}
+                  selectOpen={selectOpen}
+                  setSelectOpen={setSelectOpen}
+                  value={fightInfo}
+                  setValue={setFightInfo}
+                />
+                <CreateSelectBox
+                  datas={stage}
+                  id={"stage"}
+                  name={"Stage"}
+                  selectOpen={selectOpen}
+                  setSelectOpen={setSelectOpen}
+                  value={fightInfo}
+                  setValue={setFightInfo}
+                />
+              </div>
+              <div className="flex gap-4">
+                <CreateSelectBox
+                  datas={WrestlingTypes}
+                  id={"wrestling_type"}
+                  name={"Wrestling Type"}
+                  selectOpen={selectOpen}
+                  setSelectOpen={setSelectOpen}
+                  value={fightInfo}
+                  setValue={setFightInfo}
+                />
+                <CreateSelectBox
+                  datas={desicions}
+                  id={"decision"}
+                  name={"Decision"}
+                  selectOpen={selectOpen}
+                  setSelectOpen={setSelectOpen}
+                  value={fightInfo}
+                  setValue={setFightInfo}
+                />
+              </div>
+              <div className="flex gap-4">
+                <CreateSelectBox
+                  datas={status}
+                  id={"status"}
+                  name={"Status"}
+                  selectOpen={selectOpen}
+                  setSelectOpen={setSelectOpen}
+                  value={fightInfo}
+                  setValue={setFightInfo}
+                />
+                <CreateSelectBox
+                  datas={sources}
+                  id={"source_type"}
+                  name={"Source Type"}
+                  selectOpen={selectOpen}
+                  setSelectOpen={setSelectOpen}
+                  value={fightInfo}
+                  setValue={setFightInfo}
+                />
+              </div>
+              <div className="edit-inputs flex flex-col gap-5">
+                <div className="inputs-first-container flex gap-4">
+                  <CreateInput
+                    id={"submited_date"}
+                    name={"Submited Date"}
+                    value={fightInfo}
+                    setValue={setFightInfo}
+                    type={"date"}
+                  />
+                  <CreateInput
+                    id={"checked_date"}
+                    name={"Checked Date"}
+                    value={fightInfo}
+                    setValue={setFightInfo}
+                    type={"date"}
+                  />
+                  <CreateInput
+                    id={"created_date"}
+                    name={"Created Date"}
+                    value={fightInfo}
+                    setValue={setFightInfo}
+                    type={"date"}
+                  />
+                  <CreateInput
+                    id={"fight_date"}
+                    name={"Fight Date"}
+                    value={fightInfo}
+                    setValue={setFightInfo}
+                    type={"date"}
+                  />
+                </div>
+                <div className="inputs-third-container flex gap-4 flex-wrap">
+                  <CreateInput
+                    id={"tournament_id"}
+                    name={"Tournament"}
+                    value={fightInfo}
+                    setValue={setFightInfo}
+                    type={"text"}
+                  />
+                  <CreateInput
+                    id={"oponent_id"}
+                    name={"Opponent"}
+                    value={fightInfo}
+                    setValue={setFightInfo}
+                    type={"text"}
+                  />
+                  <CreateInput
+                    id={"fighter_id"}
+                    name={"Fighter"}
+                    value={fightInfo}
+                    setValue={setFightInfo}
+                    type={"text"}
+                  />
+                  <CreateInput
+                    id={"winner_id"}
+                    name={"Winner"}
+                    value={fightInfo}
+                    setValue={setFightInfo}
+                    type={"text"}
+                  />
+                </div>
+                <div className="inputs-second-container flex gap-8">
+                  <CreateInput
+                    id={"author"}
+                    name={"Author"}
+                    value={fightInfo}
+                    setValue={setFightInfo}
+                    type={"text"}
+                  />
+                  <CreateInput
+                    id={"weight_category"}
+                    name={"Weight"}
+                    value={fightInfo}
+                    setValue={setFightInfo}
+                    type={"text"}
+                  />
+                  <CreateInput
+                    id={"location"}
+                    name={"Location"}
+                    value={fightInfo}
+                    setValue={setFightInfo}
+                    type={"text"}
+                  />
+                </div>
+                <div className="inputs-third-container flex gap-8">
+                  <CreateSelectBox
+                    datas={scores}
+                    id={"oponent1_point"}
+                    name={"Opponent(1) Point"}
+                    selectOpen={selectOpen}
+                    setSelectOpen={setSelectOpen}
+                    value={fightInfo}
+                    setValue={setFightInfo}
+                  />
+                  <CreateSelectBox
+                    datas={scores}
+                    id={"oponent2_point"}
+                    name={"Opponent(2) Point"}
+                    selectOpen={selectOpen}
+                    setSelectOpen={setSelectOpen}
+                    value={fightInfo}
+                    setValue={setFightInfo}
+                  />
+                </div>
+              </div>
+            </div>
             <div className="edit-btns flex gap-5 self-end">
-              <button className="update w-28 px-6 py-2 bg-wGreen rounded">Update</button>
-              <button className="cancel w-28 px-6 py-2 bg-wGray transition-all duration-200 rounded" type="button" onClick={handleCancelEdit}>Cancel</button>
+              <button
+                className="update w-28 px-6 py-2 bg-wGreen rounded"
+                type="button"
+                onClick={handleMatchUpdate}
+              >
+                Update
+              </button>
+              <button
+                className="cancel w-28 px-6 py-2 bg-wGray transition-all duration-200 rounded"
+                type="button"
+                onClick={handleCancelEdit}
+              >
+                Cancel
+              </button>
             </div>
           </div>
         </div>

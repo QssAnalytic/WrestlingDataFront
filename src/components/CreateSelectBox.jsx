@@ -40,19 +40,19 @@ export default function CreateSelectBox({
   };
 
   return (
-    <div className="flex flex-col gap-2">
+    <div className="flex flex-col gap-2  w-full">
       <div className="select-label text-[#eaeaea]">
         <p>{name}</p>
       </div>
       {!newInput ? (
         <div
           id={id}
-          className={`bg-[#575968] flex relative cursor-pointer text-[#eaeaea] gap-[0.62rem] rounded w-52`}
+          className={`bg-[#575968] flex relative cursor-pointer text-[#eaeaea] gap-[0.62rem] rounded w-full`}
           onClick={(e) => triggerSelect(e.currentTarget.id)}
         >
           <div className="selectbox w-full flex justify-between">
             <p className="px-2 py-3 capitalize truncate">
-              {value?.[id] ? value?.[id] : fightInfo?.[id] || name}
+              {value?.[id] || value?.[id]===0 ? value?.[id] : fightInfo?.[id] || name}
             </p>
             <button
               className="open-select px-2 py-3 bg-[#6A6B79] rounded-r"
@@ -64,9 +64,9 @@ export default function CreateSelectBox({
           <div
             className={`${
               selectOpen?.[id] ? "block" : "hidden"
-            } rounded absolute top-14 bg-[#6A6B79] h-[150px] left-0 z-20 overflow-y-scroll`}
+            } rounded absolute top-14 bg-[#6A6B79] h-[150px] left-0 z-20 w-full overflow-y-scroll`}
           >
-            <ul className="w-52">
+            <ul className="">
               {datas?.map((item) => (
                 <li
                   className="hover:bg-slate-200 hover:rounded hover:text-black py-2 px-3 flex justify-between items-center"
