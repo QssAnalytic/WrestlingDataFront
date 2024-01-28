@@ -11,7 +11,7 @@ export const stage = [
 ];
 
 export const level = [
-  { data: "Seniors" },
+  { data: "Senior" },
   { data: "U17" },
   { data: "U20" },
   { data: "U23" },
@@ -31,4 +31,21 @@ export const WrestlingTypes = [
   { data: "Greco-Roman" },
   { data: "Freestyle" },
   { data: "Women`s wrestling" },
+];
+export const status = [
+  { data: "not started" },
+  { data: "in progress" },
+  { data: "completed" },
+  { data: "checked" },
+];
+
+export const sources = [{ data: "app" }, { data: "file" }];
+
+export const scores = [
+  { data: 0 },
+  { data: 1 },
+  { data: 2 },
+  { data: 3 },
+  { data: 4 },
+  { data: 5 },
 ];
