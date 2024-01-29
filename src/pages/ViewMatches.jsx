@@ -57,7 +57,7 @@ export default function ViewMatches() {
               <img src={logo} alt="logo" />
             </div>
             <div className="text-header text-wOrange text-2xl flex justify-center">
-              All Match
+              All Matches Database
             </div>
             <div className="filter-matches flex gap-4 mb-4">
               <Link to={"/login"}>
