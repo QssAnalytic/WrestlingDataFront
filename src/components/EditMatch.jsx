@@ -14,6 +14,7 @@ import CreateInput from "./CreateInput";
 import useSWR from "swr";
 import { fightInfosEndpoints } from "../services/api/endponits";
 import { updateData } from "../services/api/requests";
+import toast, { ToastBar, Toaster } from "react-hot-toast";
 
 export default function EditMatch({
   openEditMatch,
@@ -40,15 +41,25 @@ export default function EditMatch({
 
   const handleMatchUpdate = async () => {
     console.log("before match update", fightInfo);
-    setFightInfo({});
+    setTimeout(() => {
+      mutate();
+    }, 10);
     setOpenEditMatch(false);
     try {
       const response = await updateData(
         fightInfosEndpoints.updateFight(editableMatch?.id),
         fightInfo
       );
+      toast("Fight succesfully updated", {
+        style: { background: "green", color: "#eaeaea" },
+      });
+      setFightInfo({});
       console.log("updated match", response);
     } catch (err) {
+      toast("Please fill correctly", {
+        style: { background: "red", color: "#eaeaea" },
+      });
+      setOpenEditMatch(true);
       console.log("err update fight", err);
     }
   };
@@ -235,13 +246,16 @@ export default function EditMatch({
               </div>
             </div>
             <div className="edit-btns flex gap-5 self-end">
-              <button
-                className="update w-28 px-6 py-2 bg-wGreen rounded"
-                type="button"
-                onClick={handleMatchUpdate}
-              >
-                Update
-              </button>
+              <div className="">
+                <button
+                  className="update w-28 px-6 py-2 bg-wGreen rounded"
+                  type="button"
+                  onClick={handleMatchUpdate}
+                >
+                  Update
+                </button>
+                <Toaster />
+              </div>
               <button
                 className="cancel w-28 px-6 py-2 bg-wGray transition-all duration-200 rounded"
                 type="button"

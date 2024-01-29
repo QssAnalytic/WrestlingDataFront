@@ -90,6 +90,7 @@ export default function ViewMatches() {
                       fightInfos={matches.data}
                       openEditMatch={openEditMatch}
                       setOpenEditMatch={setOpenEditMatch}
+                      editMutate={mutate}
                     />
                     <Pagination
                       total={matches.count}
