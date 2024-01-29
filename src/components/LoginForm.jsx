@@ -37,7 +37,7 @@ export default function LoginForm({ id, openComponent }) {
           <div className="go-to-match flex justify-center items-center w-full ">
             <Link to={`/${fightId}`} className="w-full">
               <button
-                className="submit text-wTextSec w-full bg-[#3D66B5] rounded-md py-4"
+                className="submit text-wTextSec w-full bg-[#3D66B5] rounded-md py-4 hover:opacity-50"
                 type="button"
                 onClick={handleMatch}
               >
