@@ -53,7 +53,7 @@ export default function CreateNewMatch({ id, openComponent }) {
   return (
     <>
       <div
-        className={`create-new-match-container ${
+        className={`create-new-match-container flex justify-center items-center ${
           !openComponent[id] ? "hidden" : "block"
         }`}
       >

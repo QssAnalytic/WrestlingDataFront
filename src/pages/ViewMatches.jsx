@@ -60,12 +60,9 @@ export default function ViewMatches() {
               All Match
             </div>
             <div className="filter-matches flex gap-4 mb-4">
-              <button className="filter text-[#26719B] py-3 px-5 flex transition-all duration-200 hover:text-wMain hover:bg-[#eaeaea] hover:border-transparent items-center justify-center gap-2 border rounded border-[#26719B]">
-                Filter <PiVideoBold />
-              </button>
               <Link to={"/login"}>
                 <button className="filter text-[#26719B] transition-all duration-200 hover:text-wMain hover:bg-[#eaeaea] hover:border-transparent py-3 px-5 flex items-center justify-center gap-2 border rounded border-[#26719B]">
-                  Find Match by ID
+                  Record Match
                 </button>
               </Link>
             </div>
@@ -92,14 +89,14 @@ export default function ViewMatches() {
                       setOpenEditMatch={setOpenEditMatch}
                       editMutate={mutate}
                     />
-                    <Pagination
+                    {/* <Pagination
                       total={matches.count}
                       nextPage={matches.next_page}
                       prevPage={matches.previous_page}
                       onPageChange={handlePage}
                       filterParams={filterParams}
                       mutate={mutate}
-                    />
+                    /> */}
                   </>
                 ) : (
                   <div className="no-data flex justify-center items-center text-red-400">
@@ -116,8 +113,7 @@ export default function ViewMatches() {
           <div className="footer-inner">
             <div className="footer-info flex justify-center text-white">
               <p>
-                Developed by Akshin Guseinov, Eltun Mammadov, Tamerlan Aliyev,
-                Elvin Guseinov
+                Copyright 2023
               </p>
             </div>
           </div>
