@@ -14,6 +14,7 @@ export default function MatchesTable({
   fightInfos,
   openEditMatch,
   setOpenEditMatch,
+  editMutate
 }) {
   const { loadData, actionsBase } = useContext(FormContext);
   const { setFightInfo } = useContext(FightContext);
@@ -48,7 +49,7 @@ export default function MatchesTable({
         openEditMatch={openEditMatch}
         setOpenEditMatch={setOpenEditMatch}
         editableMatch={editableMatch}
-        mutate={mutate}
+        mutate={editMutate}
       />
       <div className="all-matches-table mb-5 text-xs">
         <table className="text-[#C7E0EE] font-normal w-full text-xs">
