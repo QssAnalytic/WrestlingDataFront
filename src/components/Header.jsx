@@ -137,13 +137,13 @@ export default function Header({
             />
           </div>
           <div className="header-right flex flex-col gap-6">
-            <div className="righ-btn rounded-sm bg-[#ffffff] bg-opacity-[0.08] py-[0.62rem] px-[1.88rem]">
-              <Link to={"/"}>
-                <button className="view-matches flex justify-between items-center gap-[1.88rem] text-wShadow">
+            <Link to={"/"}>
+              <div className="righ-btn rounded-sm bg-[#ffffff] bg-opacity-[0.08] opacity-50 transition-all duration-300 hover:opacity-100 py-[0.62rem] px-[1.88rem]">
+                <button className="view-matches flex justify-between  items-center gap-[1.88rem] text-[#eaeaea]">
                   View matches <IoIosArrowForward className="text-[20px]" />
                 </button>
-              </Link>
-            </div>
+              </div>
+            </Link>
             <CreateSelectBox
               id={"status"}
               datas={[

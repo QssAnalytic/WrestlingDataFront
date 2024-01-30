@@ -89,14 +89,14 @@ export default function ViewMatches() {
                       setOpenEditMatch={setOpenEditMatch}
                       editMutate={mutate}
                     />
-                    {/* <Pagination
+                    <Pagination
                       total={matches.count}
                       nextPage={matches.next_page}
                       prevPage={matches.previous_page}
                       onPageChange={handlePage}
                       filterParams={filterParams}
                       mutate={mutate}
-                    /> */}
+                    />
                   </>
                 ) : (
                   <div className="no-data flex justify-center items-center text-red-400">
@@ -113,7 +113,7 @@ export default function ViewMatches() {
           <div className="footer-inner">
             <div className="footer-info flex justify-center text-white">
               <p>
-                Copyright 2023
+                Copyright  ©2023
               </p>
             </div>
           </div>

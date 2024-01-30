@@ -3,6 +3,7 @@ import { BiSolidDownArrow } from "react-icons/bi";
 
 export default function FilterSelectBox({
   id,
+  ref,
   name,
   handleFilterSelects,
   filterSelects,
@@ -58,6 +59,7 @@ export default function FilterSelectBox({
   return (
     <>
       <div
+      ref={ref}
         id={id}
         onClick={(e) => handleFilterSelects(e.currentTarget.id)}
         className={`${
