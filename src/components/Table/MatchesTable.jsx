@@ -136,7 +136,7 @@ export default function MatchesTable({
                   {/* <td className="p-3 text-sm text-center border border-[#fefefe] border-opacity-[31%]">
                     {fight.fighter?.level}
                   </td> */}
-                  <td className="p-1  truncate text-xs text-center border border-[#fefefe] border-opacity-[31%]">
+                  <td className="p-1 text-xs text-center border border-[#fefefe] border-opacity-[31%]">
                     {fight.tournament?.name}
                   </td>
                   <td className="p-1 text-xs text-center truncate border border-[#fefefe] border-opacity-[31%]">

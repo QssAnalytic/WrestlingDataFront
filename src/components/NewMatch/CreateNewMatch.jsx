@@ -3,11 +3,11 @@ import useSWR from "swr";
 import {
   createNewMatchEnpoints,
   fightInfosEndpoints,
-} from "../services/api/endponits";
-import { getDashboardData, postData } from "../services/api/requests";
-import { FightContext } from "../context/FightContext";
+} from "../../services/api/endponits";
+import { getDashboardData, postData } from "../../services/api/requests";
+import { FightContext } from "../../context/FightContext";
 import CreateSelectBox from "./CreateSelectBox";
-import { WrestlingTypes, desicions, level, stage } from "../static/data";
+import { WrestlingTypes, desicions, level, stage } from "../../static/data";
 import CreateInput from "./CreateInput";
 import toast, { Toaster } from "react-hot-toast";
 

@@ -49,3 +49,5 @@ export const scores = [
   { data: 4 },
   { data: 5 },
 ];
+
+export const orders = [{ data: "ascending "}, { data: "descending" }];

@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import useDebounce from "../hooks/useDebounce";
+import useDebounce from "../../hooks/useDebounce";
 
 export default function FilterInput({ id, setInput, input, placeholder }) {
   const [inputV, setInputV] = useState(input?.[id]);

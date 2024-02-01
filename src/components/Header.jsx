@@ -6,11 +6,13 @@ import { IoIosArrowForward } from "react-icons/io";
 import OpponentsInput from "./FormInputs/OpponentsInput";
 import { FormContext } from "../context/FormContext";
 import { Link, useNavigate, useParams } from "react-router-dom";
-import { postData, updateData } from "../services/api/requests";
+import { updateData } from "../services/api/requests";
 import { fightInfosEndpoints } from "../services/api/endponits";
 import { FightContext } from "../context/FightContext";
-import CreateSelectBox from "./CreateSelectBox";
+import CreateSelectBox from "./NewMatch/CreateSelectBox";
 import useSWR from "swr";
+import { orders, status } from "../static/data";
+import CreateInput from "./NewMatch/CreateInput";
 
 export default function Header({
   fightInfo,
@@ -28,7 +30,8 @@ export default function Header({
   } = useContext(FormContext);
 
   const { fightId } = useParams();
-  const { selectOpen, setSelectOpen } = useContext(FightContext);
+  const { selectOpen, setSelectOpen, stateFight, setStateFight } =
+    useContext(FightContext);
   const [response, setResponse] = useState("");
   const navigate = useNavigate();
 
@@ -60,6 +63,14 @@ export default function Header({
     fetchData();
     console.log("header id", fightId);
   }, [fightId, qualityCheck]);
+
+  useEffect(() => {
+    console.log("state fight", stateFight);
+  }, [stateFight]);
+
+  const handleFinalSubmit = ()=>{
+    navigate('/')
+  }
 
   console.log("fightInfo in header", fightInfo);
 
@@ -100,11 +111,11 @@ export default function Header({
                 <p>Author :</p>
                 <input
                   className="bg-inherit text-wTextSec border border-[#474A5B] rounded-sm outline-none p-2"
-                  value={singleAction?.author || ""}
+                  value={stateFight?.author || ""}
                   type="text"
                   placeholder="Author"
                   onChange={(e) =>
-                    setSingleAction((prev) => ({
+                    setStateFight((prev) => ({
                       ...prev,
                       author: e.target.value,
                     }))
@@ -144,23 +155,46 @@ export default function Header({
                 </button>
               </div>
             </Link>
+            <div className="ascending-descending">
+              <CreateSelectBox
+                id={"order"}
+                name={"Order"}
+                datas={orders}
+                value={stateFight}
+                setValue={setStateFight}
+                selectOpen={selectOpen}
+                setSelectOpen={setSelectOpen}
+              />
+            </div>
             <CreateSelectBox
               id={"status"}
-              datas={[
-                { data: "not started" },
-                { data: "in progress" },
-                { data: "completed" },
-                { data: "checked" },
-              ]}
+              datas={status}
               selectOpen={selectOpen}
               setSelectOpen={setSelectOpen}
-              setValue={setQualityCheck}
-              value={qualityCheck}
+              setValue={setStateFight}
+              value={stateFight}
               response={response}
               fightInfo={fightInfo}
               mutate={mutate}
               isLoading={isLoading}
             />
+            {stateFight?.status === "checked" ? (
+              <CreateInput
+                id={"check_author"}
+                name={"Check author"}
+                value={stateFight}
+                setValue={setStateFight}
+                type="text"
+              />
+            ) : null}
+            <div className="final-submit rounded bg-[#ffffff] bg-opacity-[0.08] opacity-50 transition-all duration-300 hover:opacity-100 py-[0.62rem] px-[1.88rem]" onClick={handleFinalSubmit}>
+              <button
+                className="submit flex justify-center items-center gap-[1.88rem] text-[#eaeaea]"
+                type="button"
+              >
+                Final Submit
+              </button>
+            </div>
           </div>
         </div>
       </div>

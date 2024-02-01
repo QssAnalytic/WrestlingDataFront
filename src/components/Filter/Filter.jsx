@@ -1,11 +1,11 @@
 import React, { useContext, useEffect, useRef, useState } from "react";
 import FilterSelectBox from "./FilterSelectBox";
-import { getData } from "../services/api/requests";
+import { getData } from "../../services/api/requests";
 import FilterInput from "./FilterInput";
-import { FormContext } from "../context/FormContext";
+import { FormContext } from "../../context/FormContext";
 import useSWR from "swr";
-import { filtersEndpoints } from "../services/api/endponits";
-import { FilterContext } from "../context/FilterContext";
+import { filtersEndpoints } from "../../services/api/endponits";
+import { FilterContext } from "../../context/FilterContext";
 import { GrUpdate } from "react-icons/gr";
 
 export default function Filter() {

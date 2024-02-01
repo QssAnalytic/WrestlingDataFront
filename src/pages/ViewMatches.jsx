@@ -4,8 +4,8 @@ import { PiVideoBold } from "react-icons/pi";
 import MatchesTable from "../components/Table/MatchesTable";
 import { getData } from "../services/api/requests";
 import { Link } from "react-router-dom";
-import Pagination from "../components/Pagination";
-import Filter from "../components/Filter";
+import Pagination from "../components/Pagination/Pagination";
+import Filter from "../components/Filter/Filter";
 import useSWR from "swr";
 import {
   fightInfosEndpoints,

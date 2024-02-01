@@ -16,7 +16,7 @@ export default function CreateInput({ id, name, value, setValue, type }) {
 
   return (
     <>
-      <div className="create-input flex flex-col gap-[0.62rem] text-[#eaeaea]">
+      <div className="create-input flex flex-col gap-[0.62rem] text-[#eaeaea] transition-all duration-200">
         <label htmlFor="place">{name}:</label>
         <input
           type={type ? type : "text"}
