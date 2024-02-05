@@ -9,18 +9,18 @@ export const FightContext = createContext();
 const FightContextProvider = (props) => {
   // Creating new Match in dataBase, during POST request this structure must be
   const [newFight, setNewFight] = useState({
-    wrestling_type: undefined,
-    location: undefined,
-    weight_category: undefined,
-    stage: undefined,
-    decision: undefined,
-    opponent1_nationality: undefined,
-    opponent2_nationality: undefined,
-    level: undefined,
-    opponent1: undefined,
-    opponent2: undefined,
-    tournament_name: undefined,
-    tournament_date: undefined,
+    // wrestling_type: undefined,
+    // location: undefined,
+    // weight_category: undefined,
+    // stage: undefined,
+    // decision: undefined,
+    // opponent1_nationality: undefined,
+    // opponent2_nationality: undefined,
+    // level: undefined,
+    // opponent1: undefined,
+    // opponent2: undefined,
+    // tournament_name: undefined,
+    // tournament_date: undefined,
   });
 
   const [selectOpen, setSelectOpen] = useState({

@@ -23,20 +23,23 @@ export default function CreateSelectBox({
   };
 
   const [newInput, setNewInput] = useState(false);
+  const [open, setOpen] = useState(false)
 
   const triggerSelect = (id) => {
     console.log("id", id);
-    setSelectOpen((prevSelects) => {
-      const updatedSelects = {};
-      Object.keys(prevSelects).forEach((key) => {
-        return (updatedSelects[key] = key === id ? !prevSelects[id] : false);
-      });
-      return updatedSelects;
-    });
+    // setSelectOpen((prevSelects) => {
+    //   const updatedSelects = {};
+    //   Object.keys(prevSelects).forEach((key) => {
+    //     return (updatedSelects[key] = key === id ? !prevSelects[id] : false);
+    //   });
+    //   return updatedSelects;
+    // });
+    setOpen((prev)=> !prev)
   };
 
   const handleAddNew = () => {
     setNewInput((prev) => !prev);
+    // setOpen((prev)=> !prev)
   };
 
   return (
@@ -82,7 +85,7 @@ export default function CreateSelectBox({
           {/* Selectbox items have been rendered in there until CreateInput component. U will see */}
           <div
             className={`${
-              selectOpen?.[id] ? "block" : "hidden"
+              open ? "block" : "hidden"
             } rounded absolute top-14 bg-[#6A6B79] h-[150px] left-0 z-20 w-full overflow-y-scroll`}
           >
             <ul className="">

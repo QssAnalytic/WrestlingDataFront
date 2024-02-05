@@ -43,6 +43,7 @@ export default function CreateNewMatch({ id, openComponent }) {
         newFight
       );
       console.log("macth successfully created", response);
+      setNewFight({})
       toast(`Copy match id : ${response.id}`, {style : {background : 'lightblue', color : 'white'}, duration : 7000})
     } catch (err) {
       console.log("created err", err);

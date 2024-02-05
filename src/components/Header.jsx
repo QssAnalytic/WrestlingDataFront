@@ -32,11 +32,19 @@ export default function Header({
   const { fightId } = useParams();
   const { selectOpen, setSelectOpen, stateFight, setStateFight } =
     useContext(FightContext);
+  const [isFinal, setIsFinal] = useState(false);
   const [response, setResponse] = useState("");
   const navigate = useNavigate();
 
-  console.log("check", qualityCheck);
-  const [author, setAuthor] = useState("");
+  useEffect(() => {
+    setStateFight({
+      author: fightInfo?.author,
+      status: fightInfo?.status,
+      order: fightInfo?.order,
+    });
+
+    setIsFinal(false);
+  }, [fightId]);
 
   const fetchData = async () => {
     try {
@@ -47,16 +55,21 @@ export default function Header({
       console.log("salam men geldim err");
     }
   };
-  const { data: statusResponse } = useSWR(
-    qualityCheck?.status
-      ? fightInfosEndpoints.status(qualityCheck?.status, fightId)
-      : null,
-    updateData
+  // const { data: statusResponse } = useSWR(
+  //   qualityCheck?.status
+  //     ? fightInfosEndpoints.status(qualityCheck?.status, fightId)
+  //     : null,
+  //   updateData
+  // );
+  const { data: state } = useSWR(
+    stateFight && isFinal ? fightInfosEndpoints.changeState(fightId) : null,
+    updateData(stateFight)
   );
 
-  useEffect(() => {
-    setResponse(statusResponse);
-  }, [statusResponse]);
+  console.log('fight state', state)
+  // useEffect(() => {
+  //   setResponse(statusResponse);
+  // }, [statusResponse]);
 
   useEffect(() => {
     loadData(fightId);
@@ -64,14 +77,12 @@ export default function Header({
     console.log("header id", fightId);
   }, [fightId, qualityCheck]);
 
-  useEffect(() => {
-    console.log("state fight", stateFight);
-  }, [stateFight]);
+  const handleFinalSubmit = () => {
+    navigate("/");
+    setIsFinal((prev) => !prev);
+  };
 
-  const handleFinalSubmit = ()=>{
-    navigate('/')
-  }
-
+  console.log("state fight", stateFight);
   console.log("fightInfo in header", fightInfo);
 
   return (
@@ -187,7 +198,10 @@ export default function Header({
                 type="text"
               />
             ) : null}
-            <div className="final-submit rounded bg-[#ffffff] bg-opacity-[0.08] opacity-50 transition-all duration-300 hover:opacity-100 py-[0.62rem] px-[1.88rem]" onClick={handleFinalSubmit}>
+            <div
+              className="final-submit rounded bg-[#ffffff] bg-opacity-[0.08] opacity-50 transition-all duration-300 hover:opacity-100 py-[0.62rem] px-[1.88rem]"
+              onClick={handleFinalSubmit}
+            >
               <button
                 className="submit flex justify-center items-center gap-[1.88rem] text-[#eaeaea]"
                 type="button"
