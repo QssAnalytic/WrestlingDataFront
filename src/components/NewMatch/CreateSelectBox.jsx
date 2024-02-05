@@ -8,11 +8,10 @@ export default function CreateSelectBox({
   id,
   name,
   datas,
-  selectOpen,
-  setSelectOpen,
+  // selectOpen,
+  // setSelectOpen,
   value,
   setValue,
-  response,
   fightInfo,
   mutate,
   isLoading,
@@ -23,7 +22,7 @@ export default function CreateSelectBox({
   };
 
   const [newInput, setNewInput] = useState(false);
-  const [open, setOpen] = useState(false)
+  const [open, setOpen] = useState(false);
 
   const triggerSelect = (id) => {
     console.log("id", id);
@@ -34,16 +33,15 @@ export default function CreateSelectBox({
     //   });
     //   return updatedSelects;
     // });
-    setOpen((prev)=> !prev)
+    setOpen((prev) => !prev);
   };
 
   const handleAddNew = () => {
     setNewInput((prev) => !prev);
-    // setOpen((prev)=> !prev)
   };
 
   return (
-    <div className="flex flex-col gap-2  w-full">
+    <div className="flex flex-col gap-2 w-[200px]">
       <div className="select-label text-[#eaeaea]">
         <p>{name}</p>
       </div>
@@ -61,15 +59,13 @@ export default function CreateSelectBox({
               {value?.[id] || value?.[id] === 0
                 ? value?.[id]
                 : fightInfo?.[id] || name}
-              {value?.[id] === "in progress" ||
-              fightInfo?.[id] === "in progress" ? (
+              {value?.[id] === "in progress" ? (
                 <span class="relative flex h-3 w-3">
                   <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-sky-400 opacity-75"></span>
                   <span class="relative inline-flex rounded-full h-3 w-3 bg-sky-500"></span>
                 </span>
               ) : null}
-              {value?.[id] === "completed" ||
-              fightInfo?.[id] === "completed" ? (
+              {value?.[id] === "completed" ? (
                 <span class="relative flex h-3 w-3">
                   <span class="relative inline-flex rounded-full h-3 w-3 bg-wGreen"></span>
                 </span>
@@ -110,8 +106,7 @@ export default function CreateSelectBox({
                   }}
                 >
                   {item.data}
-                  {value?.[id] === item.data ||
-                  fightInfo?.[id] === item.data ? (
+                  {value?.[id] === item.data ? (
                     <FaCircle style={iconStyle} />
                   ) : null}
                 </li>

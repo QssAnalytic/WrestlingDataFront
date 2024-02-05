@@ -90,7 +90,7 @@ export default function CreateNewMatch({ id, openComponent }) {
                 type={"date"}
               />
             </div>
-            <div className="second-line flex gap-4 items-center">
+            <div className="second-line flex gap-4 w-full">
               <CreateSelectBox
                 id={"opponent1_nationality"}
                 name={"Nationality(2)"}
@@ -128,8 +128,7 @@ export default function CreateNewMatch({ id, openComponent }) {
                 setValue={setNewFight}
               />
             </div>
-
-            <div className="third-line flex gap-6">
+            <div className="third-line flex gap-4 w-full">
               <CreateSelectBox
                 id={"level"}
                 name={"Level"}

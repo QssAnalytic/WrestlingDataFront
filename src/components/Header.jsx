@@ -14,37 +14,15 @@ import useSWR from "swr";
 import { orders, status } from "../static/data";
 import CreateInput from "./NewMatch/CreateInput";
 
-export default function Header({
-  fightInfo,
-  qualityCheck,
-  setQualityCheck,
-  mutate,
-  isLoading,
-}) {
-  const {
-    actionsBase,
-    singleAction,
-    loadData,
-    setActionsBase,
-    setSingleAction,
-  } = useContext(FormContext);
+export default function Header({ fightInfo, isLoading, mutate }) {
+  const { actionsBase, singleAction, loadData, setActionsBase } =
+    useContext(FormContext);
 
   const { fightId } = useParams();
   const { selectOpen, setSelectOpen, stateFight, setStateFight } =
     useContext(FightContext);
   const [isFinal, setIsFinal] = useState(false);
-  const [response, setResponse] = useState("");
   const navigate = useNavigate();
-
-  useEffect(() => {
-    setStateFight({
-      author: fightInfo?.author,
-      status: fightInfo?.status,
-      order: fightInfo?.order,
-    });
-
-    setIsFinal(false);
-  }, [fightId]);
 
   const fetchData = async () => {
     try {
@@ -55,40 +33,39 @@ export default function Header({
       console.log("salam men geldim err");
     }
   };
-  // const { data: statusResponse } = useSWR(
-  //   qualityCheck?.status
-  //     ? fightInfosEndpoints.status(qualityCheck?.status, fightId)
-  //     : null,
-  //   updateData
-  // );
+
   const { data: state } = useSWR(
-    stateFight && isFinal ? fightInfosEndpoints.changeState(fightId) : null,
-    updateData(stateFight)
+    stateFight && isFinal
+      ? fightInfosEndpoints.changeState(Number(fightId))
+      : null,
+    () =>
+      updateData(
+        fightInfosEndpoints.changeState(Number(fightId)),
+        stateFight?.status === "checked"
+          ? stateFight
+          : { ...stateFight, check_author: null }
+      )
   );
 
-  console.log('fight state', state)
-  // useEffect(() => {
-  //   setResponse(statusResponse);
-  // }, [statusResponse]);
-
   useEffect(() => {
+    setIsFinal(false);
     loadData(fightId);
     fetchData();
     console.log("header id", fightId);
-  }, [fightId, qualityCheck]);
+  }, [fightId]);
 
-  const handleFinalSubmit = () => {
-    navigate("/");
+  const handleFinalSubmit = async () => {
     setIsFinal((prev) => !prev);
+    setTimeout(() => {
+      navigate("/");
+      setStateFight({});
+    }, 10);
   };
-
-  console.log("state fight", stateFight);
-  console.log("fightInfo in header", fightInfo);
 
   return (
     <header className="header w-full p-9">
       <div className="container m-auto">
-        <div className="header-inner flex justify-between gap-[1.75rem]">
+        <div className="header-inner gap-[1.75rem] flex justify-between ">
           <div className="header-left flex flex-col gap-[0.31rem]">
             <div className="header-logo flex gap-[0.62rem]">
               <h2 className="text-wBlue text-[1.875rem]">World Championship</h2>
@@ -184,7 +161,6 @@ export default function Header({
               setSelectOpen={setSelectOpen}
               setValue={setStateFight}
               value={stateFight}
-              response={response}
               fightInfo={fightInfo}
               mutate={mutate}
               isLoading={isLoading}

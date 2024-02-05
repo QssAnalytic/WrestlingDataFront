@@ -23,19 +23,19 @@ const FightContextProvider = (props) => {
     // tournament_date: undefined,
   });
 
-  const [selectOpen, setSelectOpen] = useState({
-    opponent1_nationality: false,
-    opponent2_nationality: false,
-    wrestling_type: false,
-    opponent1: false,
-    opponent2: false,
-    status: false,
-    decision: false,
-    stage: false,
-    quality: false,
-    level: false,
-    order: false,
-  });
+  // const [selectOpen, setSelectOpen] = useState({
+  //   opponent1_nationality: false,
+  //   opponent2_nationality: false,
+  //   wrestling_type: false,
+  //   opponent1: false,
+  //   opponent2: false,
+  //   status: false,
+  //   decision: false,
+  //   stage: false,
+  //   quality: false,
+  //   level: false,
+  //   order: false,
+  // });
 
   // When update Match we use that data structure during PUT request
   const [fightInfo, setFightInfo] = useState({
@@ -87,8 +87,8 @@ const FightContextProvider = (props) => {
       value={{
         newFight,
         setNewFight,
-        selectOpen,
-        setSelectOpen,
+        // selectOpen,
+        // setSelectOpen,
         fightInfo,
         setFightInfo,
         updateMatch,

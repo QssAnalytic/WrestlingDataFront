@@ -4,7 +4,7 @@ import { useContext } from "react";
 import { FormContext } from "../../context/FormContext";
 import { useParams } from "react-router-dom";
 
-export default function ActionTable({ fightStatistic }) {
+export default function ActionTable() {
   const { actionsBase, loadData, deletedId } = useContext(FormContext);
 
   const { fightId } = useParams();
@@ -20,11 +20,6 @@ export default function ActionTable({ fightStatistic }) {
         <div className="match-table w-full bg-wMain p-5">
           <table
             className="w-full border-spacing-y-2 border-separate"
-            // style={{
-            //   border: "1px solid transparent",
-            //   borderCollapse: "separate",
-            //   borderSpacing: "8px",
-            // }}
           >
             <thead className="rounded-lg bg-wSecMain text-wText font-[400] ">
               <tr>
@@ -37,7 +32,6 @@ export default function ActionTable({ fightStatistic }) {
                 <th>Successful</th>
                 <th>Technique</th>
                 <th>Defense Reason</th>
-                <th>Autor</th>
                 <th colSpan="2"></th>
               </tr>
             </thead>
@@ -55,7 +49,6 @@ export default function ActionTable({ fightStatistic }) {
                     score={action.score}
                     succesful={action.successful}
                     defenseReason={action.defense_reason}
-                    author={action.author}
                   />
                 );
               })}

@@ -17,15 +17,6 @@
   flex-direction: column; 
 }
 
-@keyframes goTo {
-  0%{
-    transform: translateX(-300px);
-  }
-  100%{
-    transform: translateX(0);
-  }
-}
-
 .scrollbar::-webkit-scrollbar {
   display: none;
 }

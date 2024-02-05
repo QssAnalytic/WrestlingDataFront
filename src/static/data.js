@@ -50,4 +50,4 @@ export const scores = [
   { data: 5 },
 ];
 
-export const orders = [{ data: "ascending "}, { data: "descending" }];
+export const orders = [{ data: "ascending"}, { data: "descending" }];
