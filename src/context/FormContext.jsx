@@ -42,7 +42,6 @@ const FormContextProvider = (props) => {
   const [editable, setEditable] = useState(false);
   const [deletedId, setDeletedId] = useState(0);
   const [fightInfos, setFightInfos] = useState([]);
-  const [errors, setErrors] = useState('');
 
   const createNewAction = () => {
     setSingleAction(defaultV);
@@ -92,7 +91,7 @@ const FormContextProvider = (props) => {
     try {
       const response = (await getData(`/fight-infos/${id}`))
         .fight_statistic;
-      setActionsBase((prevActions) => [...response]);
+      setActionsBase([...response]);
       console.log('load data id', response.status)
       return actionsBase;
     } catch (err) {

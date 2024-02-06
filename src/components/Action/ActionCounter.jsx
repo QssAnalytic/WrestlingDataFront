@@ -1,21 +1,14 @@
 import React, { useContext } from "react";
 import { IoMdAdd } from "react-icons/io";
 import { FormContext } from "../../context/FormContext";
-import { MdClose } from "react-icons/md";
 
 export default function ActionCounter({
   actionsBase,
-  setActiveAction,
   activeAction,
   fightInfo,
 }) {
   const { createNewAction } = useContext(FormContext);
 
-  const handleActiveAction = (target) => {
-    console.log("action id selected", target.id);
-    // setActiveAction(...actionsBase.filter((action)=> action.id === target.id))
-    console.log("action counter id", activeAction);
-  };
 
   const handleNewAction = () => {
     console.log('added')
@@ -33,7 +26,6 @@ export default function ActionCounter({
             <div
               className="actions flex gap-[0.31rem] cursor-pointer"
               id={action?.id}
-              // onClick={(e)=>handleActiveAction(e.currentTarget)}
             >
               <div
                 className={`action rounded flex justify-center items-center p-4 w-12 h-12 border border-[#474A5B] ${
@@ -45,10 +37,7 @@ export default function ActionCounter({
             </div>
           );
         })}
-        {/* <div className="delete-action absolute">
-          <MdClose/>
-        </div> */}
-        <div className={`${fightInfo?.is_submitted ? 'hidden' : 'block'} add-action`}>
+        <div className={`${fightInfo?.status === 'completed' || fightInfo?.status === 'checked' ? 'hidden' : 'block'} add-action`}>
           <button
             className="rounded-[2rem] text-[20px] flex justify-center items-center bg-wSecMain p-2"
             onClick={handleNewAction}

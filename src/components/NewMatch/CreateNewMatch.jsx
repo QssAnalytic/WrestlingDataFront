@@ -3,11 +3,11 @@ import useSWR from "swr";
 import {
   createNewMatchEnpoints,
   fightInfosEndpoints,
-} from "../services/api/endponits";
-import { getDashboardData, postData } from "../services/api/requests";
-import { FightContext } from "../context/FightContext";
+} from "../../services/api/endponits";
+import { getDashboardData, postData } from "../../services/api/requests";
+import { FightContext } from "../../context/FightContext";
 import CreateSelectBox from "./CreateSelectBox";
-import { WrestlingTypes, desicions, level, stage } from "../static/data";
+import { WrestlingTypes, desicions, level, stage } from "../../static/data";
 import CreateInput from "./CreateInput";
 import toast, { Toaster } from "react-hot-toast";
 
@@ -43,6 +43,7 @@ export default function CreateNewMatch({ id, openComponent }) {
         newFight
       );
       console.log("macth successfully created", response);
+      setNewFight({})
       toast(`Copy match id : ${response.id}`, {style : {background : 'lightblue', color : 'white'}, duration : 7000})
     } catch (err) {
       console.log("created err", err);
@@ -89,7 +90,7 @@ export default function CreateNewMatch({ id, openComponent }) {
                 type={"date"}
               />
             </div>
-            <div className="second-line flex gap-4 items-center">
+            <div className="second-line flex gap-4 w-full">
               <CreateSelectBox
                 id={"opponent1_nationality"}
                 name={"Nationality(2)"}
@@ -127,8 +128,7 @@ export default function CreateNewMatch({ id, openComponent }) {
                 setValue={setNewFight}
               />
             </div>
-
-            <div className="third-line flex gap-6">
+            <div className="third-line flex gap-4 w-full">
               <CreateSelectBox
                 id={"level"}
                 name={"Level"}

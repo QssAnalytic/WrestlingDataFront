@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect } from "react";
 import Header from "../components/Header";
 import ActionCounter from "../components/Action/ActionCounter";
 import ActionForm from "../components/Action/ActionForm";
@@ -10,10 +10,13 @@ import { getData } from "../services/api/requests";
 import Notification from "../components/Modals/Notification";
 import useSWR from "swr";
 import { fightInfosEndpoints } from "../services/api/endponits";
+import { FightContext } from "../context/FightContext";
+import { ThreeDots } from "react-loader-spinner";
 
 export default function ActionPage() {
   const { actionsBase, singleAction, setSingleAction } =
     useContext(FormContext);
+  const { setStateFight } = useContext(FightContext);
   const { fightId } = useParams();
 
   useEffect(() => {
@@ -26,24 +29,21 @@ export default function ActionPage() {
     mutate,
   } = useSWR(fightInfosEndpoints.byId(fightId), getData);
 
-  const [qualityCheck, setQualityCheck] = useState({status : ''});
   useEffect(() => {
-    setSingleAction(fightInfo?.fight_statistic || []);
-  }, []);
-  console.log("fightiddd", fightInfo);
+    setStateFight({
+      author: fightInfo?.author,
+      status: fightInfo?.status,
+      check_author:
+        fightInfo?.status === "checked" ? fightInfo?.check_author : "",
+      order: fightInfo?.order,
+    });
+  }, [fightInfo]);
 
   return (
     <>
-      {/* <Notification /> */}
-        <>
-          <Header
-            fightInfo={fightInfo}
-            qualityCheck={qualityCheck}
-            setQualityCheck={setQualityCheck}
-            mutate={mutate}
-            isLoading={isLoading}
-          />
       {!isLoading ? (
+        <div>
+          <Header fightInfo={fightInfo} mutate={mutate} isLoading={isLoading} />
           <main className="main px-9">
             <div className="container m-auto">
               <div className="main-inner mb-7">
@@ -62,11 +62,21 @@ export default function ActionPage() {
               </div>
             </div>
           </main>
-          ) : (
-            <p className="text-white">Loading...</p>
-          )}
-        </>
-      ) 
+        </div>
+      ) : (
+        <div className="w-[100vh] h-[100%] translate-x-[60%] translate-y-[40%]">
+          <ThreeDots
+            visible={true}
+            width="400"
+            color="#eaeaea"
+            radius="9"
+            ariaLabel="three-dots-loading"
+            className="flex justify-center items-center h-[100%]"
+            wrapperStyle={{}}
+            wrapperClass=""
+          />
+        </div>
+      )}
     </>
   );
 }

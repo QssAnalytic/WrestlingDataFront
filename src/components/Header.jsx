@@ -6,34 +6,23 @@ import { IoIosArrowForward } from "react-icons/io";
 import OpponentsInput from "./FormInputs/OpponentsInput";
 import { FormContext } from "../context/FormContext";
 import { Link, useNavigate, useParams } from "react-router-dom";
-import { postData, updateData } from "../services/api/requests";
+import { updateData } from "../services/api/requests";
 import { fightInfosEndpoints } from "../services/api/endponits";
 import { FightContext } from "../context/FightContext";
-import CreateSelectBox from "./CreateSelectBox";
+import CreateSelectBox from "./NewMatch/CreateSelectBox";
 import useSWR from "swr";
+import { orders, status } from "../static/data";
+import CreateInput from "./NewMatch/CreateInput";
 
-export default function Header({
-  fightInfo,
-  qualityCheck,
-  setQualityCheck,
-  mutate,
-  isLoading,
-}) {
-  const {
-    actionsBase,
-    singleAction,
-    loadData,
-    setActionsBase,
-    setSingleAction,
-  } = useContext(FormContext);
+export default function Header({ fightInfo, isLoading, mutate }) {
+  const { actionsBase, singleAction, loadData, setActionsBase } =
+    useContext(FormContext);
 
   const { fightId } = useParams();
-  const { selectOpen, setSelectOpen } = useContext(FightContext);
-  const [response, setResponse] = useState("");
+  const { selectOpen, setSelectOpen, stateFight, setStateFight } =
+    useContext(FightContext);
+  const [isFinal, setIsFinal] = useState(false);
   const navigate = useNavigate();
-
-  console.log("check", qualityCheck);
-  const [author, setAuthor] = useState("");
 
   const fetchData = async () => {
     try {
@@ -44,29 +33,39 @@ export default function Header({
       console.log("salam men geldim err");
     }
   };
-  const { data: statusResponse } = useSWR(
-    qualityCheck?.status
-      ? fightInfosEndpoints.status(qualityCheck?.status, fightId)
+
+  const { data: state } = useSWR(
+    stateFight && isFinal
+      ? fightInfosEndpoints.changeState(Number(fightId))
       : null,
-    updateData
+    () =>
+      updateData(
+        fightInfosEndpoints.changeState(Number(fightId)),
+        stateFight?.status === "checked"
+          ? stateFight
+          : { ...stateFight, check_author: null }
+      )
   );
 
   useEffect(() => {
-    setResponse(statusResponse);
-  }, [statusResponse]);
-
-  useEffect(() => {
+    setIsFinal(false);
     loadData(fightId);
     fetchData();
     console.log("header id", fightId);
-  }, [fightId, qualityCheck]);
+  }, [fightId]);
 
-  console.log("fightInfo in header", fightInfo);
+  const handleFinalSubmit = async () => {
+    setIsFinal((prev) => !prev);
+    setTimeout(() => {
+      navigate("/");
+      setStateFight({});
+    }, 10);
+  };
 
   return (
     <header className="header w-full p-9">
       <div className="container m-auto">
-        <div className="header-inner flex justify-between gap-[1.75rem]">
+        <div className="header-inner gap-[1.75rem] flex justify-between ">
           <div className="header-left flex flex-col gap-[0.31rem]">
             <div className="header-logo flex gap-[0.62rem]">
               <h2 className="text-wBlue text-[1.875rem]">World Championship</h2>
@@ -100,11 +99,11 @@ export default function Header({
                 <p>Author :</p>
                 <input
                   className="bg-inherit text-wTextSec border border-[#474A5B] rounded-sm outline-none p-2"
-                  value={singleAction?.author || ""}
+                  value={stateFight?.author || ""}
                   type="text"
                   placeholder="Author"
                   onChange={(e) =>
-                    setSingleAction((prev) => ({
+                    setStateFight((prev) => ({
                       ...prev,
                       author: e.target.value,
                     }))
@@ -137,30 +136,55 @@ export default function Header({
             />
           </div>
           <div className="header-right flex flex-col gap-6">
-            <div className="righ-btn rounded-sm bg-[#ffffff] bg-opacity-[0.08] py-[0.62rem] px-[1.88rem]">
-              <Link to={"/"}>
-                <button className="view-matches flex justify-between items-center gap-[1.88rem] text-wShadow">
+            <Link to={"/"}>
+              <div className="righ-btn rounded-sm bg-[#ffffff] bg-opacity-[0.08] opacity-50 transition-all duration-300 hover:opacity-100 py-[0.62rem] px-[1.88rem]">
+                <button className="view-matches flex justify-between  items-center gap-[1.88rem] text-[#eaeaea]">
                   View matches <IoIosArrowForward className="text-[20px]" />
                 </button>
-              </Link>
+              </div>
+            </Link>
+            <div className="ascending-descending">
+              <CreateSelectBox
+                id={"order"}
+                name={"Order"}
+                datas={orders}
+                value={stateFight}
+                setValue={setStateFight}
+                selectOpen={selectOpen}
+                setSelectOpen={setSelectOpen}
+              />
             </div>
             <CreateSelectBox
               id={"status"}
-              datas={[
-                { data: "not started" },
-                { data: "in progress" },
-                { data: "completed" },
-                { data: "checked" },
-              ]}
+              datas={status}
               selectOpen={selectOpen}
               setSelectOpen={setSelectOpen}
-              setValue={setQualityCheck}
-              value={qualityCheck}
-              response={response}
+              setValue={setStateFight}
+              value={stateFight}
               fightInfo={fightInfo}
               mutate={mutate}
               isLoading={isLoading}
             />
+            {stateFight?.status === "checked" ? (
+              <CreateInput
+                id={"check_author"}
+                name={"Check author"}
+                value={stateFight}
+                setValue={setStateFight}
+                type="text"
+              />
+            ) : null}
+            <div
+              className="final-submit rounded bg-[#ffffff] bg-opacity-[0.08] opacity-50 transition-all duration-300 hover:opacity-100 py-[0.62rem] px-[1.88rem]"
+              onClick={handleFinalSubmit}
+            >
+              <button
+                className="submit flex justify-center items-center gap-[1.88rem] text-[#eaeaea]"
+                type="button"
+              >
+                Final Submit
+              </button>
+            </div>
           </div>
         </div>
       </div>

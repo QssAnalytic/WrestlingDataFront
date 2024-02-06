@@ -8,11 +8,10 @@ export default function CreateSelectBox({
   id,
   name,
   datas,
-  selectOpen,
-  setSelectOpen,
+  // selectOpen,
+  // setSelectOpen,
   value,
   setValue,
-  response,
   fightInfo,
   mutate,
   isLoading,
@@ -23,16 +22,18 @@ export default function CreateSelectBox({
   };
 
   const [newInput, setNewInput] = useState(false);
+  const [open, setOpen] = useState(false);
 
   const triggerSelect = (id) => {
     console.log("id", id);
-    setSelectOpen((prevSelects) => {
-      const updatedSelects = {};
-      Object.keys(prevSelects).forEach((key) => {
-        return (updatedSelects[key] = key === id ? !prevSelects[id] : false);
-      });
-      return updatedSelects;
-    });
+    // setSelectOpen((prevSelects) => {
+    //   const updatedSelects = {};
+    //   Object.keys(prevSelects).forEach((key) => {
+    //     return (updatedSelects[key] = key === id ? !prevSelects[id] : false);
+    //   });
+    //   return updatedSelects;
+    // });
+    setOpen((prev) => !prev);
   };
 
   const handleAddNew = () => {
@@ -40,7 +41,7 @@ export default function CreateSelectBox({
   };
 
   return (
-    <div className="flex flex-col gap-2  w-full">
+    <div className="flex flex-col gap-2 w-[200px]">
       <div className="select-label text-[#eaeaea]">
         <p>{name}</p>
       </div>
@@ -50,9 +51,25 @@ export default function CreateSelectBox({
           className={`bg-[#575968] flex relative cursor-pointer text-[#eaeaea] gap-[0.62rem] rounded w-full`}
           onClick={(e) => triggerSelect(e.currentTarget.id)}
         >
+          {/* This section is used for showing selected items in main part of selectbox */}
+          {/* And in there exist some animations for some statuses. That`s all */}
           <div className="selectbox w-full flex justify-between">
-            <p className="px-2 py-3 capitalize truncate">
-              {value?.[id] || value?.[id]===0 ? value?.[id] : fightInfo?.[id] || name}
+            <p className="px-2 py-3 capitalize truncate flex gap-4 items-center">
+              {isLoading ? "Processing..." : null}
+              {value?.[id] || value?.[id] === 0
+                ? value?.[id]
+                : fightInfo?.[id] || name}
+              {value?.[id] === "in progress" ? (
+                <span class="relative flex h-3 w-3">
+                  <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-sky-400 opacity-75"></span>
+                  <span class="relative inline-flex rounded-full h-3 w-3 bg-sky-500"></span>
+                </span>
+              ) : null}
+              {value?.[id] === "completed" ? (
+                <span class="relative flex h-3 w-3">
+                  <span class="relative inline-flex rounded-full h-3 w-3 bg-wGreen"></span>
+                </span>
+              ) : null}
             </p>
             <button
               className="open-select px-2 py-3 bg-[#6A6B79] rounded-r"
@@ -61,9 +78,10 @@ export default function CreateSelectBox({
               <BiSolidDownArrow />
             </button>
           </div>
+          {/* Selectbox items have been rendered in there until CreateInput component. U will see */}
           <div
             className={`${
-              selectOpen?.[id] ? "block" : "hidden"
+              open ? "block" : "hidden"
             } rounded absolute top-14 bg-[#6A6B79] h-[150px] left-0 z-20 w-full overflow-y-scroll`}
           >
             <ul className="">
@@ -88,8 +106,7 @@ export default function CreateSelectBox({
                   }}
                 >
                   {item.data}
-                  {value?.[id] === item.data ||
-                  fightInfo?.[id] === item.data ? (
+                  {value?.[id] === item.data ? (
                     <FaCircle style={iconStyle} />
                   ) : null}
                 </li>
@@ -98,6 +115,7 @@ export default function CreateSelectBox({
           </div>
         </div>
       ) : (
+        // This component is responsible for if the user want to add new fightter or anything, he/she can enter succesfully through the help of it
         <CreateInput
           id={id}
           name={id}

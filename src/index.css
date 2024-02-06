@@ -16,3 +16,15 @@
   gap: 1.87rem;
   flex-direction: column; 
 }
+
+.scrollbar::-webkit-scrollbar {
+  display: none;
+}
+
+.scrollbar::-webkit-scrollbar-thumb{
+  display: none;
+}
+
+.scrollbar::-webkit-scrollbar-track{
+  display: none;
+}

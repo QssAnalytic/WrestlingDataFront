@@ -1,7 +1,8 @@
 const fightInfosEndpoints = {
   base: "/fight-infos",
   byId: (id) => `/fight-infos/${id}`,
-  status: (status,id) => `/fight-infos/status/?status=${status}&fight_info_id=${id}`,
+  // status: (status,id) => `/fight-infos/status/?status=${status}&fight_info_id=${id}`,
+  changeState : (fight_info_id)=> `/fight-infos/state/${fight_info_id}/`,
   addNewFigth : `/fight-infos/`,
   updateFight : (fight_info_id)=> `/fight-infos/${fight_info_id}` ,
   search: (params) => {
@@ -23,8 +24,8 @@ const filtersEndpoints = {
 
 const createNewMatchEnpoints = {
   countries : `/filters/countries/`,
-  fighters : (country_name)=> `/filters/fighters/${country_name}`,
-  years : (wrestler_id)=> `/filters/years/${wrestler_id}`,
+  fighters : (country_name)=> `/filters/fighters/${country_name}/`,
+  years : (wrestler_id)=> `/filters/years/${wrestler_id}/`,
 }
 
 export { filtersEndpoints, fightInfosEndpoints, createNewMatchEnpoints };

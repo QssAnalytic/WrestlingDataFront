@@ -1,6 +1,6 @@
-import React, { useContext, useEffect, useState } from "react";
+import React, { useContext, useState } from "react";
 import { FightContext } from "../context/FightContext";
-import CreateSelectBox from "./CreateSelectBox";
+import CreateSelectBox from "./NewMatch/CreateSelectBox";
 import {
   WrestlingTypes,
   desicions,
@@ -10,11 +10,8 @@ import {
   stage,
   status,
 } from "../static/data";
-import CreateInput from "./CreateInput";
-import useSWR from "swr";
-import { fightInfosEndpoints } from "../services/api/endponits";
-import { updateData } from "../services/api/requests";
-import toast, { ToastBar, Toaster } from "react-hot-toast";
+import CreateInput from "./NewMatch/CreateInput";
+import { Toaster } from "react-hot-toast";
 
 export default function EditMatch({
   openEditMatch,
@@ -22,7 +19,7 @@ export default function EditMatch({
   editableMatch,
   mutate,
 }) {
-  const { fightInfo, setFightInfo } = useContext(FightContext);
+  const { fightInfo, setFightInfo, updateMatch } = useContext(FightContext);
   const [selectOpen, setSelectOpen] = useState({
     level: false,
     stage: false,
@@ -45,40 +42,24 @@ export default function EditMatch({
       mutate();
     }, 10);
     setOpenEditMatch(false);
-    try {
-      const response = await updateData(
-        fightInfosEndpoints.updateFight(editableMatch?.id),
-        fightInfo
-      );
-      toast("Fight succesfully updated", {
-        style: { background: "green", color: "#eaeaea" },
-      });
-      setFightInfo({});
-      console.log("updated match", response);
-    } catch (err) {
-      toast("Please fill correctly", {
-        style: { background: "red", color: "#eaeaea" },
-      });
-      setOpenEditMatch(true);
-      console.log("err update fight", err);
-    }
+    updateMatch(setOpenEditMatch, fightInfo, editableMatch?.id);
   };
 
   return (
     <>
       <div
-        className={`edit-match  h-[100%] w-[100%] absolute top-0 left-0 rounded-lg transition-all duration-500  text-[#eaeaea] ${
+        className={`edit-match  h-[100%] w-[100%] absolute top-0 left-0 rounded-lg transition-all  duration-500 text-[#eaeaea] ${
           openEditMatch
             ? "opacity-[100%] pointer-events-auto backdrop-blur-md"
-            : "opacity-0 pointer-events-none"
+            : "opacity-0 pointer-events-none overflow-ellipsis"
         }`}
       >
         <div className="edit-container h-full w-full relative">
-          <div className="h-[910px] w-[900px] rounded-md bg-wSecMain sticky top-0 left-[27%] flex flex-col justify-between py-10 px-10">
+          <div className="h-[610px] w-[900px] rounded-md bg-wSecMain sticky top-0 left-[26%] flex flex-col gap-4 py-10 px-10">
             <div className="edit-header text-center">
               <h2 className="text-[20px]">Edit Match : {editableMatch?.id}</h2>
             </div>
-            <div className="edit-form flex flex-col gap-3">
+            <div className="edit-form flex flex-col gap-3 overflow-y-scroll scrollbar">
               <div className="flex gap-3">
                 <CreateSelectBox
                   datas={level}
