@@ -4,7 +4,7 @@ import { useState } from "react";
 import Chekbox from "../FormInputs/Chekbox";
 import Time from "../FormInputs/Time";
 import { FormContext } from "../../context/FormContext";
-import Notification from "../Modals/Notification";
+// import Notification from "../Modals/Notification";
 import { useForm } from "react-hook-form";
 import { Controller } from "react-hook-form";
 import { getData, postData, updateData } from "../../services/api/requests";
@@ -24,7 +24,7 @@ export default function ActionForm() {
 
   const [actionNames, setActionNames] = useState([]);
   const [techniqueNames, setTechniqueNames] = useState([]);
-  const [openModal, setOpenModal] = useState(false);
+  // const [openModal, setOpenModal] = useState(false);
 
   const {
     control,
@@ -33,7 +33,7 @@ export default function ActionForm() {
     formState,
     reset,
     clearErrors,
-    watch,
+    // watch,
   } = useForm({
     defaultValues: {
       ...singleAction,
@@ -95,7 +95,6 @@ export default function ActionForm() {
         style: { background: "green", color: "#eaeaea" },
       });
       setSingleAction('')
-
       // setSingleAction(response)
     } catch (err) {
       toast("Please fill correctly", {
@@ -134,17 +133,11 @@ export default function ActionForm() {
     console.log("posted data in submit fn", singleAction);
   };
 
-  console.log("actionsBase", actionsBase);
-
-  // action?.action_number === singleAction?.action_number
 
   return (
     <>
       {/* <Notification message={openModal?.message} modalName={openModal?.action}  setOpenModal={setOpenModal} openModal={openModal} />  */}
       {actionsBase?.map((action) => {
-        {
-          console.log("is equal", singleAction);
-        }
         return action?.action_number === singleAction?.action_number ? (
           <form
             id={`${singleAction?.action_number}`}

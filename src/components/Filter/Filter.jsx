@@ -65,16 +65,16 @@ export default function Filter() {
 
   const resetFilter = () => {
     setFilterParams({
-      tournament_id: undefined,
-      place: undefined,
-      wrestler_name: undefined,
-      author: undefined,
-      weight_category: undefined,
-      is_submitted: undefined,
-      status: undefined,
-      page: 1,
-      limit: 200,
-      date: undefined,
+      // tournament_id: undefined,
+      // place: undefined,
+      // wrestler_name: undefined,
+      // author: undefined,
+      // weight_category: undefined,
+      // is_submitted: undefined,
+      // status: undefined,
+      // page: 1,
+      // limit: 200,
+      // date: undefined,
     });
 
     setFilterSelects({});
@@ -82,12 +82,6 @@ export default function Filter() {
 
   return (
     <div className="filter mb-3 flex gap-5">
-      {/* <FilterInput
-        id={"matchId"}
-        setInput={setInput}
-        input={input}
-        placeholder={"Enter Match ID..."}
-      /> */}
       <FilterInput
         id={"wrestler_name"}
         setInput={setFilterParams}
@@ -100,7 +94,6 @@ export default function Filter() {
         input={filterParams}
         placeholder={"Author name..."}
       />
-      {/* <FilterInput id={"place"} setInput={setFilterParams} input={filterParams} placeholder={'Enter Place...'} /> */}
       <FilterSelectBox
         ref={filterBoxRef}
         id={"date"}

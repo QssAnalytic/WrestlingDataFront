@@ -18,7 +18,6 @@ const FormContextProvider = (props) => {
     technique_id: null,
     action_time_second: 0,
     video_link: "https://example.com/",
-    author: undefined,
     action_submitted: false,
   };
 
@@ -31,7 +30,6 @@ const FormContextProvider = (props) => {
     fighter: undefined,
     opponent: undefined,
     fight_id: undefined,
-    author: undefined,
     score: undefined,
     action_number: action_number,
   };
@@ -77,7 +75,6 @@ const FormContextProvider = (props) => {
         score_id: response.score,
         successful: response.successful,
         defense_reason: response.defense_reason,
-        author: response.author,
       });
       setEditable(true);
       console.log("editt", response);
