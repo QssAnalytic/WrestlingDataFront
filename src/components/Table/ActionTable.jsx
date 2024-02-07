@@ -32,7 +32,8 @@ export default function ActionTable() {
                 <th>Successful</th>
                 <th>Technique</th>
                 <th>Defense Reason</th>
-                <th colSpan="2"></th>
+                <th colSpan="2">Edit</th>
+                <th>View</th>
               </tr>
             </thead>
             <tbody className="rounded-sm text-wText font-[400]">
@@ -49,6 +50,7 @@ export default function ActionTable() {
                     score={action.score}
                     succesful={action.successful}
                     defenseReason={action.defense_reason}
+                    flag={action.flag}
                   />
                 );
               })}

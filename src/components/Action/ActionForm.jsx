@@ -9,6 +9,7 @@ import { useForm } from "react-hook-form";
 import { Controller } from "react-hook-form";
 import { getData, postData, updateData } from "../../services/api/requests";
 import toast, { Toaster } from "react-hot-toast";
+import FlagInput from "../FormInputs/FlagInput";
 
 export default function ActionForm() {
   const {
@@ -94,7 +95,7 @@ export default function ActionForm() {
       toast("Successfully added", {
         style: { background: "green", color: "#eaeaea" },
       });
-      setSingleAction('')
+      setSingleAction("");
       // setSingleAction(response)
     } catch (err) {
       toast("Please fill correctly", {
@@ -120,10 +121,12 @@ export default function ActionForm() {
       console.log("put response", response);
       addAction(response);
       setEditable(false);
-      setSingleAction('')
-    toast('Succesfully updated', {style : {background : 'green', color : '#eaeaea'}})
+      setSingleAction("");
+      toast("Succesfully updated", {
+        style: { background: "green", color: "#eaeaea" },
+      });
     } catch (err) {
-    toast('Update error', {style : {background : 'red', color : '#eaeaea'}})
+      toast("Update error", { style: { background: "red", color: "#eaeaea" } });
       console.log("put error", err);
     }
   };
@@ -132,7 +135,6 @@ export default function ActionForm() {
     !editable ? postAction(singleAction) : putAction(singleAction);
     console.log("posted data in submit fn", singleAction);
   };
-
 
   return (
     <>
@@ -229,15 +231,21 @@ export default function ActionForm() {
                   activeAction={singleAction}
                 />
               </div>
-              <div className="right-bottom self-end">
+              <div className="right-bottom flex items-center justify-between">
+                <FlagInput
+                  name={"Flag"}
+                  id={"flag"}
+                  setActiveAction={setSingleAction}
+                  activeAction={singleAction}
+                />
                 <button
                   type="submit"
                   id={singleAction?.action_number}
                   className={`${
                     singleAction.isSubmitted ? "hidden" : "block"
-                  } btn-action w-[19rem] h-[3.125rem] bg-wBlue p-4 rounded text-[#C9D4EA]`}
+                  } btn-action w-[19rem] h-[3.125rem] bg-wBlue p-4 rounded text-[#C9D4EA] transition-all duration-200 hover:bg-opacity-60`}
                 >
-                  Submit
+                  Add action
                 </button>
                 <Toaster />
               </div>
