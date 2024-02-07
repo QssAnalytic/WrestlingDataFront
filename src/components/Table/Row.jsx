@@ -1,7 +1,9 @@
 import React, { useContext } from "react";
-import deleteIcon from "../../assets/delete.svg";
-import editIcon from "../../assets/edit.svg";
 import { FormContext } from "../../context/FormContext";
+import { FaFlag } from "react-icons/fa6";
+import { RiDeleteBinLine } from "react-icons/ri";
+import { FiEdit2 } from "react-icons/fi";
+import useSWRMutation from "swr/mutation";
 
 export default function Row(props) {
   const { editAction, deleteAction } = useContext(FormContext);
@@ -14,6 +16,8 @@ export default function Row(props) {
   const handleDeleteAction = (target) => {
     deleteAction(target.id);
   };
+
+  const handleFlag = (id) => {};
 
   return (
     <tr className="text-center bg-[#121C34]  cursor-pointer transition-all duration-300 hover:bg-slate-300 hover:text-red-500">
@@ -33,19 +37,30 @@ export default function Row(props) {
       <td>
         <button
           id={props.id}
-          className="w-[1.5rem] h-[1.5rem] flex items-center rounded-3xl p-[5px] bg-[#2C354A]"
+          className="w-[1.5rem] h-[1.5rem] rounded-3xl p-[5px] bg-[#2C354A]"
           onClick={(e) => handleActionEdit(e.currentTarget)}
         >
-          <img src={editIcon} alt="edit" />
+          <FiEdit2 />
         </button>
       </td>
-      <td className="rounded-tr-md rounded-br-md">
+      <td>
         <button
           id={props.id}
           onClick={(e) => handleDeleteAction(e.currentTarget)}
-          className="w-[1.5rem] h-[1.5rem] flex items-center rounded-3xl p-[5px] bg-[#2C354A]"
+          className="w-[1.5rem] h-[1.5rem] rounded-3xl p-[5px] bg-[#2C354A]"
         >
-          <img src={deleteIcon} alt="delete" />
+          <RiDeleteBinLine />
+        </button>
+      </td>
+      <td className="view rounded-tr-md rounded-br-md">
+        <button
+          id={props.id}
+          className={`w-[1.5rem] h-[1.5rem] rounded-3xl p-[5px] bg-[#2C354A] ${
+            props.flag ? "text-red-600" : "text-[#eaeaea]"
+          } `}
+          onClick={(e) => handleFlag(e.currentTarget)}
+        >
+          <FaFlag />
         </button>
       </td>
     </tr>

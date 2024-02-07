@@ -13,11 +13,10 @@ export default function FilterSelectBox({
   valueKey,
   filterKey,
 }) {
+
   const [selectedValue, setSelectedValue] = useState();
   const [filterSearchValue, setFilterSearchValue] = useState(null);
   const [datass, setDatass] = useState([...datas])
-  // let datass = [];
-  // datass.push(...datas);
 
   const handleInput = (e) => {
     e.stopPropagation();
@@ -28,12 +27,11 @@ export default function FilterSelectBox({
     const val = datas?.find(
       (item) => item?.[filterKey || id] === value?.[id]
     )?.[valueKey || id];
-    console.log("selectdeki val", val);
     setSelectedValue(val);
   }, [value[valueKey || id]]);
 
-  // Filter search system
 
+  // Filter search system
   useEffect(() => {
     if (filterSearchValue) {
       const filteredData = datas?.filter(item =>
@@ -47,7 +45,6 @@ export default function FilterSelectBox({
     }
   }, [filterSearchValue]);
   
-  console.log('filter selectbox', datass)
 
   const setFilterParams = (value) => {
     setValue((prevParams) => ({
@@ -98,9 +95,6 @@ export default function FilterSelectBox({
             </li>
             {console.log("datss", datass)}
             { datass.length > 0 ? datass?.map((item, index) => {
-              {
-                console.log("item", item[Object.keys(item)[0]]);
-              }
               return (
                 <li
                   key={index}
@@ -114,9 +108,6 @@ export default function FilterSelectBox({
                 </li>
               );
             }) : datas?.map((item, index) => {
-              {
-                console.log("item", item[Object.keys(item)[0]]);
-              }
               return (
                 <li
                   key={index}

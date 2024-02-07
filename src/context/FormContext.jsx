@@ -18,8 +18,8 @@ const FormContextProvider = (props) => {
     technique_id: null,
     action_time_second: 0,
     video_link: "https://example.com/",
-    author: undefined,
     action_submitted: false,
+    flag : false,
   };
 
   const defaultResponse = {
@@ -31,9 +31,9 @@ const FormContextProvider = (props) => {
     fighter: undefined,
     opponent: undefined,
     fight_id: undefined,
-    author: undefined,
     score: undefined,
     action_number: action_number,
+    flag : false,
   };
 
   const [singleAction, setSingleAction] = useState({});
@@ -77,7 +77,7 @@ const FormContextProvider = (props) => {
         score_id: response.score,
         successful: response.successful,
         defense_reason: response.defense_reason,
-        author: response.author,
+        flag : response.flag
       });
       setEditable(true);
       console.log("editt", response);

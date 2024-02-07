@@ -10,8 +10,11 @@ import CreateSelectBox from "./CreateSelectBox";
 import { WrestlingTypes, desicions, level, stage } from "../../static/data";
 import CreateInput from "./CreateInput";
 import toast, { Toaster } from "react-hot-toast";
+import withInputField from "../../hocs/withInputField";
 
 export default function CreateNewMatch({ id, openComponent }) {
+  const SelectWithInput = withInputField(CreateSelectBox);
+
   const { newFight, setNewFight, setSelectOpen, selectOpen } =
     useContext(FightContext);
 
@@ -43,8 +46,11 @@ export default function CreateNewMatch({ id, openComponent }) {
         newFight
       );
       console.log("macth successfully created", response);
-      setNewFight({})
-      toast(`Copy match id : ${response.id}`, {style : {background : 'lightblue', color : 'white'}, duration : 7000})
+      setNewFight({});
+      toast(`Copy match id : ${response.id}`, {
+        style: { background: "lightblue", color: "white" },
+        duration: 7000,
+      });
     } catch (err) {
       console.log("created err", err);
     }
@@ -93,22 +99,34 @@ export default function CreateNewMatch({ id, openComponent }) {
             <div className="second-line flex gap-4 w-full">
               <CreateSelectBox
                 id={"opponent1_nationality"}
-                name={"Nationality(2)"}
+                name={"Nationality(1)"}
                 datas={countries}
                 selectOpen={selectOpen}
                 setSelectOpen={setSelectOpen}
                 value={newFight}
                 setValue={setNewFight}
               />
-              <CreateSelectBox
+              {/* <CreateSelectBox
                 id={"opponent1"}
-                name={"Opponent(2)"}
+                name={"Opponent(1)"}
+                datas={fighters}
+                selectOpen={selectOpen}
+                setSelectOpen={setSelectOpen}
+                value={newFight}
+                setValue={setNewFight}
+              /> */}
+
+
+              <SelectWithInput
+                id={"opponent1"}
+                name={"Opponent(1)"}
                 datas={fighters}
                 selectOpen={selectOpen}
                 setSelectOpen={setSelectOpen}
                 value={newFight}
                 setValue={setNewFight}
               />
+
               <CreateSelectBox
                 id={"opponent2_nationality"}
                 name={"Nationality(2)"}
@@ -118,7 +136,18 @@ export default function CreateNewMatch({ id, openComponent }) {
                 value={newFight}
                 setValue={setNewFight}
               />
-              <CreateSelectBox
+
+              {/* <CreateSelectBox
+                id={"opponent2"}
+                name={"Opponent(2)"}
+                datas={opponents}
+                selectOpen={selectOpen}
+                setSelectOpen={setSelectOpen}
+                value={newFight}
+                setValue={setNewFight}
+              /> */}
+
+              <SelectWithInput
                 id={"opponent2"}
                 name={"Opponent(2)"}
                 datas={opponents}
@@ -174,7 +203,7 @@ export default function CreateNewMatch({ id, openComponent }) {
             >
               Create
             </button>
-            <Toaster/>
+            <Toaster />
           </div>
         </form>
       </div>
