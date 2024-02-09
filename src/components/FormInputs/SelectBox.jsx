@@ -43,7 +43,7 @@ export default function SelectBox({
   return (
     <>
       <div
-        className={`select-action flex items-center rounded w-[100%] gap-[1.78rem] ${
+        className={`select-action flex items-center w-[100%] gap-[1.78rem] ${
           ok ? "w-[39%]" : "w-[100%]"
         }`}
       >
@@ -51,7 +51,7 @@ export default function SelectBox({
           {name.charAt(0).toUpperCase() + name.slice(1)}:{" "}
         </label>
         <div
-          className={`select-box flex justify-between cursor-pointer border transition-all ${
+          className={`select-box flex justify-between rounded cursor-pointer border transition-all ${
             errors ? "border border-red-600 transition-all " : "border-wMain"
           } w-[100%] bg-wMain px-5 py-4 relative`}
           id={id}

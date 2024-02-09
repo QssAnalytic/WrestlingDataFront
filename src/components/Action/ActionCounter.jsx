@@ -9,13 +9,13 @@ export default function ActionCounter({
 }) {
   const { createNewAction } = useContext(FormContext);
 
-
   const handleNewAction = () => {
-    console.log('added')
+    console.log("active action in counter", activeAction);
+    console.log("added");
     createNewAction();
   };
 
-  console.log('counterdaki', fightInfo)
+  console.log("counterdaki", fightInfo);
 
   return (
     <div className="action-counter">
@@ -24,7 +24,7 @@ export default function ActionCounter({
         {actionsBase?.map((action, index) => {
           return (
             <div
-              className="actions flex gap-[0.31rem] cursor-pointer"
+              className="actions flex relative gap-[0.31rem] cursor-pointer"
               id={action?.id}
             >
               <div
@@ -34,12 +34,20 @@ export default function ActionCounter({
               >
                 {index + 1}
               </div>
+
+              {/* <div className="close absolute top-[-10px] right-0">x</div> */}
             </div>
           );
         })}
-        <div className={`${fightInfo?.status === 'completed' || fightInfo?.status === 'checked' ? 'hidden' : 'block'} add-action`}>
+        <div
+          className={`${
+            fightInfo?.status === "completed" || fightInfo?.status === "checked"
+              ? "hidden"
+              : "block"
+          } add-action`}
+        >
           <button
-            className="rounded-[2rem] text-[20px] flex justify-center items-center bg-wSecMain p-2"
+            className={`rounded-[2rem] text-[20px] flex justify-center items-center bg-wSecMain p-2 ${activeAction?.current ? 'pointer-events-none' : 'pointer-events-auto'}`}
             onClick={handleNewAction}
             type="button"
           >

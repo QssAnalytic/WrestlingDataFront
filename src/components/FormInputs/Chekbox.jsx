@@ -11,7 +11,7 @@ export default function Chekbox({
   const parentRef = useRef(null);
 
   useEffect(() => {
-    setTranslateEl(`${parentRef.current?.clientWidth / 2}px`);
+    setTranslateEl(`${(parentRef.current?.clientWidth / 2)-10}px`);
   }, [parentRef.current?.clientWidth, activeAction[checkboxName]]);
 
   console.log("active checkbox", activeAction);

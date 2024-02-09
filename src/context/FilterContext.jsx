@@ -14,6 +14,7 @@ const FilterContextProvider = (props) => {
     page: 1,
     limit: 200,
     date: undefined,
+    check_author : undefined,
   });
 
   return (

@@ -19,7 +19,8 @@ const FormContextProvider = (props) => {
     action_time_second: 0,
     video_link: "https://example.com/",
     action_submitted: false,
-    flag : false,
+    flag: false,
+    current: undefined,
   };
 
   const defaultResponse = {
@@ -33,7 +34,8 @@ const FormContextProvider = (props) => {
     fight_id: undefined,
     score: undefined,
     action_number: action_number,
-    flag : false,
+    flag: false,
+    current: undefined,
   };
 
   const [singleAction, setSingleAction] = useState({});
@@ -44,7 +46,7 @@ const FormContextProvider = (props) => {
   const [fightInfos, setFightInfos] = useState([]);
 
   const createNewAction = () => {
-    setSingleAction(defaultV);
+    setSingleAction({ ...defaultV, current: true });
     setActionsBase((prevActions) => [...prevActions, defaultResponse]);
     setEditable(false);
   };
@@ -63,6 +65,9 @@ const FormContextProvider = (props) => {
 
   const editAction = async (id, fightId) => {
     console.log("edit parameters", [id, fightId]);
+    if(singleAction.current){
+      return;
+    }
     try {
       const response = await getData(`/statistics/${id}/`);
       setSingleAction({
@@ -77,7 +82,7 @@ const FormContextProvider = (props) => {
         score_id: response.score,
         successful: response.successful,
         defense_reason: response.defense_reason,
-        flag : response.flag
+        flag: response.flag,
       });
       setEditable(true);
       console.log("editt", response);
@@ -89,13 +94,14 @@ const FormContextProvider = (props) => {
 
   const loadData = async (id) => {
     try {
-      const response = (await getData(`/fight-infos/${id}`))
-        .fight_statistic;
+      const response = (await getData(`/fight-infos/${id}`)).fight_statistic;
       setActionsBase([...response]);
-      console.log('load data id', response.status)
+      console.log("load data id", response.status);
       return actionsBase;
     } catch (err) {
-      toast('Wrong match ID. Try again.', {style : {background : 'red' , color : '#eaeaea'}})
+      toast("Wrong match ID. Try again.", {
+        style: { background: "red", color: "#eaeaea" },
+      });
       console.log("Oops! something went wrong", err.code);
     }
   };

@@ -26,12 +26,12 @@ export default function CreateSelectBox({
 
   return (
     <div className="flex flex-col gap-2 w-[200px]">
-      <div className="select-label text-[#eaeaea]">
+      <div className="select-label text-[#fff]">
         <p>{name}</p>
       </div>
       <div
         id={id}
-        className={`bg-[#575968] flex relative cursor-pointer text-[#eaeaea] gap-[0.62rem] rounded w-full`}
+        className={`bg-[#080C2B] flex relative cursor-pointer text-[#eaeaea] gap-[0.62rem] rounded w-full`}
         onClick={(e) => triggerSelect(e.currentTarget.id)}
       >
         {/* This section is used for showing selected items in main part of selectbox */}
@@ -55,7 +55,7 @@ export default function CreateSelectBox({
             ) : null}
           </p>
           <button
-            className="open-select px-2 py-3 bg-[#6A6B79] rounded-r"
+            className="open-select px-2 py-3 bg-[#080C2B] rounded-r"
             type="button"
           >
             <BiSolidDownArrow />
@@ -65,12 +65,12 @@ export default function CreateSelectBox({
         <div
           className={`${
             open ? "block" : "hidden"
-          } rounded absolute top-14 bg-[#6A6B79] h-[150px] left-0 z-20 w-full overflow-y-scroll`}
+          } rounded absolute top-14 bg-[#253F74] h-[150px] left-0 z-20 w-full overflow-y-scroll`}
         >
           <ul className="">
             {datas?.map((item) => (
               <li
-                className="hover:bg-slate-200 hover:rounded hover:text-black py-2 px-3 flex justify-between items-center"
+                className="hover:bg-[#121C34] py-2 px-3 flex justify-between items-center"
                 onClick={() => {
                   setValue((prev) => ({
                     ...prev,

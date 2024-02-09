@@ -20,7 +20,7 @@ export default function Row(props) {
   const handleFlag = (id) => {};
 
   return (
-    <tr className="text-center bg-[#121C34]  cursor-pointer transition-all duration-300 hover:bg-slate-300 hover:text-red-500">
+    <tr className="text-center bg-[#121C34]  cursor-pointer transition-all duration-300 text-[#C7E0EE] hover:bg-[#1E264B] hover:text-[#fff]">
       <td className="rounded-tl-md rounded-bl-md">{props.index}</td>
       <td className="p-2 truncate">{props.fighter}</td>
       <td className="truncate">{props.opponent}</td>
