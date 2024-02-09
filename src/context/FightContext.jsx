@@ -2,7 +2,7 @@ import { createContext, useState } from "react";
 import toast from "react-hot-toast";
 import { updateData } from "../services/api/requests";
 import { fightInfosEndpoints } from "../services/api/endponits";
-import { stateMatch } from "../model";
+import { stateMatch } from "../models/model";
 
 export const FightContext = createContext();
 

@@ -94,6 +94,12 @@ export default function Filter() {
         input={filterParams}
         placeholder={"Author name..."}
       />
+      <FilterInput
+        id={"check_author"}
+        setInput={setFilterParams}
+        input={filterParams}
+        placeholder={"Check Author name..."}
+      />
       <FilterSelectBox
         ref={filterBoxRef}
         id={"date"}

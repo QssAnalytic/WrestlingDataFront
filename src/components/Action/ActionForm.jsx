@@ -218,7 +218,7 @@ export default function ActionForm() {
             <div className="action-right flex flex-col basis-[40%] gap-7 rounded">
               <div className="right-top pt-3 pb-11 px-14 bg-wMain flex flex-col xl:flex-row  w-full justify-around flex-wrap">
                 <Chekbox
-                  name={"successful"}
+                  name={"Successful"}
                   checkboxName={"successful"}
                   setActiveAction={setSingleAction}
                   activeAction={singleAction}
@@ -243,7 +243,7 @@ export default function ActionForm() {
                   id={singleAction?.action_number}
                   className={`${
                     singleAction.isSubmitted ? "hidden" : "block"
-                  } btn-action w-[19rem] h-[3.125rem] bg-wBlue p-4 rounded text-[#C9D4EA] transition-all duration-200 hover:bg-opacity-60`}
+                  } btn-action w-[19rem] h-[3.125rem] bg-[#4B7FE4] p-4 rounded text-[#C9D4EA] transition-all duration-200 hover:bg-[#3D66B5]`}
                 >
                   Add action
                 </button>
