@@ -13,6 +13,11 @@ const fightInfosEndpoints = {
   create: "/fight-infos/",
 };
 
+const formEndpoints = {
+  actions : '/actions/',
+  techniques : '/techniques/'
+}
+
 const filtersEndpoints = {
   dates: `/filters/dates/`,
   tournaments: (date) => `/filters/tournaments/${date}/`,
@@ -28,4 +33,4 @@ const createNewMatchEnpoints = {
   years : (wrestler_id)=> `/filters/years/${wrestler_id}/`,
 }
 
-export { filtersEndpoints, fightInfosEndpoints, createNewMatchEnpoints };
+export { filtersEndpoints, fightInfosEndpoints, createNewMatchEnpoints, formEndpoints };
