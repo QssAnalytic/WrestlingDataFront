@@ -1,10 +1,7 @@
-import React, { useEffect } from "react";
+import React from "react";
 import { cn } from "../lib/utils";
 import { Button } from "../newcomponents/ui/button";
-import { Command, CommandEmpty, CommandGroup, CommandInput, CommandItem } from "../newcomponents/ui/command";
-import { Form, FormControl, FormField, FormItem, FormLabel } from "../newcomponents/ui/form";
-import { Popover, PopoverContent, PopoverTrigger } from "../newcomponents/ui/popover";
-import { ChevronDown, Circle } from "lucide-react";
+import { Form, FormField } from "../newcomponents/ui/form";
 import { useForm } from "react-hook-form";
 import useSWR from "swr";
 import { formEndpoints } from "../services/api/endponits";
@@ -13,25 +10,31 @@ import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useToast } from "../newcomponents/ui/use-toast";
 import { Toaster } from "../newcomponents/ui/toaster";
+import FormSelectBox from "../components/NewFormInputs/FormSelectBox";
+import { scores } from "../static/data";
+import FormCheckbox from "../components/NewFormInputs/FormCheckbox";
 
 export default function TestForm() {
   const ActionFormSchema = z.object({
-    action_id: z.number({ required_error: "Please select action" }),
+    action_name_id: z.number({ required_error: "Please select action" }),
+    technique_id: z.number({ required_error: "Please select technique" }),
+    score_id: z.number({ required_error: "Please select score" }),
+    succesful: z.boolean({ required_error: "Please select succesful field" }),
+    defense_reason: z.boolean({ required_error: "Please select defense field" }),
   });
 
   const { toast } = useToast();
 
-  const form = useForm({ resolver: zodResolver(ActionFormSchema) , mode : onchange});
+  const form = useForm({ resolver: zodResolver(ActionFormSchema), mode: onchange });
+
+  console.log('form', form)
 
   const { data: actions } = useSWR(formEndpoints.actions, getData);
+  const { data: techniques } = useSWR(formEndpoints.techniques, getData);
 
-  // useEffect(()=>{
-  //   handleErrors()
-  // },[form.formState.errors])
-
-  const handleErrors = () => {
-    console.log('handle', form.formState.errors)
-    if (form.formState.errors) {
+  const handleErrors = async () => {
+    await form.trigger();
+    if (Object.values(form.formState.errors).length > 0) {
       toast({
         variant: "destructive",
         title: "Empty field",
@@ -44,71 +47,69 @@ export default function TestForm() {
 
   return (
     <div className="test-form-container container">
-      <div className="form-inner bg-[#151B43] border border-[#30CD36] rounded">
+      <div className="form-inner bg-[#151B43] border border-[#30CD36] p-10 rounded">
         <div className="form">
           <Form {...form}>
-            <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
+            <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6 flex justify-between">
               {/* Selectbox 1st */}
-              <FormField
-                control={form.control}
-                name="action_id"
-                render={({ field }) => (
-                  <FormItem className="flex items-center gap-2">
-                    {form.formState.errors && (
-                      <span className="text-red-500">{form.formState.errors?.action_id?.message}</span>
-                    )}
-                    <FormLabel className="text-white">Actions :</FormLabel>
-                    <Popover>
-                      <PopoverTrigger asChild>
-                        <FormControl>
-                          <Button
-                            variant="outline"
-                            role="combobox"
-                            className={cn("w-[200px] justify-between", !field.value && "text-muted-foreground")}>
-                            {field.value
-                              ? actions.map((action) => (action.id === field.value ? action.name : null))
-                              : "Select language"}
-                            <ChevronDown className="ml-2 h-4 w-4 shrink-0 opacity-50" />
-                          </Button>
-                        </FormControl>
-                      </PopoverTrigger>
-                      <PopoverContent className="w-[200px] p-0">
-                        <Command>
-                          <CommandInput placeholder="Search framework..." className="h-9 text-white" />
-                          <CommandEmpty>No framework found.</CommandEmpty>
-                          <CommandGroup>
-                            {actions?.map((action) => (
-                              <CommandItem
-                                value={action.name}
-                                key={action.name}
-                                onSelect={() => {
-                                  form.setValue("action_id", action.id);
-                                }}>
-                                {action.name}
-                                <Circle
-                                  className={cn(
-                                    "ml-auto h-4 w-4",
-                                    action.id === field.value ? "opacity-100" : "opacity-0",
-                                  )}
-                                />
-                              </CommandItem>
-                            ))}
-                          </CommandGroup>
-                        </Command>
-                      </PopoverContent>
-                    </Popover>
-                  </FormItem>
-                )}
-              />
-              <Button
-                type="submit"
-                variant="outline"
-                onClick={() => {
-                  handleErrors();
-                }}>
-                Submit
-              </Button>
-              <Toaster />
+              <div className="form-left basis-[49%]">
+                <FormField
+                  control={form.control}
+                  name="action_name_id"
+                  render={({ field }) => (
+                    <FormSelectBox form={form} field={field} datas={actions} id={"action_name_id"} name={"Action"} />
+                  )}
+                />
+                {/* SelectBox 2nd for technique*/}
+                <FormField
+                  control={form.control}
+                  name="technique_id"
+                  render={({ field }) => (
+                    <FormSelectBox
+                      form={form}
+                      datas={techniques}
+                      id={"technique_id"}
+                      field={field}
+                      name={"Technique"}
+                    />
+                  )}
+                />
+                {/* Selectbox 3rd for Score */}
+                <FormField
+                  control={form.control}
+                  name="score_id"
+                  render={({ field }) => (
+                    <FormSelectBox form={form} datas={scores} id={"score_id"} field={field} name={"Score"} />
+                  )}
+                />
+              </div>
+              <div className="form-right basis-[49%]">
+                <div className="form-checkboxes w-full flex items-center flex-col bg-[#080C2B]">
+                  <div className="checkboxes basis-[50%] flex">
+                    <FormField
+                      control={form.control}
+                      name="succesful"
+                      render={({ field }) => <FormCheckbox field={field} name={"Successful"} />}
+                    />
+                    <FormField
+                      control={form.control}
+                      name="defense_reason"
+                      render={({ field }) => <FormCheckbox field={field} name={"Defense Reason"} />}
+                    />
+                  </div>
+                </div>
+                <div className="submit-form">
+                  <Button
+                    type="submit"
+                    variant="outline"
+                    onClick={() => {
+                      handleErrors();
+                    }}>
+                    Submit
+                  </Button>
+                  <Toaster />
+                </div>
+              </div>
             </form>
           </Form>
         </div>
