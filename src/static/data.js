@@ -10,13 +10,7 @@ export const stage = [
   { data: "Final" },
 ];
 
-export const level = [
-  { data: "Senior" },
-  { data: "U17" },
-  { data: "U20" },
-  { data: "U23" },
-  { data: "Veterans" },
-];
+export const level = [{ data: "Senior" }, { data: "U17" }, { data: "U20" }, { data: "U23" }, { data: "Veterans" }];
 
 export const desicions = [
   { data: "VPO1" },
@@ -27,27 +21,18 @@ export const desicions = [
   { data: "VFA" },
 ];
 
-export const WrestlingTypes = [
-  { data: "Greco-Roman" },
-  { data: "Freestyle" },
-  { data: "Women`s wrestling" },
-];
-export const status = [
-  { data: "not started" },
-  { data: "in progress" },
-  { data: "completed" },
-  { data: "checked" },
-];
+export const WrestlingTypes = [{ data: "Greco-Roman" }, { data: "Freestyle" }, { data: "Women`s wrestling" }];
+export const status = [{ data: "not started" }, { data: "in progress" }, { data: "completed" }, { data: "checked" }];
 
 export const sources = [{ data: "app" }, { data: "file" }];
 
 export const scores = [
-  { data: 0 },
-  { data: 1 },
-  { data: 2 },
-  { data: 3 },
-  { data: 4 },
-  { data: 5 },
+  { name: 0, id: 0 },
+  { name: 1, id: 1 },
+  { name: 2, id: 2 },
+  { name: 3, id: 3 },
+  { name: 4, id: 4 },
+  { name: 5, id: 5 },
 ];
 
-export const orders = [{ data: "ascending"}, { data: "descending" }];
+export const orders = [{ data: "ascending" }, { data: "descending" }];
