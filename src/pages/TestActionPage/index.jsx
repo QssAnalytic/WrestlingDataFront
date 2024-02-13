@@ -1,5 +1,4 @@
-import React from "react";
-import TestForm from "./TestForm";
+import TestForm from "../TestForm";
 export default function TestActionPage() {
   return (
     <>

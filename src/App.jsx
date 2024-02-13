@@ -3,7 +3,7 @@ import ViewMatches from "./pages/ViewMatches";
 import { Routes, Route } from "react-router-dom";
 import ActionPage from "./pages/ActionPage";
 import Login from "./pages/Login";
-import TestActionPage from "./pages/TestActionPage";
+import TestActionPage from "./pages/TestActionPage/index";
 
 export default function App() {
   return (

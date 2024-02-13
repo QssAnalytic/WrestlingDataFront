@@ -1,7 +1,7 @@
 import React from "react";
 import { cn } from "../lib/utils";
 import { Button } from "../newcomponents/ui/button";
-import { Form, FormField } from "../newcomponents/ui/form";
+import { Form, FormField, FormControl, FormItem, FormLabel } from "../newcomponents/ui/form";
 import { useForm } from "react-hook-form";
 import useSWR from "swr";
 import { formEndpoints } from "../services/api/endponits";
@@ -10,9 +10,10 @@ import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useToast } from "../newcomponents/ui/use-toast";
 import { Toaster } from "../newcomponents/ui/toaster";
-import FormSelectBox from "../components/NewFormInputs/FormSelectBox";
+import FormSelectBox from "./TestActionPage/components/form-select";
 import { scores } from "../static/data";
-import FormCheckbox from "../components/NewFormInputs/FormCheckbox";
+import FormCheckbox from "./TestActionPage/components/form-checkbox";
+import FormSwitch from "./TestActionPage/components/form-switch";
 
 export default function TestForm() {
   const ActionFormSchema = z.object({
@@ -21,13 +22,14 @@ export default function TestForm() {
     score_id: z.number({ required_error: "Please select score" }),
     succesful: z.boolean({ required_error: "Please select succesful field" }),
     defense_reason: z.boolean({ required_error: "Please select defense field" }),
+    flag: z.boolean({ required_error: "Identify flag yes/no" }),
   });
 
   const { toast } = useToast();
 
   const form = useForm({ resolver: zodResolver(ActionFormSchema), mode: onchange });
 
-  console.log('form', form)
+  console.log("form", form);
 
   const { data: actions } = useSWR(formEndpoints.actions, getData);
   const { data: techniques } = useSWR(formEndpoints.techniques, getData);
@@ -98,17 +100,25 @@ export default function TestForm() {
                     />
                   </div>
                 </div>
-                <div className="submit-form">
+                <div className="submit-form flex items-center justify-between w-full">
+                  <FormField
+                    control={form.control}
+                    name="flag"
+                    render={({ field }) => <FormSwitch field={field} name={"Flag"} />}
+                  />
                   <Button
                     type="submit"
                     variant="outline"
+                    className={cn(
+                      "bg-[#3D66B5]  text-[#C9D4EA] border-none rounded py-4 w-[200px] transition-all duration-300 hover:bg-[#4B7FE4] hover:text-[#fff]",
+                    )}
                     onClick={() => {
                       handleErrors();
                     }}>
-                    Submit
+                    Add action
                   </Button>
-                  <Toaster />
                 </div>
+                <Toaster />
               </div>
             </form>
           </Form>
