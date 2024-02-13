@@ -58,7 +58,7 @@ export default function Header({ fightInfo, isLoading, mutate }) {
     setIsFinal((prev) => !prev);
     console.log("handle fight state", stateFight);
     setTimeout(() => {
-      // navigate("/");
+      navigate("/");
       setStateFight({});
     }, 10);
   };
