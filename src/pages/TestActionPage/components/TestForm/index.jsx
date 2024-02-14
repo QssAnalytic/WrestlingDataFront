@@ -1,7 +1,7 @@
 import React from "react";
 import { cn } from "../../../../lib/utils";
 import { Button } from "../../../../newcomponents/ui/button";
-import { Form, FormField, FormControl, FormItem, FormLabel } from "../../../../newcomponents/ui/form";
+import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "../../../../newcomponents/ui/form";
 import { useForm } from "react-hook-form";
 import useSWR from "swr";
 import { formEndpoints } from "../../../../services/api/endponits";
@@ -14,6 +14,8 @@ import FormSelectBox from "../form-select";
 import { scores } from "../../../../static/data";
 import FormCheckbox from "../form-checkbox";
 import FormSwitch from "../form-switch";
+import FormInput from "../form-input";
+import { RadioGroup, RadioGroupItem } from "../../../../newcomponents/ui/radio-group";
 
 export default function TestForm() {
   const ActionFormSchema = z.object({
@@ -23,13 +25,16 @@ export default function TestForm() {
     succesful: z.boolean({ required_error: "Please select succesful field" }),
     defense_reason: z.boolean({ required_error: "Please select defense field" }),
     flag: z.boolean({ required_error: "Identify flag yes/no" }),
+    minute: z.string({ required_error: "Daxil ele minute" }),
+    second: z.string({ required_error: "Daxil ele second" }),
+    fighter_id: z.number({ required_error: "Select Fighter for action" }),
   });
 
   const { toast } = useToast();
 
   const form = useForm({ resolver: zodResolver(ActionFormSchema), mode: onchange });
 
-  console.log("form", form);
+  const time = Number(form.watch("minute")) * 60 + Number(form.watch("second"));
 
   const { data: actions } = useSWR(formEndpoints.actions, getData);
   const { data: techniques } = useSWR(formEndpoints.techniques, getData);
@@ -46,7 +51,8 @@ export default function TestForm() {
   };
 
   const onSubmit = (values) => {
-    console.log('values', {...values, flag : false})
+    const { minute, second, ...rest } = values;
+    console.log("values", { ...rest, time: Number(minute) * 60 + Number(second) });
   };
 
   return (
@@ -56,8 +62,35 @@ export default function TestForm() {
           <Form {...form}>
             <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6 flex flex-col">
               {/* Selectbox 1st */}
-              <div className="upper-form">
-
+              <div className="upper-form text-[#eaeaea]">
+                <FormField
+                  control={form.control}
+                  name="type"
+                  render={({ field }) => (
+                    <FormItem className="space-y-3">
+                      <FormControl>
+                        <RadioGroup
+                          onValueChange={field.onChange}
+                          defaultValue={field.value}
+                          className="flex items-center justify-center">
+                          <FormItem className="flex flex-col items-center gap-3 space-x-3 space-y-0">
+                            <FormControl>
+                              <RadioGroupItem value="all" className={cn("w-12 h-12 rounded bg-[#243562]")} name={'salam'} />
+                            </FormControl>
+                            <FormLabel className="font-normal">Tamerlan Aliyev</FormLabel>
+                          </FormItem>
+                          <FormItem className="flex flex-col items-center gap-3 space-x-3 space-y-0">
+                            <FormControl>
+                              <RadioGroupItem value="mentions" className={cn("w-12 h-12 rounded bg-[#243562]")} name={'ajajaj'} />
+                            </FormControl>
+                            <FormLabel className="font-normal">Eltun Mammadov</FormLabel>
+                          </FormItem>
+                        </RadioGroup>
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
               </div>
               <div className="bottom-form flex justify-between">
                 <div className="form-left basis-[49%]">
@@ -83,13 +116,31 @@ export default function TestForm() {
                     )}
                   />
                   {/* Selectbox 3rd for Score */}
-                  <FormField
-                    control={form.control}
-                    name="score_id"
-                    render={({ field }) => (
-                      <FormSelectBox form={form} datas={scores} id={"score_id"} field={field} name={"Score"} />
-                    )}
-                  />
+                  <div className="flex items-center">
+                    <FormField
+                      control={form.control}
+                      name="score_id"
+                      render={({ field }) => (
+                        <FormSelectBox form={form} datas={scores} id={"score_id"} field={field} name={"Score"} />
+                      )}
+                    />
+                    <div className="flex items-center text-[#fff] gap-4">
+                      <FormLabel>Time :</FormLabel>
+                      <div className="flex gap-3 py-3 px-5 bg-[#080C2B] items-center rounded">
+                        <FormField
+                          control={form.control}
+                          name="minute"
+                          render={({ field }) => <FormInput field={field} />}
+                        />
+                        <span className="text-[#fff]">:</span>
+                        <FormField
+                          control={form.control}
+                          name="second"
+                          render={({ field }) => <FormInput field={field} />}
+                        />
+                      </div>
+                    </div>
+                  </div>
                 </div>
                 <div className="form-right basis-[49%]">
                   <div className="form-checkboxes w-full flex items-center flex-col bg-[#080C2B]">
