@@ -23,6 +23,7 @@ export default function CreateSelectBox({
     setOpen((prev) => !prev);
   };
  
+  console.log('status',value)
 
   return (
     <div className="flex flex-col gap-2 w-[200px]">
