@@ -6,21 +6,27 @@ import { IoIosArrowForward } from "react-icons/io";
 import OpponentsInput from "./FormInputs/OpponentsInput";
 import { FormContext } from "../context/FormContext";
 import { Link, useNavigate, useParams } from "react-router-dom";
-import { updateData } from "../services/api/requests";
+import { updateData, updateState } from "../services/api/requests";
 import { fightInfosEndpoints } from "../services/api/endponits";
 import { FightContext } from "../context/FightContext";
 import CreateSelectBox from "./NewMatch/CreateSelectBox";
 import useSWR from "swr";
-import { orders, status } from "../static/data";
+import { orders, status as statuses } from "../static/data";
 import CreateInput from "./NewMatch/CreateInput";
+import useSWRMutation from "swr/mutation";
 
 export default function Header({ fightInfo, isLoading, mutate }) {
-  const { actionsBase, singleAction, loadData, setActionsBase } =
-    useContext(FormContext);
+  const { actionsBase, singleAction, loadData, setActionsBase } = useContext(FormContext);
 
   const { fightId } = useParams();
-  const { selectOpen, setSelectOpen, stateFight, setStateFight } =
-    useContext(FightContext);
+  const { author, check_author, status, order } = fightInfo;
+  const [fight, setFight] = useState({
+    author: author || "",
+    status: status || "",
+    check_author: check_author || "",
+    order: order || "",
+  });
+  const { selectOpen, setSelectOpen, stateFight, setStateFight } = useContext(FightContext);
   const [isFinal, setIsFinal] = useState(false);
   const navigate = useNavigate();
 
@@ -34,18 +40,20 @@ export default function Header({ fightInfo, isLoading, mutate }) {
     }
   };
 
-  const { data: state } = useSWR(
-    stateFight && isFinal
-      ? fightInfosEndpoints.changeState(Number(fightId))
-      : null,
-    () =>
-      updateData(
-        fightInfosEndpoints.changeState(Number(fightId)),
-        stateFight?.status === "checked"
-          ? stateFight
-          : { ...stateFight, check_author: null }
-      )
+  const { data: state, trigger: changeState } = useSWRMutation(
+    fightInfosEndpoints.changeState(Number(fightId)),
+    updateState,
+    fight,
   );
+
+  useEffect(() => {
+    setFight({
+      author,
+      check_author,
+      status,
+      order,
+    });
+  }, [fightInfo]);
 
   useEffect(() => {
     setIsFinal(false);
@@ -55,12 +63,18 @@ export default function Header({ fightInfo, isLoading, mutate }) {
   }, [fightId]);
 
   const handleFinalSubmit = async () => {
-    setIsFinal((prev) => !prev);
-    console.log("handle fight state", stateFight);
-    setTimeout(() => {
-      navigate("/");
+    try {
+      setIsFinal((prev) => !prev);
+      const res = await changeState(fight);
+      setFight(res);
+      console.log("ress", res);
+      setTimeout(() => {
+        navigate("/");
+      }, 10);
       setStateFight({});
-    }, 10);
+    } catch (err) {
+      console.log("err", err);
+    }
   };
 
   return (
@@ -71,15 +85,11 @@ export default function Header({ fightInfo, isLoading, mutate }) {
           <div className="header-top flex flex-col items-center">
             <div className="flex gap-3 justify-center items-center">
               <div className="header-logo flex gap-[0.62rem]">
-                <h2 className="text-wBlue text-[1.875rem]">
-                  World Championship
-                </h2>
+                <h2 className="text-wBlue text-[1.875rem]">World Championship</h2>
                 <img src={logo} alt="header-logo" />
               </div>
               <div className="type-wrestling">
-                <p className="text-wGreen text-[1.5rem]">
-                  {fightInfo?.wrestling_type}
-                </p>
+                <p className="text-wGreen text-[1.5rem]">{fightInfo?.wrestling_type}</p>
               </div>
             </div>
             <div className="location-date text-wTextSec flex gap-[0.69rem] text-[1.125rem]">
@@ -110,15 +120,15 @@ export default function Header({ fightInfo, isLoading, mutate }) {
                   <p>Author :</p>
                   <input
                     className=" text-wTextSec bg-[#080C2B] rounded-sm outline-none p-2"
-                    value={stateFight?.author || ""}
+                    value={fight?.author || ""}
                     type="text"
                     placeholder="Author"
-                    onChange={(e) =>
-                      setStateFight((prev) => ({
+                    onChange={(e) => {
+                      setFight((prev) => ({
                         ...prev,
                         author: e.target.value,
-                      }))
-                    }
+                      }));
+                    }}
                   />
                 </div>
               </div>
@@ -150,11 +160,7 @@ export default function Header({ fightInfo, isLoading, mutate }) {
 
               {/*  Wrestlers Input */}
               {console.log("fightinfo in header", fightInfo)}
-              <OpponentsInput
-                activeAction={singleAction}
-                fighter={fightInfo?.fighter}
-                opponent={fightInfo?.oponent}
-              />
+              <OpponentsInput activeAction={singleAction} fighter={fightInfo?.fighter} opponent={fightInfo?.oponent} />
             </div>
             <div className="header-right flex flex-col gap-6">
               <div className="ascending-descending flex flex-col gap-3 bg-[#151B43] py-7 px-12 rounded">
@@ -162,39 +168,37 @@ export default function Header({ fightInfo, isLoading, mutate }) {
                   id={"order"}
                   name={"Order"}
                   datas={orders}
-                  value={stateFight}
-                  setValue={setStateFight}
+                  value={fight}
+                  setValue={setFight}
                   selectOpen={selectOpen}
                   setSelectOpen={setSelectOpen}
                 />
                 <CreateSelectBox
                   id={"status"}
-                  datas={status}
+                  datas={statuses}
                   selectOpen={selectOpen}
                   setSelectOpen={setSelectOpen}
-                  setValue={setStateFight}
-                  value={stateFight}
+                  setValue={setFight}
+                  value={fight}
                   fightInfo={fightInfo}
                   mutate={mutate}
                   isLoading={isLoading}
                 />
-                {stateFight?.status === "checked" ? (
+                {fight?.status === "checked" ? (
                   <CreateInput
                     id={"check_author"}
                     name={"Check author"}
-                    value={stateFight}
-                    setValue={setStateFight}
+                    value={fight}
+                    setValue={setFight}
                     type="text"
                   />
                 ) : null}
                 <div
                   className="final-submit rounded bg-[#3D66B5] transition-all duration-300 cursor-pointer py-[0.62rem] px-[1.88rem]"
-                  onClick={handleFinalSubmit}
-                >
+                  onClick={handleFinalSubmit}>
                   <button
                     className="submit flex justify-center items-center gap-[1.88rem] text-[#eaeaea]"
-                    type="button"
-                  >
+                    type="button">
                     Final Submit
                   </button>
                 </div>
