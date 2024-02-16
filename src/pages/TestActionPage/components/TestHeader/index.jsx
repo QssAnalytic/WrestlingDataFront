@@ -40,6 +40,8 @@ export default function FormHeader({ match }) {
 
   // Match ID input removing !!
   // Check_author field must be added !!
+  // Error page add
+  // Loading component add
 
   return (
     <Form {...form}>
