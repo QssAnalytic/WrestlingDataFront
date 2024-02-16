@@ -16,6 +16,7 @@ import FormCheckbox from "../form-checkbox";
 import FormSwitch from "../form-switch";
 import FormInput from "../form-input";
 import { RadioGroup, RadioGroupItem } from "../../../../newcomponents/ui/radio-group";
+import { CgArrowsExchange } from "react-icons/cg";
 
 export default function TestForm() {
   const ActionFormSchema = z.object({
@@ -27,7 +28,7 @@ export default function TestForm() {
     flag: z.boolean({ required_error: "Identify flag yes/no" }),
     minute: z.string({ required_error: "Daxil ele minute" }),
     second: z.string({ required_error: "Daxil ele second" }),
-    fighter_id: z.number({ required_error: "Select Fighter for action" }),
+    fighter_id: z.string({ required_error: "Select Fighter for action" }),
   });
 
   const { toast } = useToast();
@@ -65,9 +66,10 @@ export default function TestForm() {
               <div className="upper-form text-[#eaeaea]">
                 <FormField
                   control={form.control}
-                  name="type"
+                  name="fighter_id"
                   render={({ field }) => (
                     <FormItem className="space-y-3">
+                      {console.log("fighter", field)}
                       <FormControl>
                         <RadioGroup
                           onValueChange={field.onChange}
@@ -75,13 +77,21 @@ export default function TestForm() {
                           className="flex items-center justify-center">
                           <FormItem className="flex flex-col items-center gap-3 space-x-3 space-y-0">
                             <FormControl>
-                              <RadioGroupItem value="all" className={cn("w-12 h-12 rounded bg-[#243562]")} name={'salam'} />
+                              <RadioGroupItem
+                                value="Tamerlan Aliyev"
+                                className={cn("w-12 h-12 rounded bg-[#243562]")}
+                                name={"salam"}
+                              />
                             </FormControl>
                             <FormLabel className="font-normal">Tamerlan Aliyev</FormLabel>
                           </FormItem>
                           <FormItem className="flex flex-col items-center gap-3 space-x-3 space-y-0">
                             <FormControl>
-                              <RadioGroupItem value="mentions" className={cn("w-12 h-12 rounded bg-[#243562]")} name={'ajajaj'} />
+                              <RadioGroupItem
+                                value="Eltun Mammadov"
+                                className={cn("w-12 h-12 rounded bg-[#243562]")}
+                                name={"ajajaj"}
+                              />
                             </FormControl>
                             <FormLabel className="font-normal">Eltun Mammadov</FormLabel>
                           </FormItem>

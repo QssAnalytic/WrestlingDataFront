@@ -9,10 +9,11 @@ export default function App() {
   return (
     <>
       <Routes>
-        <Route path="/:fightId" element={<ActionPage />} />
+        {/* <Route path="/:fightId" element={<ActionPage />} /> */}
+        <Route path="/test/:fightId" element={<TestActionPage />} />
         <Route path="/" element={<ViewMatches />} />
         <Route path="/login" element={<Login />} />
-        <Route path="/test" element={<TestActionPage />} />
+        {/* <Route path="/test" element={<TestActionPage />} /> */}
       </Routes>
     </>
   );
