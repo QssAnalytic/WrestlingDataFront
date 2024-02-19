@@ -1,11 +1,11 @@
-import React from "react";
+import React, { useContext } from "react";
 import { cn } from "../../../../lib/utils";
 import { Button } from "../../../../newcomponents/ui/button";
-import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "../../../../newcomponents/ui/form";
+import { Form, FormField, FormLabel } from "../../../../newcomponents/ui/form";
 import { useForm } from "react-hook-form";
 import useSWR from "swr";
-import { formEndpoints } from "../../../../services/api/endponits";
-import { getData } from "../../../../services/api/requests";
+import { fightInfosEndpoints, formEndpoints } from "../../../../services/api/endponits";
+import { getData, postData, postDataNew } from "../../../../services/api/requests";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useToast } from "../../../../newcomponents/ui/use-toast";
@@ -15,30 +15,23 @@ import { scores } from "../../../../static/data";
 import FormCheckbox from "../form-checkbox";
 import FormSwitch from "../form-switch";
 import FormInput from "../form-input";
-import { RadioGroup, RadioGroupItem } from "../../../../newcomponents/ui/radio-group";
+import { ActionFormSchema } from "../../types/index";
+import FormRadio from "../form-radio";
+import TestActionTable from "../TestActionTable";
+import { PlusCircle } from "lucide-react";
+import { TestFightContext } from "../../../../context/TestFightContext";
+import useSWRMutation from "swr/mutation";
 
-export default function TestForm() {
-  const ActionFormSchema = z.object({
-    action_name_id: z.number({ required_error: "Please select action" }),
-    technique_id: z.number({ required_error: "Please select technique" }),
-    score_id: z.number({ required_error: "Please select score" }),
-    succesful: z.boolean({ required_error: "Please select succesful field" }),
-    defense_reason: z.boolean({ required_error: "Please select defense field" }),
-    flag: z.boolean({ required_error: "Identify flag yes/no" }),
-    minute: z.string({ required_error: "Daxil ele minute" }),
-    second: z.string({ required_error: "Daxil ele second" }),
-    fighter_id: z.number({ required_error: "Select Fighter for action" }),
-  });
-
+export default function TestForm({ match, mutateMatch }) {
   const { toast } = useToast();
-
+  const { setStatiticsBase, statisticsBase } = useContext(TestFightContext);
   const form = useForm({ resolver: zodResolver(ActionFormSchema), mode: onchange });
-
-  const time = Number(form.watch("minute")) * 60 + Number(form.watch("second"));
 
   const { data: actions } = useSWR(formEndpoints.actions, getData);
   const { data: techniques } = useSWR(formEndpoints.techniques, getData);
+  const { trigger: postAction } = useSWRMutation(fightInfosEndpoints.statitics, postDataNew);
 
+  // Create utils folder and add this fn for reusable
   const handleErrors = async () => {
     await form.trigger();
     if (Object.values(form.formState.errors).length > 0) {
@@ -50,13 +43,38 @@ export default function TestForm() {
     }
   };
 
-  const onSubmit = (values) => {
+  const onSubmit = async (values) => {
     const { minute, second, ...rest } = values;
     console.log("values", { ...rest, time: Number(minute) * 60 + Number(second) });
+    try {
+      const res = await postAction({
+        ...rest,
+        action_time_second: Number(minute) * 60 + Number(second),
+        fight_id: match?.id,
+        video_link: "https://example.com/",
+        action_number: "acdskajsd",
+      });
+      mutateMatch()
+      form.reset();
+      console.log("res", res);
+    } catch (err) {
+      console.log(err);
+    }
+  };
+
+  console.log("statistics", statisticsBase);
+
+  const addNewAction = () => {
+    form.reset();
   };
 
   return (
     <div className="test-form-container">
+      <div className="add-new">
+        <button onClick={addNewAction}>
+          <PlusCircle className="text-green-500" />
+        </button>
+      </div>
       <div className="form-inner bg-[#151B43] border border-[#30CD36] p-10 rounded">
         <div className="form">
           <Form {...form}>
@@ -65,31 +83,8 @@ export default function TestForm() {
               <div className="upper-form text-[#eaeaea]">
                 <FormField
                   control={form.control}
-                  name="type"
-                  render={({ field }) => (
-                    <FormItem className="space-y-3">
-                      <FormControl>
-                        <RadioGroup
-                          onValueChange={field.onChange}
-                          defaultValue={field.value}
-                          className="flex items-center justify-center">
-                          <FormItem className="flex flex-col items-center gap-3 space-x-3 space-y-0">
-                            <FormControl>
-                              <RadioGroupItem value="all" className={cn("w-12 h-12 rounded bg-[#243562]")} name={'salam'} />
-                            </FormControl>
-                            <FormLabel className="font-normal">Tamerlan Aliyev</FormLabel>
-                          </FormItem>
-                          <FormItem className="flex flex-col items-center gap-3 space-x-3 space-y-0">
-                            <FormControl>
-                              <RadioGroupItem value="mentions" className={cn("w-12 h-12 rounded bg-[#243562]")} name={'ajajaj'} />
-                            </FormControl>
-                            <FormLabel className="font-normal">Eltun Mammadov</FormLabel>
-                          </FormItem>
-                        </RadioGroup>
-                      </FormControl>
-                      <FormMessage />
-                    </FormItem>
-                  )}
+                  name="fighter_id"
+                  render={({ field }) => <FormRadio field={field} form={form} match={match} />}
                 />
               </div>
               <div className="bottom-form flex justify-between">
@@ -116,7 +111,7 @@ export default function TestForm() {
                     )}
                   />
                   {/* Selectbox 3rd for Score */}
-                  <div className="flex items-center">
+                  <div className="flex items-center gap-4 mt-2">
                     <FormField
                       control={form.control}
                       name="score_id"
@@ -125,7 +120,7 @@ export default function TestForm() {
                       )}
                     />
                     <div className="flex items-center text-[#fff] gap-4">
-                      <FormLabel>Time :</FormLabel>
+                      <FormLabel>Time</FormLabel>
                       <div className="flex gap-3 py-3 px-5 bg-[#080C2B] items-center rounded">
                         <FormField
                           control={form.control}
@@ -147,7 +142,7 @@ export default function TestForm() {
                     <div className="checkboxes basis-[50%] flex">
                       <FormField
                         control={form.control}
-                        name="succesful"
+                        name="successful"
                         render={({ field }) => <FormCheckbox field={field} name={"Successful"} />}
                       />
                       <FormField
@@ -181,7 +176,7 @@ export default function TestForm() {
             </form>
           </Form>
         </div>
-        <div className="form-data-table"></div>
+        <TestActionTable statistics={match?.fight_statistic} />
       </div>
     </div>
   );

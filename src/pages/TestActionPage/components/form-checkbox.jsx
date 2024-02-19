@@ -2,7 +2,6 @@ import { FormControl, FormItem, FormLabel } from "../../../newcomponents/ui/form
 import { cn } from "../../../lib/utils";
 import { Checkbox } from "../../../newcomponents/ui/checkbox";
 
-
 export default function FormCheckbox({ field, name }) {
   return (
     <FormItem className="flex  text-white flex-col gap-4 border-none space-x-3 space-y-0 rounded-md p-4 shadow">
@@ -13,8 +12,10 @@ export default function FormCheckbox({ field, name }) {
         <FormControl>
           <Checkbox
             className={cn(
-              "bg-[#7A817A]  data-[state=checked]:bg-[#0D7818] transition-all duration-200 data-[state=checked]:translate-x-[100%]",
+              "bg-[#7A817A]   transition-all duration-200",
+              field.value ? "translate-x-[100%] bg-[#0D7818]" : "",
             )}
+            value={field.value}
             checked={field.value}
             onCheckedChange={field.onChange}
           />

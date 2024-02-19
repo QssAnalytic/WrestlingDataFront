@@ -2,6 +2,7 @@ const fightInfosEndpoints = {
   base: "/fight-infos",
   byId: (id) => `/fight-infos/${id}`,
   // status: (status,id) => `/fight-infos/status/?status=${status}&fight_info_id=${id}`,
+  statitics : `/statistics/`,
   changeState : (fight_info_id)=> `/fight-infos/state/${fight_info_id}/`,
   addNewFigth : `/fight-infos/`,
   updateFight : (fight_info_id)=> `/fight-infos/${fight_info_id}` ,
