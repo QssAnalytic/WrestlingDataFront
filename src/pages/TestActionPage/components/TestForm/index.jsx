@@ -22,14 +22,14 @@ import { PlusCircle } from "lucide-react";
 import { TestFightContext } from "../../../../context/TestFightContext";
 import useSWRMutation from "swr/mutation";
 
-export default function TestForm({ match }) {
+export default function TestForm({ match, mutateMatch }) {
   const { toast } = useToast();
   const { setStatiticsBase, statisticsBase } = useContext(TestFightContext);
   const form = useForm({ resolver: zodResolver(ActionFormSchema), mode: onchange });
 
   const { data: actions } = useSWR(formEndpoints.actions, getData);
   const { data: techniques } = useSWR(formEndpoints.techniques, getData);
-  const { data: response, trigger: postAction } = useSWRMutation(fightInfosEndpoints.statitics, postDataNew);
+  const { trigger: postAction } = useSWRMutation(fightInfosEndpoints.statitics, postDataNew);
 
   // Create utils folder and add this fn for reusable
   const handleErrors = async () => {
@@ -54,7 +54,7 @@ export default function TestForm({ match }) {
         video_link: "https://example.com/",
         action_number: "acdskajsd",
       });
-      setStatiticsBase((prev) => [...prev, !prev.find((item) => item.id === res.id) ? res : null]);
+      mutateMatch()
       form.reset();
       console.log("res", res);
     } catch (err) {
@@ -111,7 +111,7 @@ export default function TestForm({ match }) {
                     )}
                   />
                   {/* Selectbox 3rd for Score */}
-                  <div className="flex items-center">
+                  <div className="flex items-center gap-4 mt-2">
                     <FormField
                       control={form.control}
                       name="score_id"
@@ -120,7 +120,7 @@ export default function TestForm({ match }) {
                       )}
                     />
                     <div className="flex items-center text-[#fff] gap-4">
-                      <FormLabel>Time :</FormLabel>
+                      <FormLabel>Time</FormLabel>
                       <div className="flex gap-3 py-3 px-5 bg-[#080C2B] items-center rounded">
                         <FormField
                           control={form.control}
@@ -176,7 +176,7 @@ export default function TestForm({ match }) {
             </form>
           </Form>
         </div>
-        <TestActionTable />
+        <TestActionTable statistics={match?.fight_statistic} />
       </div>
     </div>
   );

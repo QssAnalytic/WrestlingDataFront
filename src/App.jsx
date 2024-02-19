@@ -8,6 +8,7 @@ import TestActionPage from "./pages/TestActionPage/index";
 export default function App() {
   return (
     <>
+    {/* Seperate routes from App component asap */}
       <Routes>
         {/* <Route path="/:fightId" element={<ActionPage />} /> */}
         <Route path="/test/:fightId" element={<TestActionPage />} />

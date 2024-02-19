@@ -9,7 +9,7 @@ import { TestFightContext } from "../../context/TestFightContext";
 export default function TestActionPage() {
   const { setStatiticsBase } = useContext(TestFightContext);
   const { fightId } = useParams();
-  const { data: match } = useSWR(fightId ? fightInfosEndpoints.byId(Number(fightId)) : null, getData);
+  const { data: match, mutate : mutateMatch } = useSWR(fightId ? fightInfosEndpoints.byId(Number(fightId)) : null, getData);
 
   useEffect(() => {
     setStatiticsBase(match?.fight_statistic);
@@ -20,7 +20,7 @@ export default function TestActionPage() {
     <>
       <div className="test-action-page container flex flex-col gap-6">
         <TestHeader match={match} />
-        <TestForm match={match} />
+        <TestForm match={match} mutateMatch={mutateMatch}/>
       </div>
     </>
   );
