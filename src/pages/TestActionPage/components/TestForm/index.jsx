@@ -1,11 +1,11 @@
-import React from "react";
+import React, { useContext } from "react";
 import { cn } from "../../../../lib/utils";
 import { Button } from "../../../../newcomponents/ui/button";
-import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "../../../../newcomponents/ui/form";
+import { Form, FormField, FormLabel } from "../../../../newcomponents/ui/form";
 import { useForm } from "react-hook-form";
 import useSWR from "swr";
-import { formEndpoints } from "../../../../services/api/endponits";
-import { getData } from "../../../../services/api/requests";
+import { fightInfosEndpoints, formEndpoints } from "../../../../services/api/endponits";
+import { getData, postData, postDataNew } from "../../../../services/api/requests";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useToast } from "../../../../newcomponents/ui/use-toast";
@@ -15,32 +15,23 @@ import { scores } from "../../../../static/data";
 import FormCheckbox from "../form-checkbox";
 import FormSwitch from "../form-switch";
 import FormInput from "../form-input";
-import { RadioGroup, RadioGroupItem } from "../../../../newcomponents/ui/radio-group";
-import { CgArrowsExchange } from "react-icons/cg";
+import { ActionFormSchema } from "../../types/index";
+import FormRadio from "../form-radio";
+import TestActionTable from "../TestActionTable";
+import { PlusCircle } from "lucide-react";
+import { TestFightContext } from "../../../../context/TestFightContext";
+import useSWRMutation from "swr/mutation";
 
 export default function TestForm({ match }) {
-  const ActionFormSchema = z.object({
-    action_name_id: z.number({ required_error: "Please select action" }),
-    technique_id: z.number({ required_error: "Please select technique" }),
-    score_id: z.number({ required_error: "Please select score" }),
-    succesful: z.boolean({ required_error: "Please select succesful field" }),
-    defense_reason: z.boolean({ required_error: "Please select defense field" }),
-    flag: z.boolean({ required_error: "Identify flag yes/no" }),
-    minute: z.string({ required_error: "Daxil ele minute" }),
-    second: z.string({ required_error: "Daxil ele second" }),
-    fighter_id: z.number({ required_error: "Select Fighter for action" }),
-    opponent_id: z.number({ required_error: "Select Oponent for action" }),
-  });
-
   const { toast } = useToast();
-
+  const { setStatiticsBase, statisticsBase } = useContext(TestFightContext);
   const form = useForm({ resolver: zodResolver(ActionFormSchema), mode: onchange });
-
-  const time = Number(form.watch("minute")) * 60 + Number(form.watch("second"));
 
   const { data: actions } = useSWR(formEndpoints.actions, getData);
   const { data: techniques } = useSWR(formEndpoints.techniques, getData);
+  const { data: response, trigger: postAction } = useSWRMutation(fightInfosEndpoints.statitics, postDataNew);
 
+  // Create utils folder and add this fn for reusable
   const handleErrors = async () => {
     await form.trigger();
     if (Object.values(form.formState.errors).length > 0) {
@@ -52,15 +43,38 @@ export default function TestForm({ match }) {
     }
   };
 
-  const onSubmit = (values) => {
+  const onSubmit = async (values) => {
     const { minute, second, ...rest } = values;
     console.log("values", { ...rest, time: Number(minute) * 60 + Number(second) });
+    try {
+      const res = await postAction({
+        ...rest,
+        action_time_second: Number(minute) * 60 + Number(second),
+        fight_id: match?.id,
+        video_link: "https://example.com/",
+        action_number: "acdskajsd",
+      });
+      setStatiticsBase((prev) => [...prev, !prev.find((item) => item.id === res.id) ? res : null]);
+      form.reset();
+      console.log("res", res);
+    } catch (err) {
+      console.log(err);
+    }
   };
 
-  console.log("form watch", form.watch());
+  console.log("statistics", statisticsBase);
+
+  const addNewAction = () => {
+    form.reset();
+  };
 
   return (
     <div className="test-form-container">
+      <div className="add-new">
+        <button onClick={addNewAction}>
+          <PlusCircle className="text-green-500" />
+        </button>
+      </div>
       <div className="form-inner bg-[#151B43] border border-[#30CD36] p-10 rounded">
         <div className="form">
           <Form {...form}>
@@ -70,50 +84,7 @@ export default function TestForm({ match }) {
                 <FormField
                   control={form.control}
                   name="fighter_id"
-                  render={({ field }) => (
-                    <FormItem className="flex gap-4 justify-center items-center">
-                      {console.log("field,value", field.value)}
-                      {[match?.fighter, match?.oponent]?.map((opponent, idx) => (
-                        <FormControl>
-                          <>
-                            <div className="opponent-container flex flex-col justify-center items-center">
-                              <Button
-                                type="button"
-                                id={opponent?.id}
-                                className={cn(
-                                  "border border-white space-y-0",
-                                  field?.value === opponent?.id ? "border-green-400" : "",
-                                )}
-                                onClick={(e) => {
-                                  const clickedOpponentId = Number(e.target.id);
-                                  const currentFighterId =
-                                    clickedOpponentId === match?.fighter.id ? match?.oponent.id : match?.fighter.id;
-                                  console.log("Clicked Opponent ID:", clickedOpponentId);
-                                  console.log("Current Fighter ID:", currentFighterId);
-
-                                  form.setValue("fighter_id", clickedOpponentId);
-                                  form.setValue("opponent_id", currentFighterId);
-                                }}>
-                                {opponent?.natinality_name.toUpperCase()}
-                              </Button>
-                              <p className={`${opponent?.id === field?.value ? 'text-green-300' : ''}`}>{opponent?.name}</p>
-                            </div>
-                            {idx === 0 ? (
-                              <CgArrowsExchange
-                                className="cursor-pointer"
-                                size={30}
-                                onClick={() => {
-                                  const fighter = form.watch("fighter_id");
-                                  form.setValue("fighter_id", form.watch("opponent_id"));
-                                  form.setValue("opponent_id", fighter);
-                                }}
-                              />
-                            ) : null}
-                          </>
-                        </FormControl>
-                      ))}
-                    </FormItem>
-                  )}
+                  render={({ field }) => <FormRadio field={field} form={form} match={match} />}
                 />
               </div>
               <div className="bottom-form flex justify-between">
@@ -171,7 +142,7 @@ export default function TestForm({ match }) {
                     <div className="checkboxes basis-[50%] flex">
                       <FormField
                         control={form.control}
-                        name="succesful"
+                        name="successful"
                         render={({ field }) => <FormCheckbox field={field} name={"Successful"} />}
                       />
                       <FormField
@@ -205,60 +176,8 @@ export default function TestForm({ match }) {
             </form>
           </Form>
         </div>
-        <div className="form-data-table"></div>
+        <TestActionTable />
       </div>
     </div>
   );
-}
-
-// Comment
-
-{
-  /* <RadioGroup
-                          onValueChange={(value) => {
-                            console.log("radio change val", value);
-                            field.onChange(value);
-                            // form.setValue("fighter_id", value);
-                            form.setValue(
-                              "opponent_id",
-                              form.watch('fighter_id') === match?.oponent.id ? match?.fighter.id : match?.oponent.id,
-                            );
-                          }}
-                          defaultValue={field.value}
-                          className="flex items-center justify-center gap-12">
-                          {[match?.fighter, match?.oponent]?.map((opponent, idx) => {
-                            return (
-                              <>
-                                <FormItem className="flex flex-col items-center gap-3 space-x-3 space-y-0">
-                                  <FormControl>
-                                    <RadioGroupItem
-                                      value={opponent?.id}
-                                      className={cn(
-                                        "w-12 h-12 rounded  transition-all border  bg-[#243562]  border-[#BBBBBD]  duration-200 peer text-white",
-                                        opponent?.id === field.value && "bg-[#08276C]  border-[#30CD36]",
-                                      )}
-                                      name={opponent?.natinality_name.toUpperCase()}
-                                    />
-                                  </FormControl>
-                                  <FormLabel className="font-normal peer-data-[state=checked]:text-[#30CD36]">
-                                    {opponent?.name}
-                                  </FormLabel>
-                                </FormItem>
-                                {idx === 0 ? (
-                                  <CgArrowsExchange
-                                    size={40}
-                                    className="cursor-pointer"
-                                    onClick={() => {
-                                      console.log("switch", form.watch());
-                                      const val = form.watch("fighter_id");
-                                      field.onChange(form.watch('opponent_id'));
-                                      // form.setValue("fighter_id", form.watch("opponent_id"));
-                                      form.setValue("opponent_id", val);
-                                    }}
-                                  />
-                                ) : null}
-                              </>
-                            );
-                          })}
-                        </RadioGroup> */
 }

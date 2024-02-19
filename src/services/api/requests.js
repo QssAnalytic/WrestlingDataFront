@@ -3,6 +3,7 @@ import { instance, dashboard } from ".";
 // Video App queries
 const getData = async (path) => (await instance.get(path)).data;
 const postData = async (path, arg, config) => (await instance.post(path, arg, config)).data;
+const postDataNew = async (path, { arg }) => (await instance.post(path, arg)).data;
 
 const updateData = async (path, arg) => (await instance.put(path, arg)).data;
 const updateState = async (path, { arg }) => (await instance.put(path, arg)).data;
@@ -26,4 +27,5 @@ export {
   posDashboardtData,
   updateDashboardData,
   deleteDashboardData,
+  postDataNew
 };
