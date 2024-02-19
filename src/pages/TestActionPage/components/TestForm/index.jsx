@@ -18,7 +18,7 @@ import FormInput from "../form-input";
 import { RadioGroup, RadioGroupItem } from "../../../../newcomponents/ui/radio-group";
 import { CgArrowsExchange } from "react-icons/cg";
 
-export default function TestForm() {
+export default function TestForm({ match }) {
   const ActionFormSchema = z.object({
     action_name_id: z.number({ required_error: "Please select action" }),
     technique_id: z.number({ required_error: "Please select technique" }),
@@ -28,7 +28,8 @@ export default function TestForm() {
     flag: z.boolean({ required_error: "Identify flag yes/no" }),
     minute: z.string({ required_error: "Daxil ele minute" }),
     second: z.string({ required_error: "Daxil ele second" }),
-    fighter_id: z.string({ required_error: "Select Fighter for action" }),
+    fighter_id: z.number({ required_error: "Select Fighter for action" }),
+    opponent_id: z.number({ required_error: "Select Oponent for action" }),
   });
 
   const { toast } = useToast();
@@ -56,6 +57,8 @@ export default function TestForm() {
     console.log("values", { ...rest, time: Number(minute) * 60 + Number(second) });
   };
 
+  console.log("form watch", form.watch());
+
   return (
     <div className="test-form-container">
       <div className="form-inner bg-[#151B43] border border-[#30CD36] p-10 rounded">
@@ -68,36 +71,47 @@ export default function TestForm() {
                   control={form.control}
                   name="fighter_id"
                   render={({ field }) => (
-                    <FormItem className="space-y-3">
-                      {console.log("fighter", field)}
-                      <FormControl>
-                        <RadioGroup
-                          onValueChange={field.onChange}
-                          defaultValue={field.value}
-                          className="flex items-center justify-center">
-                          <FormItem className="flex flex-col items-center gap-3 space-x-3 space-y-0">
-                            <FormControl>
-                              <RadioGroupItem
-                                value="Tamerlan Aliyev"
-                                className={cn("w-12 h-12 rounded bg-[#243562]")}
-                                name={"salam"}
+                    <FormItem className="flex gap-4 justify-center items-center">
+                      {console.log("field,value", field.value)}
+                      {[match?.fighter, match?.oponent]?.map((opponent, idx) => (
+                        <FormControl>
+                          <>
+                            <div className="opponent-container flex flex-col justify-center items-center">
+                              <Button
+                                type="button"
+                                id={opponent?.id}
+                                className={cn(
+                                  "border border-white space-y-0",
+                                  field?.value === opponent?.id ? "border-green-400" : "",
+                                )}
+                                onClick={(e) => {
+                                  const clickedOpponentId = Number(e.target.id);
+                                  const currentFighterId =
+                                    clickedOpponentId === match?.fighter.id ? match?.oponent.id : match?.fighter.id;
+                                  console.log("Clicked Opponent ID:", clickedOpponentId);
+                                  console.log("Current Fighter ID:", currentFighterId);
+
+                                  form.setValue("fighter_id", clickedOpponentId);
+                                  form.setValue("opponent_id", currentFighterId);
+                                }}>
+                                {opponent?.natinality_name.toUpperCase()}
+                              </Button>
+                              <p className={`${opponent?.id === field?.value ? 'text-green-300' : ''}`}>{opponent?.name}</p>
+                            </div>
+                            {idx === 0 ? (
+                              <CgArrowsExchange
+                                className="cursor-pointer"
+                                size={30}
+                                onClick={() => {
+                                  const fighter = form.watch("fighter_id");
+                                  form.setValue("fighter_id", form.watch("opponent_id"));
+                                  form.setValue("opponent_id", fighter);
+                                }}
                               />
-                            </FormControl>
-                            <FormLabel className="font-normal">Tamerlan Aliyev</FormLabel>
-                          </FormItem>
-                          <FormItem className="flex flex-col items-center gap-3 space-x-3 space-y-0">
-                            <FormControl>
-                              <RadioGroupItem
-                                value="Eltun Mammadov"
-                                className={cn("w-12 h-12 rounded bg-[#243562]")}
-                                name={"ajajaj"}
-                              />
-                            </FormControl>
-                            <FormLabel className="font-normal">Eltun Mammadov</FormLabel>
-                          </FormItem>
-                        </RadioGroup>
-                      </FormControl>
-                      <FormMessage />
+                            ) : null}
+                          </>
+                        </FormControl>
+                      ))}
                     </FormItem>
                   )}
                 />
@@ -195,4 +209,56 @@ export default function TestForm() {
       </div>
     </div>
   );
+}
+
+// Comment
+
+{
+  /* <RadioGroup
+                          onValueChange={(value) => {
+                            console.log("radio change val", value);
+                            field.onChange(value);
+                            // form.setValue("fighter_id", value);
+                            form.setValue(
+                              "opponent_id",
+                              form.watch('fighter_id') === match?.oponent.id ? match?.fighter.id : match?.oponent.id,
+                            );
+                          }}
+                          defaultValue={field.value}
+                          className="flex items-center justify-center gap-12">
+                          {[match?.fighter, match?.oponent]?.map((opponent, idx) => {
+                            return (
+                              <>
+                                <FormItem className="flex flex-col items-center gap-3 space-x-3 space-y-0">
+                                  <FormControl>
+                                    <RadioGroupItem
+                                      value={opponent?.id}
+                                      className={cn(
+                                        "w-12 h-12 rounded  transition-all border  bg-[#243562]  border-[#BBBBBD]  duration-200 peer text-white",
+                                        opponent?.id === field.value && "bg-[#08276C]  border-[#30CD36]",
+                                      )}
+                                      name={opponent?.natinality_name.toUpperCase()}
+                                    />
+                                  </FormControl>
+                                  <FormLabel className="font-normal peer-data-[state=checked]:text-[#30CD36]">
+                                    {opponent?.name}
+                                  </FormLabel>
+                                </FormItem>
+                                {idx === 0 ? (
+                                  <CgArrowsExchange
+                                    size={40}
+                                    className="cursor-pointer"
+                                    onClick={() => {
+                                      console.log("switch", form.watch());
+                                      const val = form.watch("fighter_id");
+                                      field.onChange(form.watch('opponent_id'));
+                                      // form.setValue("fighter_id", form.watch("opponent_id"));
+                                      form.setValue("opponent_id", val);
+                                    }}
+                                  />
+                                ) : null}
+                              </>
+                            );
+                          })}
+                        </RadioGroup> */
 }

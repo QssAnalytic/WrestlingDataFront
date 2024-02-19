@@ -8,7 +8,7 @@ import { ChevronDown, Circle } from "lucide-react";
 
 export default function FormSelectBox({ field, id, datas, name, form }) {
   return (
-    <FormItem className="flex items-center gap-4 justify-between">
+    <FormItem className="flex items-center gap-4 justify-between w-full relative">
       <FormLabel className={cn('text-white basis-[19%]')}>{name} :</FormLabel>
       <Popover>
         <PopoverTrigger asChild>

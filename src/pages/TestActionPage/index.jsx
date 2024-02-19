@@ -5,6 +5,8 @@ import useSWR from "swr";
 import { fightInfosEndpoints } from "../../services/api/endponits";
 import { getData } from "../../services/api/requests";
 export default function TestActionPage() {
+
+
   const { fightId } = useParams();
   const { data: match } = useSWR(fightId ? fightInfosEndpoints.byId(Number(fightId)) : null, getData);
   console.log("match", match);
