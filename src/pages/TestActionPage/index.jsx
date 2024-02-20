@@ -6,21 +6,22 @@ import { fightInfosEndpoints } from "../../services/api/endponits";
 import { getData } from "../../services/api/requests";
 import { useContext, useEffect } from "react";
 import { TestFightContext } from "../../context/TestFightContext";
+import { useGetMatch } from "./hooks/useGetMatch";
 export default function TestActionPage() {
   const { setStatiticsBase } = useContext(TestFightContext);
   const { fightId } = useParams();
-  const { data: match, mutate : mutateMatch } = useSWR(fightId ? fightInfosEndpoints.byId(Number(fightId)) : null, getData);
-
+  console.log('test action page', fightId)
+  // const { data, mutate } = useSWR(fightId ? fightInfosEndpoints.byId(Number(fightId)) : null, getData);
+  const { data, mutate } = useGetMatch(fightId);
   useEffect(() => {
-    setStatiticsBase(match?.fight_statistic);
+    setStatiticsBase(data?.fight_statistic);
   }, []);
-  console.log("match", match);
-
+  console.log("match", data);
   return (
     <>
       <div className="test-action-page container flex flex-col gap-6">
-        <TestHeader match={match} />
-        <TestForm match={match} mutateMatch={mutateMatch}/>
+        <TestHeader match={data} />
+        <TestForm match={data} mutateMatch={mutate} />
       </div>
     </>
   );
