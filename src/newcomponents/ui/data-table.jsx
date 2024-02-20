@@ -3,8 +3,9 @@
 import { flexRender, getCoreRowModel, useReactTable } from "@tanstack/react-table";
 
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "../../newcomponents/ui/table";
+import { cn } from "../../lib/utils";
 
-export function DataTable({ columns, data = [] }) {
+export function DataTable({ columns, data = [], className }) {
   const table = useReactTable({
     data,
     columns,
@@ -12,11 +13,11 @@ export function DataTable({ columns, data = [] }) {
   });
 
   return (
-    <div className="rounded-md border">
-      <Table>
+    <div className={cn("rounded-md")}>
+      <Table className={cn("border-separate border-spacing-y-2")}>
         <TableHeader>
           {table.getHeaderGroups().map((headerGroup) => (
-            <TableRow key={headerGroup.id}>
+            <TableRow className={cn("border-none text-center hover:bg-[#1E264B]")} key={headerGroup.id}>
               {headerGroup.headers.map((header) => {
                 return (
                   <TableHead key={header.id}>
@@ -30,7 +31,10 @@ export function DataTable({ columns, data = [] }) {
         <TableBody>
           {table.getRowModel().rows?.length ? (
             table.getRowModel().rows.map((row) => (
-              <TableRow key={row.id} data-state={row.getIsSelected() && "selected"}>
+              <TableRow
+                className={cn("border-none bg-[#121C34] rounded hover:bg-[#1E264B]  cursor-pointer")}
+                key={row.id}
+                data-state={row.getIsSelected() && "selected"}>
                 {row.getVisibleCells().map((cell) => (
                   <TableCell key={cell.id}>{flexRender(cell.column.columnDef.cell, cell.getContext())}</TableCell>
                 ))}

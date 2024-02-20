@@ -11,7 +11,7 @@ import TestFightContextProvider, { TestFightContext } from "./context/TestFightC
 ReactDOM.createRoot(document.getElementById("root")).render(
   // <React.StrictMode>
   <BrowserRouter>
-    {/* <TestFightContextProvider> */}
+    <TestFightContextProvider>
       <FightContextProvider>
         <FilterContextProvider>
           <FormContextProvider>
@@ -19,7 +19,7 @@ ReactDOM.createRoot(document.getElementById("root")).render(
           </FormContextProvider>
         </FilterContextProvider>
       </FightContextProvider>
-    {/* </TestFightContextProvider> */}
+    </TestFightContextProvider>
   </BrowserRouter>,
   // </React.StrictMode>
 );
