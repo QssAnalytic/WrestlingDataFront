@@ -1,4 +1,8 @@
+import { Edit3 } from "lucide-react";
 import { FaFlag } from "react-icons/fa";
+import { DeleteAlert } from "../../../common/components/delete-alert";
+import { deleteData } from "../../../services/api/requests";
+import { statisticsEndpoints } from "../../../services/api/endponits";
 
 export const columns = [
   {
@@ -34,36 +38,55 @@ export const columns = [
     header: "Score",
   },
   {
-    accessorKey : 'action_name',
-    header : 'Action',
-    cell : ({row})=>{
-      const data = row.getValue('action_name');
+    accessorKey: "action_name",
+    header: "Action",
+    cell: ({ row }) => {
+      const data = row.getValue("action_name");
       return data.name;
-    }
+    },
   },
   {
     accessorKey: "successful",
     header: "Successful",
   },
   {
-    accessorKey : 'technique',
-    header : 'Technique',
-    cell : ({row})=>{
-      const data = row.getValue('technique');
+    accessorKey: "technique",
+    header: "Technique",
+    cell: ({ row }) => {
+      const data = row.getValue("technique");
       return data.name;
-    }
+    },
   },
   {
     accessorKey: "defense_reason",
     header: "Defense Reason",
   },
   {
-    accessorKey: "flag",
-    header: "Flag",
-    cell : ({row})=>{
-      const data = row.getValue('flag');
-      return <FaFlag className={`${data ? 'text-red-500' : 'text-white'}`}/>;
-    }
+    header: "Edit",
+    cell: () => {
+      return <Edit3 size={17} />;
+    },
   },
-  
+  {
+    header: "Delete",
+    cell: ({row}) => {
+      const actionId = row.original?.id;
+      const handleDelete = async()=>{
+        try{
+          await deleteData(statisticsEndpoints.byId(actionId));
+        }catch(err){
+
+        }
+      }
+      return <DeleteAlert handleDelete={handleDelete} />;
+    },
+  },
+  {
+    accessorKey: "flag",
+    header: "View",
+    cell: ({ row }) => {
+      const data = row.getValue("flag");
+      return <FaFlag className={`${data ? "text-red-500" : "text-white"}`} />;
+    },
+  },
 ];
