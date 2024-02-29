@@ -1,7 +1,6 @@
 import React from "react";
 import { DataTable } from "../../../../newcomponents/ui/data-table";
 import { columns } from "../columns";
-import { cn } from "../../../../lib/utils";
 
 export default function TestActionTable({ statistics }) {
   return (

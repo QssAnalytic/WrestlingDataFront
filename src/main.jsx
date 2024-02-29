@@ -6,12 +6,12 @@ import FormContextProvider from "./context/FormContext";
 import { BrowserRouter } from "react-router-dom";
 import FilterContextProvider from "./context/FilterContext.jsx";
 import FightContextProvider from "./context/FightContext.jsx";
-import TestFightContextProvider, { TestFightContext } from "./context/TestFightContext.jsx";
+// import TestFightContextProvider, { TestFightContext } from "./context/TestFightContext.jsx";
 
 ReactDOM.createRoot(document.getElementById("root")).render(
   // <React.StrictMode>
   <BrowserRouter>
-    <TestFightContextProvider>
+    {/* <TestFightContextProvider> */}
       <FightContextProvider>
         <FilterContextProvider>
           <FormContextProvider>
@@ -19,7 +19,7 @@ ReactDOM.createRoot(document.getElementById("root")).render(
           </FormContextProvider>
         </FilterContextProvider>
       </FightContextProvider>
-    </TestFightContextProvider>
+    {/* </TestFightContextProvider> */}
   </BrowserRouter>,
   // </React.StrictMode>
 );

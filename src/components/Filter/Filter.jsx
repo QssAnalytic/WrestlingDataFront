@@ -16,35 +16,17 @@ export default function Filter() {
   const filterBoxRef = useRef(null);
 
   const { data: dates } = useSWR(filtersEndpoints.dates, getData);
-  const { data: tournaments } = useSWR(
-    filterParams?.date
-      ? filtersEndpoints.tournaments(filterParams?.date)
-      : null,
-    getData
-  );
+  const { data: tournaments } = useSWR(filtersEndpoints.tournaments(filterParams?.date), getData);
 
-  const { data: styles } = useSWR(
-    filterParams?.tournament_id
-      ? filtersEndpoints.style(filterParams?.tournament_id)
-      : null,
-    getData
-  );
+  const { data: styles } = useSWR(filtersEndpoints.style(filterParams?.tournament_id), getData);
   const { data: weights } = useSWR(
-    filterParams?.tournament_id && filterParams?.wrestling_type
-      ? filtersEndpoints.weights(
-          filterParams?.tournament_id,
-          filterParams?.wrestling_type
-        )
-      : null,
-    getData
+    filtersEndpoints.weights({
+      tournament_id: filterParams?.tournament_id,
+      wrestling_type: filterParams?.wrestling_type,
+    }),
+    getData,
   );
-
-  const { data: stages } = useSWR(
-    filterParams?.weight_category
-      ? filtersEndpoints.stages(filterParams?.weight_category)
-      : null,
-    getData
-  );
+  const { data: stages } = useSWR(filtersEndpoints.stages(filterParams?.weight_category), getData);
 
   useEffect(() => {
     loadFights(input?.matchId);
@@ -88,12 +70,7 @@ export default function Filter() {
         input={filterParams}
         placeholder={"Wrestler name..."}
       />
-      <FilterInput
-        id={"author"}
-        setInput={setFilterParams}
-        input={filterParams}
-        placeholder={"Author name..."}
-      />
+      <FilterInput id={"author"} setInput={setFilterParams} input={filterParams} placeholder={"Author name..."} />
       <FilterInput
         id={"check_author"}
         setInput={setFilterParams}
@@ -162,13 +139,9 @@ export default function Filter() {
         filterSelects={filterSelects}
         value={filterParams}
         setValue={setFilterParams}
-        datas={[
-          { status: "not started" },
-          { status: "in progress" },
-          { status: "completed" },
-        ]}
+        datas={[{ status: "not started" }, { status: "in progress" }, { status: "completed" }, { status: "checked" }]}
       />
-      <FilterSelectBox
+      {/* <FilterSelectBox
         id={"is_submitted"}
         name={"check"}
         handleFilterSelects={handleFilterSelects}
@@ -180,12 +153,11 @@ export default function Filter() {
           { name: "Checked", is_submitted: true },
           { name: "Unchecked", is_submitted: false },
         ]}
-      />
+      /> */}
 
       <button
         className="reset rounded text-[#ffffff]/50 text-lg transition-all hover:rotate-180 hover:text-[#ffffff] duration-700"
-        onClick={resetFilter}
-      >
+        onClick={resetFilter}>
         <GrUpdate></GrUpdate>
       </button>
     </div>

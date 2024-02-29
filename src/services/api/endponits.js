@@ -20,10 +20,14 @@ const formEndpoints = {
 
 const filtersEndpoints = {
   dates: `/filters/dates/`,
-  tournaments: (date) => `/filters/tournaments/${date}/`,
-  style: (tournamentId) => `/filters/style/${tournamentId}/`,
-  weights: (tournamentId, wrestlingType) => `/filters/weights/${tournamentId}/${wrestlingType}/`,
-  stages: (weight) => `/filters/stages/${weight}/`,
+  tournaments: (date) => `/filters/tournaments/${date ? `?date=${date}` : ""}`,
+  style: (tournamentId) => `/filters/style/${tournamentId ? `?tournament_id=${tournamentId}` : ""}`,
+  weights: (params) => {
+    return `/filters/weights/?${Object.entries(params)
+      .map(([key, value]) => (value ? `&${key}=${value}` : null))
+      .join("")}`;
+  },
+  stages: (weight) => `/filters/stages/${weight ? `?stages=${weight}` : ""}`,
 };
 
 const createNewMatchEnpoints = {

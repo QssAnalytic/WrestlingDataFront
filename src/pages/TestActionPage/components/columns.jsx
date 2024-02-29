@@ -75,7 +75,7 @@ export const columns = [
         try{
           await deleteData(statisticsEndpoints.byId(actionId));
         }catch(err){
-
+          console.log('error', err)
         }
       }
       return <DeleteAlert handleDelete={handleDelete} />;
