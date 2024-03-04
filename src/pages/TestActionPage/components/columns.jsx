@@ -1,13 +1,16 @@
 import { Edit3 } from "lucide-react";
 import { FaFlag } from "react-icons/fa";
 import { DeleteAlert } from "../../../common/components/delete-alert";
-import { deleteData } from "../../../services/api/requests";
+import { deleteData, updateData } from "../../../services/api/requests";
 import { statisticsEndpoints } from "../../../services/api/endponits";
+import useActionsStore from "../../../services/state/actionStore";
 
 export const columns = [
   {
-    accessorKey: "id",
     header: "Action No",
+    cell: ({ row }) => {
+      return row.index + 1;
+    },
   },
   {
     accessorKey: "fighter",
@@ -63,21 +66,23 @@ export const columns = [
   },
   {
     header: "Edit",
-    cell: () => {
+    cell: ({row}) => {
+      const actionId = row.original?.id;
       return <Edit3 size={17} />;
     },
   },
   {
     header: "Delete",
-    cell: ({row}) => {
+    cell: ({ row }) => {
       const actionId = row.original?.id;
-      const handleDelete = async()=>{
-        try{
+      const handleDelete = async () => {
+        try {
           await deleteData(statisticsEndpoints.byId(actionId));
-        }catch(err){
-          console.log('error', err)
+          useActionsStore.getState().mutate();
+        } catch (err) {
+          console.log("error", err);
         }
-      }
+      };
       return <DeleteAlert handleDelete={handleDelete} />;
     },
   },

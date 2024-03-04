@@ -100,3 +100,8 @@
 .scrollbar::-webkit-scrollbar-track{
   display: none;
 }
+
+.PopoverContent {
+  width: var(--radix-popover-trigger-width);
+  max-height: var(--radix-popover-content-available-height);
+}

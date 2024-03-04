@@ -1,27 +1,28 @@
 import { useParams } from "react-router-dom";
-import TestForm from "../TestActionPage/components/TestForm/index";
-import TestHeader from "../TestActionPage/components/TestHeader/index";
-import useSWR from "swr";
-import { fightInfosEndpoints } from "../../services/api/endponits";
-import { getData } from "../../services/api/requests";
-import { useContext, useEffect } from "react";
-import { TestFightContext } from "../../context/TestFightContext";
+import TestForm from "./components/TestForm/index";
+import TestHeader from "./components/header/index";
+import { useEffect } from "react";
 import { useGetMatch } from "./hooks/useGetMatch";
+import useActionsStore from "../../services/state/actionStore";
 export default function TestActionPage() {
-  const { setStatiticsBase } = useContext(TestFightContext);
+  const { setMutate, setActions } = useActionsStore();
   const { fightId } = useParams();
-  console.log('test action page', fightId)
-  // const { data, mutate } = useSWR(fightId ? fightInfosEndpoints.byId(Number(fightId)) : null, getData);
   const { data, mutate } = useGetMatch(fightId);
+
+  console.log('daaa', data)
+
   useEffect(() => {
-    setStatiticsBase(data?.fight_statistic);
-  }, []);
-  console.log("match", data);
+    if (data?.fight_statistic) {
+      setActions(data.fight_statistic);
+      setMutate(mutate);
+    }
+  }, [data?.fight_statistic, mutate, setActions, setMutate]); // Look at this why do we use such a dependecies??
+
   return (
     <>
       <div className="test-action-page container flex flex-col gap-6">
         <TestHeader match={data} />
-        <TestForm match={data} mutateMatch={mutate} />
+        <TestForm match={data} />
       </div>
     </>
   );
