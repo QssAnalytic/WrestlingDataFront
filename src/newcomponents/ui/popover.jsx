@@ -1,8 +1,5 @@
 import * as React from "react"
 import * as PopoverPrimitive from "@radix-ui/react-popover"
-
-import { cn } from "../../lib/utils"
-
 const Popover = PopoverPrimitive.Root
 
 const PopoverTrigger = PopoverPrimitive.Trigger
@@ -12,8 +9,8 @@ const PopoverContent = React.forwardRef(({ className, align = "left", sideOffset
     <PopoverPrimitive.Content
       ref={ref}
       align={align}
-      sideOffset={sideOffset}
-      className={'PopoverContent'}
+      sideOffset={sideOffset} 
+      className={'PopoverContent z-[99]'}
       {...props} />
   </PopoverPrimitive.Portal>
 ))

@@ -5,6 +5,7 @@ import TestActionTable from "../TestActionTable";
 import { PlusCircle } from "lucide-react";
 import useActionsStore from "../../../../services/state/actionStore";
 import CreateAction from "../create";
+import { ActionDetails } from "../ActionDetails";
 
 export default function TestForm({ match }) {
   const { actionList } = useActionsStore();
@@ -22,6 +23,7 @@ export default function TestForm({ match }) {
         </button>
       </div>
       <div className="form-inner bg-[#151B43] border border-[#30CD36] p-10 rounded">
+        <ActionDetails />
         <CreateAction form={form} match={match} />
         <TestActionTable statistics={actionList} />
       </div>

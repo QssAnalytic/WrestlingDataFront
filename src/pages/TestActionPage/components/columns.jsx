@@ -1,8 +1,8 @@
 import { Edit3 } from "lucide-react";
 import { FaFlag } from "react-icons/fa";
 import { DeleteAlert } from "../../../common/components/delete-alert";
-import { deleteData, updateData } from "../../../services/api/requests";
-import { statisticsEndpoints } from "../../../services/api/endponits";
+import { deleteData, getData, updateData } from "../../../services/api/requests";
+import { fightInfosEndpoints, statisticsEndpoints } from "../../../services/api/endponits";
 import useActionsStore from "../../../services/state/actionStore";
 
 export const columns = [
@@ -66,9 +66,18 @@ export const columns = [
   },
   {
     header: "Edit",
-    cell: ({row}) => {
+    cell: ({ row }) => {
       const actionId = row.original?.id;
-      return <Edit3 size={17} />;
+      const handleEdit = async () => {
+        try {
+          const action = await getData(statisticsEndpoints.byId(actionId));
+          useActionsStore.getState().setEditedAction(action);
+          useActionsStore.getState().setDialogOpen();
+        } catch (err) {
+          console.log("Oops something went wrong! in Edit");
+        }
+      };
+      return <Edit3 size={17} onClick={handleEdit} />;
     },
   },
   {
