@@ -25,11 +25,11 @@ export default function FormSelectBox({ field, id, datas, name, form }) {
             </Button>
           </FormControl>
         </PopoverTrigger>
-        <PopoverContent className={cn('w-full p-0 border-none text-[#BBBBBD]')}>
+        <PopoverContent className={cn('w-full p-0 border-none text-[#BBBBBD] z-[99]')}>
           <Command className={cn("border-none bg-[#253F74] w-[100%] text-[#BBBBBD]")}>
             <CommandInput placeholder="Search framework..." className="h-9 border-none py-4" />
             <CommandEmpty>No framework found.</CommandEmpty>
-            <CommandGroup className={cn("overflow-y-auto h-[200px]")}>
+            <CommandGroup className={cn("overflow-y-auto h-[200px] overflow-scroll")}>
               {datas?.map((item) => (
                 <CommandItem
                   className={cn("text-[#BBBBBD] bg-[#253F74] hover:bg-[#121C34] cursor-pointer px-6 py-4")}

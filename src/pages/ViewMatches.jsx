@@ -50,7 +50,7 @@ export default function ViewMatches() {
           openEditMatch ? "pointer-events-none" : null
         }`}
       >
-        <div className="container m-auto">
+        <div className="p-8">
           <div className="view-header-inner">
             <div className="view-logo flex gap-3 justify-center">
               <p className="text-[1.25rem] text-wBlue">World Championship</p>
