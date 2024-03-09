@@ -12,10 +12,11 @@ export default function FormCheckbox({ field, name }) {
         <FormControl>
           <Checkbox
             className={cn(
-              "bg-[#7A817A]   transition-all duration-200",
-              field.value ? "translate-x-[100%] bg-[#0D7818]" : "",
+              "bg-[#7A817A] border-none transition-all duration-200",
+              field.value ? "translate-x-[100%] bg-[#0D7818]" : field?.value === undefined ? "" : "bg-[#D52B1E]",
             )}
             value={field.value}
+            name={field.value === true ? "Yes" : ''}
             checked={field.value}
             onCheckedChange={field.onChange}
           />

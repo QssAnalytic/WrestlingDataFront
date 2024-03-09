@@ -12,3 +12,4 @@ export const ActionFormSchema = z.object({
   fighter_id: z.number({ required_error: "Select Fighter for action" }),
   opponent_id: z.number({ required_error: "Select Oponent for action" }),
 });
+

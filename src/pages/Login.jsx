@@ -4,7 +4,6 @@ import { IoIosArrowForward } from "react-icons/io";
 import CreateNewMatch from "../components/NewMatch/CreateNewMatch";
 import LoginForm from "../components/LoginForm";
 export default function Login() {
-
   
   const [openComponent, setOpenComponent] = useState({
     find: true,

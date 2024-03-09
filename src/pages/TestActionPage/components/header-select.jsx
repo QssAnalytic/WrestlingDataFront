@@ -7,15 +7,15 @@ export default function HeaderSelect({ datas, field}) {
 
   return (
     <FormItem>
-      <Select onValueChange={field.onChange} defaultValue={field.value} className={cn("bg-[#080C2B] border-none")} {...field}>
+      <Select  onValueChange={field.onChange} defaultValue={field.value} {...field}>
         <FormControl>
-          <SelectTrigger>
+          <SelectTrigger className={'bg-[#080C2B] text-white border-none'}>
             <SelectValue placeholder="Select Order" />
           </SelectTrigger>
         </FormControl>
-        <SelectContent>
+        <SelectContent className={'bg-[#253F74] text-white border-none'}>
           {datas?.map((item, idx) => (
-            <SelectItem key={idx} value={item.data}>
+            <SelectItem key={idx} value={item.data} className={'cursor-pointer'}>
               {item.data.charAt(0).toUpperCase() + item.data.slice(1)}
             </SelectItem>
           ))}

@@ -17,7 +17,7 @@ export function DataTable({ columns, data = [] }) {
       <Table className={cn("border-separate border-spacing-y-2")}>
         <TableHeader>
           {table.getHeaderGroups().map((headerGroup) => (
-            <TableRow className={cn("border-none text-center hover:bg-[#1E264B]")} key={headerGroup.id}>
+            <TableRow className={cn("border-none  hover:bg-slate-200")} key={headerGroup.id}>
               {headerGroup.headers.map((header) => {
                 return (
                   <TableHead key={header.id}>
@@ -32,7 +32,7 @@ export function DataTable({ columns, data = [] }) {
           {table.getRowModel().rows?.length ? (
             table.getRowModel().rows.map((row) => (
               <TableRow
-                className={cn("border-none bg-[#121C34] rounded hover:bg-[#1E264B]  cursor-pointer")}
+                className={cn("border bg-[#121C34] rounded text-center hover:bg-[#1E264B]  cursor-pointer")}
                 key={row.id}
                 data-state={row.getIsSelected() && "selected"}>
                 {row.getVisibleCells().map((cell) => (

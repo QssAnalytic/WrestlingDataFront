@@ -11,7 +11,6 @@ import useSWRMutation from "swr/mutation";
 import { fightInfosEndpoints } from "../../../../services/api/endponits";
 import { updateState } from "../../../../services/api/requests";
 import { useNavigate } from "react-router-dom";
-
 export default function FormHeader({ match }) {
   const navigate = useNavigate();
 
@@ -39,9 +38,7 @@ export default function FormHeader({ match }) {
   };
 
   // Match ID input removing !!
-  // Check_author field must be added !!
   // Error page add
-  // Loading component add
 
   return (
     <Form {...form}>
@@ -87,7 +84,7 @@ export default function FormHeader({ match }) {
               </div>
             </div>
           </div>
-          <div className="right-form-header bg-[#151B43] text-[#000] basis-[20%] py-5 px-11 flex flex-col gap-3">
+          <div className="right-form-header bg-[#151B43] basis-[20%] py-5 px-11 flex flex-col gap-3">
             <FormField
               control={form.control}
               name="order"
@@ -98,6 +95,14 @@ export default function FormHeader({ match }) {
               name="status"
               render={({ field }) => <HeaderSelect field={field} datas={status} />}
             />
+            {form.getValues("status") === "checked" ? (
+              <FormField
+                control={form.control}
+                name="check_author"
+                render={({ field }) => <HeaderInput field={field} name={"Check Author"} disabled={false} />}
+              />
+            ) : null}
+
             <Button>Final Submit</Button>
           </div>
         </div>
