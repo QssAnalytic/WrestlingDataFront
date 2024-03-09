@@ -6,7 +6,7 @@ import { CgArrowsExchange } from "react-icons/cg";
 export default function FormRadio({ form, field, match }) {
 
   return (
-    <FormItem className="flex gap-4 justify-center items-center">
+    <FormItem className="flex gap-4 justify-center items-center space-y-0">
       {console.log("field,value", field.value)}
       {[match?.fighter, match?.oponent]?.map((opponent, idx) => (
         <FormControl>

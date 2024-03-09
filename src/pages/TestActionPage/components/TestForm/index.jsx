@@ -23,7 +23,7 @@ export default function TestForm({ match }) {
         </button>
       </div>
       <div className="form-inner bg-[#151B43] border border-[#30CD36] p-10 rounded">
-        <ActionDetails />
+        <ActionDetails match={match}/>
         <CreateAction form={form} match={match} />
         <TestActionTable statistics={actionList} />
       </div>
