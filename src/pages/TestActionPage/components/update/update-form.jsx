@@ -2,6 +2,8 @@ import { useForm } from "react-hook-form";
 import { Button } from "../../../../newcomponents/ui/button";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { ActionFormSchema } from "../../types/index";
+import { useToast } from "../../../../newcomponents/ui/use-toast";
+
 import FormInput from "../form-input";
 import FormRadio from "../form-radio";
 import FormSwitch from "../form-switch";
@@ -10,26 +12,67 @@ import { Form, FormField, FormLabel } from "../../../../newcomponents/ui/form";
 import { cn } from "../../../../lib/utils";
 import { Toaster } from "../../../../newcomponents/ui/toaster";
 import useSWR from "swr";
-import { formEndpoints, fightInfosEndpoints } from "../../../../services/api/endponits";
-import { getData, postDataNew } from "../../../../services/api/requests";
+import { formEndpoints, fightInfosEndpoints, statisticsEndpoints } from "../../../../services/api/endponits";
+import { getData, newUpdateData, postDataNew } from "../../../../services/api/requests";
 import useSWRMutation from "swr/mutation";
 import { scores } from "../../../../static/data";
 import useActionsStore from "../../../../services/state/actionStore";
 
 export function UpdateForm({ match }) {
-  const action = useActionsStore((state) => state.editedAction);
+  const { setDialogOpen, editedAction: action, mutate } = useActionsStore();
+  const { toast } = useToast();
 
   //   Data Fetching
   const { data: actions } = useSWR(formEndpoints.actions, getData);
   const { data: techniques } = useSWR(formEndpoints.techniques, getData);
-  const { trigger: postAction } = useSWRMutation(fightInfosEndpoints.statitics, postDataNew);
+  const { trigger: updateAction } = useSWRMutation(statisticsEndpoints.byId(action?.id), newUpdateData);
 
-  const form = useForm({ resolver: zodResolver(ActionFormSchema), values: { ...action } });
+  const form = useForm({
+    resolver: zodResolver(ActionFormSchema),
+    values: {
+      ...action,
+      score_id: action?.score,
+      minute: String(Math.floor(action.action_time_second / 60)),
+      second: String(action.action_time_second % 60),
+    },
+  });
 
+  const handleErrors = async () => {
+    await form.trigger();
+    if (Object.values(form.formState.errors).length > 0) {
+      toast({
+        variant: "destructive",
+        title: "Empty field",
+        description: Object.values(form.formState?.errors)[0]?.message,
+      });
+    }
+  };
 
-  console.log('valueees in update', form.getValues())
-
-  const onSubmit = (data) => console.log("updateee", data);
+  const onSubmit = async (data) => {
+    const { minute, second, ...rest } = data;
+    try {
+      const response = await updateAction({
+        ...rest,
+        action_time_second: Number(minute) * 60 + Number(second),
+        fight_id: match?.id,
+        video_link: "https://example.com/",
+        action_number: "acdskajsd",
+      });
+      toast({
+        title: "Succesful",
+        description: "Action updated succesfully",
+      });
+      mutate();
+      setDialogOpen();
+      console.log("updtae modal", response);
+    } catch (err) {
+      toast({
+        variant: "destructive",
+        title: "Update error",
+        description: "Oops. Something went wrong. Pay attention to field which you changed",
+      });
+    }
+  };
 
   return (
     <Form {...form}>
@@ -101,7 +144,9 @@ export function UpdateForm({ match }) {
             render={({ field }) => <FormSwitch field={field} name={"Defense Reason"} />}
           />
         </div>
-        <Button type="submit">Submit</Button>
+        <Button type="submit" onClick={handleErrors}>
+          Submit
+        </Button>
       </form>
     </Form>
   );

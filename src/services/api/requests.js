@@ -6,6 +6,7 @@ const postData = async (path, arg, config) => (await instance.post(path, arg, co
 const postDataNew = async (path, { arg }) => (await instance.post(path, arg)).data;
 
 const updateData = async (path, arg) => (await instance.put(path, arg)).data;
+const newUpdateData = async (path, {arg}) => (await instance.put(path, arg)).data;
 const updateState = async (path, { arg }) => (await instance.put(path, arg)).data;
 const deleteData = async (path) => (await instance.delete(path)).data;
 
@@ -27,5 +28,5 @@ export {
   posDashboardtData,
   updateDashboardData,
   deleteDashboardData,
-  postDataNew
+  postDataNew, newUpdateData
 };
