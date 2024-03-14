@@ -11,6 +11,7 @@ import useSWRMutation from "swr/mutation";
 import { fightInfosEndpoints } from "../../../../services/api/endponits";
 import { updateState } from "../../../../services/api/requests";
 import { useNavigate } from "react-router-dom";
+import { cn } from "../../../../lib/utils";
 export default function FormHeader({ match }) {
   const navigate = useNavigate();
 

@@ -23,7 +23,7 @@ export default function FormSelectBox({ field, id, datas, name, form }) {
                 "w-full justify-between bg-[#080C2B] hover:bg-[#0F285B] text-[#BBBBBD] border-none hover:text-[#fff]",
                 !field.value && "text-muted-foreground",
               )}>
-              {field.value ? datas.map((item) => (item.id === field.value ? item.name : null)) : `Select ${name}`}
+              {field.value !== undefined ? datas.map((item) => (item.id === field.value ? item.name : null)) : `Select ${name}`}
               <ChevronDown className="ml-2 h-4 w-4 shrink-0 opacity-50" />
             </Button>
           </FormControl>

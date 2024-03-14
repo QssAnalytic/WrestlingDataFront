@@ -50,6 +50,8 @@ export default function CreateAction({ form, match }) {
       });
       mutate();
       form.reset();
+      form.setValue('minute', '')
+      form.setValue('second', '')
       console.log("res", res);
     } catch (err) {
       console.log(err);
