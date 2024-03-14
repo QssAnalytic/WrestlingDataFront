@@ -4,7 +4,7 @@ import { Link } from "react-router-dom";
 import { useState, useContext } from "react";
 import { Toaster } from "react-hot-toast";
 
-export default function LoginForm({ id, openComponent }) {
+export default function LoginForm({ id, openComponent, path }) {
   const { loadData } = useContext(FormContext);
   const [fightId, setFightId] = useState("");
 
@@ -35,7 +35,7 @@ export default function LoginForm({ id, openComponent }) {
             />
           </div>
           <div className="go-to-match flex justify-center items-center w-full ">
-            <Link to={`/${fightId}`} className="w-full"> 
+            <Link to={`${path}${fightId}`} className="w-full"> 
               <button
                 className="submit text-wTextSec w-full bg-[#3D66B5] rounded-md py-4 hover:opacity-50"
                 type="button"

@@ -65,6 +65,11 @@ export default function ViewMatches() {
                   Record Match
                 </button>
               </Link>
+              <Link to={"/test-login"}>
+                <button className="filter text-[#26719B] transition-all duration-200 hover:text-wMain hover:bg-[#eaeaea] hover:border-transparent py-3 px-5 flex items-center justify-center gap-2 border rounded border-[#26719B]">
+                  Test Login
+                </button>
+              </Link>
             </div>
             <Filter />
             {isLoading ? (

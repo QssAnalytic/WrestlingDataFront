@@ -6,11 +6,11 @@ import { useGetMatch } from "./hooks/useGetMatch";
 import useActionsStore from "../../services/state/actionStore";
 import { Loader2 } from "lucide-react";
 export default function TestActionPage() {
+
   const { setMutate, setActions } = useActionsStore();
   const { fightId } = useParams();
   const { data, mutate, isLoading: loadMatch } = useGetMatch(fightId);
 
-  console.log("daaa", data);
 
   useEffect(() => {
     if (data?.fight_statistic) {

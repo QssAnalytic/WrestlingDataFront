@@ -10,7 +10,7 @@ export default function HeaderInput({ name, field, disabled, placeholder }) {
         <Input
           placeholder={placeholder || name}
           disabled={disabled}
-          className={cn("bg-[#080C2B] border-none")}
+          className={cn("bg-[#080C2B] border-none disabled:placeholder:text-[#fff]")}
           {...field}
         />
       </FormControl>
