@@ -18,7 +18,7 @@ export default function SelectList({ openSelect, id, setActiveAction, setValue, 
   const handleOption = (value) => {
     console.log("salam", id, value);
 
-    setActiveAction((currAction) => ({
+    setActiveAction((currAction) => ({ 
       ...currAction,
       [`${id}_id`]: value,
       video_link: "https://example.com/",
