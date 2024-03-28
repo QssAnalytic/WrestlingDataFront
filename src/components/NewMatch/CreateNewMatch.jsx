@@ -15,6 +15,8 @@ import withInputField from "../../hocs/withInputField";
 export default function CreateNewMatch({ id, openComponent }) {
   const SelectWithInput = withInputField(CreateSelectBox);
 
+  console.log('test')
+
   const { newFight, setNewFight, setSelectOpen, selectOpen } =
     useContext(FightContext);
 
