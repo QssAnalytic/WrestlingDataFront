@@ -15,9 +15,6 @@ import withInputField from "../../hocs/withInputField";
 export default function CreateNewMatch({ id, openComponent }) {
   const SelectWithInput = withInputField(CreateSelectBox);
 
-  console.log('test')
-  console.log('test 2')
-
   const { newFight, setNewFight, setSelectOpen, selectOpen } =
     useContext(FightContext);
 
@@ -109,17 +106,6 @@ export default function CreateNewMatch({ id, openComponent }) {
                 value={newFight}
                 setValue={setNewFight}
               />
-              {/* <CreateSelectBox
-                id={"opponent1"}
-                name={"Opponent(1)"}
-                datas={fighters}
-                selectOpen={selectOpen}
-                setSelectOpen={setSelectOpen}
-                value={newFight}
-                setValue={setNewFight}
-              /> */}
-
-
               <SelectWithInput
                 id={"opponent1"}
                 name={"Opponent(1)"}
@@ -139,16 +125,6 @@ export default function CreateNewMatch({ id, openComponent }) {
                 value={newFight}
                 setValue={setNewFight}
               />
-
-              {/* <CreateSelectBox
-                id={"opponent2"}
-                name={"Opponent(2)"}
-                datas={opponents}
-                selectOpen={selectOpen}
-                setSelectOpen={setSelectOpen}
-                value={newFight}
-                setValue={setNewFight}
-              /> */}
 
               <SelectWithInput
                 id={"opponent2"}
